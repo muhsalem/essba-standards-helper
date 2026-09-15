@@ -1,5 +1,7 @@
 # Roadmap
 
-- [x] Add an independent English standards page at `/en`.
-- [x] Unify the standards page visual identity and language navigation.
-- [x] Verify Arabic and English pages on desktop and mobile.
+- [ ] صفحة طلب تقييم تلقائي وجمع بيانات العميل
+- [ ] ترجمة إنجليزية دقيقة عبر Lovable AI وإدماجها في المحتوى
+- [ ] صفحة تقييم تفاعلية ثنائية اللغة
+- [ ] واجهة إدارية لتعديل نصوص المعايير والهوية
+- [ ] التحقق من المسارات والنتائج على سطح المكتب والجوال
