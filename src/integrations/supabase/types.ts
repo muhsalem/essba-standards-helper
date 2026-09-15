@@ -14,7 +14,167 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessment_requests: {
+        Row: {
+          activity: string
+          assessment_type: string
+          client_name: string
+          country: string | null
+          created_at: string
+          email: string
+          id: string
+          notes: string | null
+          organization_name: string
+          phone: string | null
+          preferred_language: string
+          reference_code: string
+          sector: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          activity: string
+          assessment_type: string
+          client_name: string
+          country?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          notes?: string | null
+          organization_name: string
+          phone?: string | null
+          preferred_language?: string
+          reference_code?: string
+          sector: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          activity?: string
+          assessment_type?: string
+          client_name?: string
+          country?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          notes?: string | null
+          organization_name?: string
+          phone?: string | null
+          preferred_language?: string
+          reference_code?: string
+          sector?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      brand_settings: {
+        Row: {
+          id: string
+          is_public: boolean
+          label_ar: string
+          label_en: string
+          setting_key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id?: string
+          is_public?: boolean
+          label_ar: string
+          label_en: string
+          setting_key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          id?: string
+          is_public?: boolean
+          label_ar?: string
+          label_en?: string
+          setting_key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      content_revisions: {
+        Row: {
+          change_note: string | null
+          created_at: string
+          id: string
+          section_id: string | null
+          snapshot: Json
+        }
+        Insert: {
+          change_note?: string | null
+          created_at?: string
+          id?: string
+          section_id?: string | null
+          snapshot: Json
+        }
+        Update: {
+          change_note?: string | null
+          created_at?: string
+          id?: string
+          section_id?: string | null
+          snapshot?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_revisions_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "standard_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      standard_sections: {
+        Row: {
+          body_ar: string
+          body_en: string
+          created_at: string
+          id: string
+          is_published: boolean
+          section_key: string
+          sort_order: number
+          title_ar: string
+          title_en: string
+          translated_at: string | null
+          translation_status: string
+          updated_at: string
+        }
+        Insert: {
+          body_ar: string
+          body_en: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          section_key: string
+          sort_order?: number
+          title_ar: string
+          title_en: string
+          translated_at?: string | null
+          translation_status?: string
+          updated_at?: string
+        }
+        Update: {
+          body_ar?: string
+          body_en?: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          section_key?: string
+          sort_order?: number
+          title_ar?: string
+          title_en?: string
+          translated_at?: string | null
+          translation_status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
