@@ -441,4 +441,7 @@
   html[lang="en"] .hero-demo .hd-path,html[lang="en"] .hero-demo .hd-code{direction:ltr;}
   html[lang="en"] .pos li{padding-right:0;padding-left:20px;}
   html[lang="en"] .pos li::before{right:auto;left:0;}
+  @media(max-width:760px){
+    .standard-page table.matrix,.standard-page table.smap{display:block;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;}
+  }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto;}.bar.lit .sweep{transform:scaleX(0);}}
