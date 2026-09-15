@@ -1,0 +1,898 @@
+<!-- UTILITY BAR -->
+<div class="utilbar">
+  <div class="wrap">
+    <span class="util-tag" data-en="A GLOBAL REFERENCE STANDARD · SHARIAH COMPLIANCE">معيارٌ مرجعيٌّ عالميٌّ · للامتثال الشرعي</span>
+    <div class="langtoggle" role="group" aria-label="Language">
+      <button class="lang-btn active" id="btn-ar" onclick="setLang('ar')">العربية</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="SSESBA">
+      <span class="seal">SS</span>
+      <span>
+        <span class="name" data-en="Reference Standard for Shariah Classification &amp; Compliance">المعيار المرجعي للتقييم والتصنيف والامتثال الشرعي</span><br/>
+        <span class="sub">SSESBA · GSCS</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="الأقسام">
+      <a href="#what" data-en="Overview">التعريف</a>
+      <a href="#how" data-en="How it works">آلية العمل</a>
+      <a href="#classification" data-en="Classification">التصنيف</a>
+      <a href="#sectors" data-en="Sectors">القطاعات</a>
+      <a href="#gscs" data-en="GSCS">GSCS</a>
+      <a href="#positioning" data-en="Positioning">التموضع</a>
+      <a href="#adoption" data-en="Adoption">الاعتماد</a>
+      <a href="#library" data-en="Documents">الوثائق</a>
+      <a href="#governance" data-en="Governance">الحوكمة</a>
+      <a href="#faq" data-en="FAQ">الأسئلة</a>
+      <a href="/explorer" target="_blank" rel="noopener" style="color:var(--saffron)" data-en="Explorer ↗">المستكشف ↗</a>
+      <a class="pill" href="#contact" data-en="Request accreditation">اطلب اعتماداً</a>
+    </nav>
+    <button class="navtoggle" aria-label="القائمة" onclick="var n=document.querySelector('.nav');n.style.display=n.style.display==='flex'?'':'flex'">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow" data-en="One Shariah-compliance language for the whole economy — for boards, institutions &amp; investors">لغةٌ واحدةٌ للامتثال الشرعي عبر الاقتصاد كلّه — للهيئات والمؤسسات والمستثمرين</span>
+    <h1 data-en="The reference standard for evaluating and classifying economic sectors and business activities <em>under Islamic law</em>">المعيار المرجعي لتقييم وتصنيف القطاعات الاقتصادية وأنشطة الأعمال <em>وفق الشريعة الإسلامية</em></h1>
+    <p class="lead" data-en="A unified framework that classifies sectors and activities on the <b>ISIC Rev.4</b> backbone and measures their Shariah compliance through a transparent weighted methodology — turning jurisprudential judgment into an actionable, auditable result.">إطارٌ موحّدٌ يُصنّف القطاعات والأنشطة على ظهر <b>ISIC Rev.4</b>، ويقيس امتثالها الشرعي عبر منهجيةٍ مُرجّحةٍ شفّافة — فيحوّل الحكم الفقهي إلى نتيجةٍ عمليةٍ قابلةٍ للاعتماد والتدقيق.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#what" data-en="Explore the standards">استكشف المعايير</a>
+      <a class="btn btn-ghost" href="/explorer" target="_blank" rel="noopener" data-en="Open the interactive explorer">افتح المستكشف التفاعلي</a>
+    </div>
+    <div class="trust">
+      <span data-en="Built on &amp; aligned with:">مبنيٌّ على ومتوائمٌ مع:</span>
+      <b>ISIC Rev.4</b><span class="sep"></span>
+      <b>AAOIFI</b><span class="sep"></span>
+      <b>OIC/SMIIC</b><span class="sep"></span>
+      <b data-en="Fiqh academy resolutions">قرارات مجامع الفقه</b>
+    </div>
+
+    <div class="spectrum">
+      <div class="spectrum-top">
+        <span class="t" data-en="Unified compliance scale">مقياس الامتثال الموحّد</span>
+        <span class="n">SCORE · 0 — 100</span>
+      </div>
+      <div class="bar" id="specBar" role="img" aria-label="مقياس الامتثال"><div class="sweep"></div></div>
+      <div class="ticks"><span class="tick">95</span><span class="tick">85</span><span class="tick">75</span><span class="tick">60</span><span class="tick">45</span></div>
+      <div class="spectrum-legend">
+        <span><i class="dot" style="background:var(--green)"></i> <span data-en="Compliant (85+)">متوافق (85+)</span></span>
+        <span><i class="dot" style="background:var(--yellow)"></i> <span data-en="Conditional (75–84)">متوافق بشروط (75–84)</span></span>
+        <span><i class="dot" style="background:var(--orange)"></i> <span data-en="Needs remediation (60–74)">يحتاج معالجة (60–74)</span></span>
+        <span><i class="dot" style="background:var(--red)"></i> <span data-en="Non-compliant (<60)">غير متوافق (<60)</span></span>
+      </div>
+    </div>
+
+    <a class="hero-demo" href="/explorer" target="_blank" rel="noopener">
+      <div class="hd-head"><span data-en="Try the interactive explorer — build a code live">جرّب المستكشف التفاعلي — ابنِ الكود حيًّا</span><span class="hd-arrow">↗</span></div>
+      <div class="hd-path" data-en="Functional ‹ Detailed ‹ Industry ‹ Activity ‹ Sub-activity">القطاع الوظيفي ‹ التفصيلي ‹ الصناعة ‹ النشاط ‹ النشاط الفرعي</div>
+      <div class="hd-code">
+        <span class="hd-seg"><b>ثل</b><i data-en="Functional">وظيفي</i></span>
+        <span class="hd-seg"><b>ما</b><i data-en="Detailed">تفصيلي</i></span>
+        <span class="hd-seg"><b data-en="Takaful">التكافل</b><i data-en="Activity">نشاط</i></span>
+        <span class="hd-seg hd-ent"><b data-en="Waqf">وقفي</b><i data-en="Entity">كيان</i></span>
+        <span class="hd-seg hd-pend"><b>ام؟·مخ؟</b><i data-en="Compliance·Risk">امتثال·مخاطر</i></span>
+      </div>
+    </a>
+  </div>
+</section>
+<section class="section" id="what">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="What is SSESBA">ما هو SSESBA؟</span>
+      <h2 data-en="Four roles in one reference system">أربعة أدوارٍ في مرجعيةٍ واحدة</h2>
+      <p data-en="SSESBA is not a single fatwa — it is an integrated reference system: a standards framework, a classification system, a compliance tool, and an evidence-backed knowledge base, all working together.">SSESBA ليس فتوى مفردة، بل منظومةٌ مرجعيةٌ متكاملة: إطارٌ معياري، ونظام تصنيف، وأداة امتثال، ومرجعٌ معرفيٌّ موثّقٌ بالأدلة — تعمل معاً في نسقٍ واحد.</p>
+    </div>
+    <div class="grid4">
+      <div class="pillar"><div class="pic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/></svg></div><h3 data-en="Standards framework">إطار معياري</h3><p data-en="Unified Shariah controls for every sector and activity, in a consistent 22-section model.">ضوابطُ شرعيةٌ موحّدةٌ لكل قطاعٍ ونشاط، بنموذجٍ ثابتٍ من 22 قسماً.</p></div>
+      <div class="pillar"><div class="pic"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg></div><h3 data-en="Classification system">نظام تصنيف</h3><p data-en="Dual coding that pins each activity to its sector and its compliance band.">ترميزٌ مزدوجٌ يحدّد موقع كل نشاطٍ ودرجة امتثاله.</p></div>
+      <div class="pillar"><div class="pic"><svg class="ic" viewBox="0 0 24 24"><path d="M9 11l3 3 7-7"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg></div><h3 data-en="Compliance tool">أداة امتثال</h3><p data-en="An applicable, auditable scorecard for institutional use.">بطاقةُ تقييمٍ قابلةٌ للتطبيق والتدقيق المؤسسي.</p></div>
+      <div class="pillar"><div class="pic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h12v18H6a2 2 0 01-2-2z"/><path d="M8 7h8M8 11h8"/></svg></div><h3 data-en="Knowledge reference">مرجع معرفي</h3><p data-en="A documented package with evidence gradings and resolution numbers.">حزمةٌ موثّقةٌ بدرجات الأدلة وأرقام القرارات.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section dark" id="why">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Why it exists">لماذا أُنشئ المشروع؟</span>
+      <h2 data-en="The gaps it was built to close">الفجوات التي وُضع لسدّها</h2>
+      <p data-en="Shariah judgments on economic activity are scattered, inconsistent, and hard to apply at scale. SSESBA replaces ad-hoc rulings with one disciplined, comparable reference.">أحكام الامتثال الشرعي للأنشطة الاقتصادية مبعثرةٌ ومتفاوتةٌ وصعبة التطبيق على نطاقٍ واسع. يستبدل SSESBA الأحكام المتفرّقة بمرجعيةٍ واحدةٍ منضبطةٍ قابلةٍ للمقارنة.</p>
+    </div>
+    <div class="grid4">
+      <div class="prob"><div class="pn">01</div><h3 data-en="No unified standards">غياب معايير موحّدة</h3><p data-en="Institutions apply different yardsticks, so results are not comparable.">كل جهةٍ تُطبّق مقياساً مختلفاً، فتتعذّر المقارنة.</p></div>
+      <div class="prob"><div class="pn">02</div><h3 data-en="Divergent applied fatwas">اختلاف الفتاوى التطبيقية</h3><p data-en="The same activity earns conflicting rulings across bodies.">النشاط الواحد يحصل على أحكامٍ متضاربةٍ بين الهيئات.</p></div>
+      <div class="prob"><div class="pn">03</div><h3 data-en="Hard to assess activities">صعوبة تقييم الأنشطة</h3><p data-en="Modern and hybrid business models resist simple permitted/prohibited labels.">النماذج الحديثة والمختلطة تستعصي على ثنائية الحلال والحرام.</p></div>
+      <div class="prob"><div class="pn">04</div><h3 data-en="Need for a professional reference">الحاجة لمرجعيةٍ مهنية</h3><p data-en="Markets and regulators need an auditable, citable standard.">الأسواق والجهات الرقابية تحتاج معياراً قابلاً للتدقيق والإحالة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT IN NUMBERS -->
+<section class="section parch" id="numbers">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Scope in numbers">النطاق بالأرقام</span>
+      <h2 data-en="The coverage the standard already spans">حجم التغطية التي يبلغها المعيار</h2>
+      <p data-en="Structural coverage figures — what the framework already classifies, end to end. (Scope metrics, not claimed market outcomes.)">أرقامُ تغطيةٍ بنيوية — ما يصنّفه الإطار فعلاً من طرفٍ لطرف. (مؤشرات نطاقٍ لا نتائجَ سوقيةٍ مُدّعاة.)</p>
+    </div>
+    <div class="impact">
+      <div class="istat"><b>5</b><span data-en="Functional sectors">قطاعات وظيفية</span></div>
+      <div class="istat"><b>22</b><span data-en="Detailed sectors">قطاعًا تفصيليًا</span></div>
+      <div class="istat"><b>128</b><span data-en="Industries">صناعة</span></div>
+      <div class="istat"><b>563+</b><span data-en="Activities (+ sub-activities)">نشاطًا (+ فرعية)</span></div>
+      <div class="istat"><b>21</b><span data-en="ISIC sections A–U">قسم ISIC (A–U)</span></div>
+      <div class="istat"><b>6</b><span data-en="Weighted axes">محاور مرجّحة</span></div>
+      <div class="istat"><b>4</b><span data-en="Shariah-risk tiers">مراتب مخاطر</span></div>
+      <div class="istat"><b>12</b><span data-en="Institutional entity types">نمط كيان مؤسسي</span></div>
+      <div class="istat"><b>9</b><span data-en="Worked case studies">دراسات حالة محسوبة</span></div>
+      <div class="istat"><b>2</b><span data-en="Standards families (AAOIFI · SMIIC)">عائلتا معايير</span></div>
+    </div>
+    <p class="imp-note" data-en="Figures reflect the current framework build; case-study scores are illustrative.">الأرقام تعكس البناء الحالي للإطار؛ ودرجات دراسات الحالة توضيحية.</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="How the system works">كيف يعمل النظام؟</span>
+      <h2 data-en="From sector to verdict, in five steps">من القطاع إلى النتيجة، في خمس خطوات</h2>
+      <p data-en="Every activity travels the same disciplined path — so two evaluators reach the same result from the same inputs.">يسلك كل نشاطٍ المسار المنضبط نفسه — حتى يصل مُقيّمان مختلفان إلى النتيجة ذاتها من المدخلات نفسها.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><div class="fn">1</div><h4 data-en="Sector">القطاع</h4><p data-en="Located on ISIC Rev.4">يُحدَّد على ISIC Rev.4</p></div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step"><div class="fn">2</div><h4 data-en="Activity">النشاط</h4><p data-en="The specific activity class">فئة النشاط المحدّدة</p></div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step"><div class="fn">3</div><h4 data-en="Business model">النموذج التجاري</h4><p data-en="Contracts, revenues, financing">العقود والإيرادات والتمويل</p></div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step"><div class="fn">4</div><h4 data-en="Shariah evaluation">التقييم الشرعي</h4><p data-en="Eligibility gate + six axes">بوابة أهلية + ستة محاور</p></div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step"><div class="fn">5</div><h4 data-en="Result">النتيجة</h4><p data-en="Score, band, and code">درجةٌ ومرتبةٌ ورمز</p></div>
+    </div>
+
+    <div class="axes" id="axesBlock" aria-label="المحاور المرجّحة">
+      <div class="axis"><span class="lab" data-en="Contracts">العقود</span><span class="track"><span class="fill" data-w="25"></span></span><span class="val">25%</span></div>
+      <div class="axis"><span class="lab" data-en="Revenues">الإيرادات</span><span class="track"><span class="fill" data-w="25"></span></span><span class="val">25%</span></div>
+      <div class="axis"><span class="lab" data-en="Financing">التمويل</span><span class="track"><span class="fill" data-w="20"></span></span><span class="val">20%</span></div>
+      <div class="axis"><span class="lab" data-en="Operations">العمليات</span><span class="track"><span class="fill" data-w="15"></span></span><span class="val">15%</span></div>
+      <div class="axis"><span class="lab" data-en="Governance">الحوكمة</span><span class="track"><span class="fill" data-w="10"></span></span><span class="val">10%</span></div>
+      <div class="axis"><span class="lab" data-en="Disclosure">الإفصاح</span><span class="track"><span class="fill" data-w="5"></span></span><span class="val">5%</span></div>
+    </div>
+
+    <div class="gatecard">
+      <div class="gate"><h3><span class="gi">!</span><span data-en="Activity legitimacy is an eligibility gate">مشروعية النشاط = بوابة أهلية</span></h3><p data-en="Legitimacy is not a weighted axis. If the gate fails, the activity is disqualified <b>regardless</b> of its other scores.">المشروعية ليست محوراً مُرجّحاً يُجمَع. تخلّفُ البوابة يُسقِط النشاط <b>مهما</b> ارتفعت بقية محاوره.</p></div>
+      <div class="gate"><h3><span class="gi">∅</span><span data-en="Social responsibility is outside the binding score">المسؤولية الاجتماعية خارج الدرجة الملزِمة</span></h3><p data-en="Treated as <b>aspirational, not obligatory</b>, so the duty is never conflated with the recommended.">تُعامَل بوصفها <b>تطلّعيةً لا إلزامية</b>، فلا يختلط الواجب بالمستحب.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSIFICATION -->
+<section class="section parch" id="classification">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Shariah classification">التصنيف الشرعي</span>
+      <h2 data-en="Four bands on one unified scale">أربع مراتبَ على مقياسٍ واحدٍ موحّد</h2>
+      <p data-en="The numeric score (cut points 95 / 85 / 75 / 60 / 45) resolves into four clear, color-coded bands — each with a defined meaning and effect on accreditation.">تُترجَم الدرجة الرقمية (بعتبات 95 / 85 / 75 / 60 / 45) إلى أربع مراتبَ واضحةٍ مُرمّزةٍ بالألوان — لكلٍّ دلالتها وأثرها في الاعتماد.</p>
+    </div>
+    <div class="clsgrid">
+      <div class="cls"><div class="stripe" style="background:var(--green)"></div><div class="body"><span class="rng" style="background:rgba(46,139,99,.12);color:var(--green)">85 — 100</span><h3 data-en="Compliant">متوافق شرعياً</h3><p data-en="Full alignment across the axes; suitable for accreditation. 95+ marks full compliance.">امتثالٌ راسخٌ عبر المحاور؛ يصلح للاعتماد. و95+ تعني التوافق التام.</p><div class="eg"><b data-en="Example: ">مثال: </b><span data-en="Takaful, halal food manufacturing.">التكافل، تصنيع الأغذية الحلال.</span></div></div></div>
+      <div class="cls"><div class="stripe" style="background:var(--yellow)"></div><div class="body"><span class="rng" style="background:rgba(201,162,39,.14);color:#9a7b16">75 — 84</span><h3 data-en="Conditionally compliant">متوافق بشروط</h3><p data-en="Acceptable with defined conditions and a remediation plan.">مقبولٌ بشروطٍ ومعالجاتٍ محدّدةٍ تُرفَع في خطة تصحيح.</p><div class="eg"><b data-en="Example: ">مثال: </b><span data-en="Mixed-income retail within thresholds.">تجزئةٌ بدخلٍ مختلطٍ ضمن الحدود.</span></div></div></div>
+      <div class="cls"><div class="stripe" style="background:var(--orange)"></div><div class="body"><span class="rng" style="background:rgba(200,116,58,.14);color:var(--orange)">60 — 74</span><h3 data-en="Needs remediation">يحتاج معالجة وتصحيح</h3><p data-en="Under remediation; requires substantive correction before accreditation.">تحت المعالجة؛ يحتاج تصحيحاً جوهرياً قبل الاعتماد.</p><div class="eg"><b data-en="Example: ">مثال: </b><span data-en="Conventional financing reliance.">اعتمادٌ على تمويلٍ تقليدي.</span></div></div></div>
+      <div class="cls"><div class="stripe" style="background:var(--red)"></div><div class="body"><span class="rng" style="background:rgba(154,51,36,.12);color:var(--red)">&lt; 60</span><h3 data-en="Non-compliant">غير متوافق شرعياً</h3><p data-en="Structural failure or a failed eligibility gate; below 45 is structural failure.">إخفاقٌ بنيويٌّ أو تخلّفُ بوابة الأهلية؛ وما دون 45 إخفاقٌ بنيوي.</p><div class="eg"><b data-en="Example: ">مثال: </b><span data-en="Interest-based lending, gambling.">الإقراض الربوي، الميسر.</span></div></div></div>
+    </div>
+
+    <div class="matrix-wrap">
+      <div class="matrix-head" data-en="Final verdict = compliance band × Shariah-risk tier">القرار النهائي = مرتبة الامتثال × مرتبة المخاطر الشرعية</div>
+      <table class="matrix">
+        <thead><tr>
+          <th data-en="Band ⟍ Risk">المرتبة ⟍ المخاطر</th>
+          <th>S1</th><th>S2</th><th>S3</th><th>S4</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="lab" data-en="Compliant (85+)">متوافق (85+)</td>
+            <td><span class="mx" style="background:rgba(46,139,99,.16);color:var(--green)" data-en="Approved">معتمد</span></td>
+            <td><span class="mx" style="background:rgba(46,139,99,.16);color:var(--green)" data-en="Approved · cond.">معتمد بشرط</span></td>
+            <td><span class="mx" style="background:rgba(201,162,39,.18);color:#8a6c12" data-en="Conditional">مشروط</span></td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td></tr>
+          <tr><td class="lab" data-en="Conditional (75–84)">بشروط (75–84)</td>
+            <td><span class="mx" style="background:rgba(201,162,39,.18);color:#8a6c12" data-en="Conditional">مشروط</span></td>
+            <td><span class="mx" style="background:rgba(201,162,39,.18);color:#8a6c12" data-en="Conditional">مشروط</span></td>
+            <td><span class="mx" style="background:rgba(200,116,58,.18);color:var(--orange)" data-en="Remediation">معالجة</span></td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td></tr>
+          <tr><td class="lab" data-en="Remediation (60–74)">معالجة (60–74)</td>
+            <td><span class="mx" style="background:rgba(200,116,58,.18);color:var(--orange)" data-en="Remediation">معالجة</span></td>
+            <td><span class="mx" style="background:rgba(200,116,58,.18);color:var(--orange)" data-en="Remediation">معالجة</span></td>
+            <td><span class="mx" style="background:rgba(200,116,58,.18);color:var(--orange)" data-en="Remediation">معالجة</span></td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td></tr>
+          <tr><td class="lab" data-en="Non-compliant (<60)">غير متوافق (<60)</td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td>
+            <td><span class="mx" style="background:rgba(154,51,36,.14);color:var(--red)" data-en="Rejected">مرفوض</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="extra-states">
+      <div class="estate"><h4><span class="ed" style="background:var(--saffron)"></span><span data-en="Under study / referral">قيد الدراسة / إحالة</span></h4><p data-en="An explicit fifth state for emerging activities (e.g. digital assets) where no settled ruling exists — never silently forced into a band.">حالةٌ خامسةٌ صريحةٌ للأنشطة المستجدّة (كالأصول الرقمية) حيث لا حكم مستقرّ — فلا تُقحَم في مرتبةٍ قسراً.</p></div>
+      <div class="estate"><h4><span class="ed" style="background:var(--ink-soft)"></span><span data-en="Not applicable / out of scope">غير منطبق / خارج النطاق</span></h4><p data-en="A defined state for activities outside the standard&#39;s scope, completing the classification logic.">حالةٌ معرّفةٌ للأنشطة الخارجة عن نطاق المعيار، لاكتمال منطق التصنيف.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section class="section" id="sectors">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Coverage">ماذا تغطّي المعايير؟</span>
+      <h2 data-en="The complete five-sector economic model">النموذج الاقتصادي الخماسي الكامل</h2>
+      <p data-en="Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with every one of its 21 sections (A–U) explicitly accounted for.">تُرتَّب الأنشطة عبر المراتب الاقتصادية الخمس — الأولية، والثانوية، والثالثية، والرباعية (المعرفة)، والخماسية (صناعة القرار) — على ظهر ISIC Rev.4، مع احتساب كلٍّ من أقسامه الواحد والعشرين (A–U) صراحةً.</p>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-no">I</span><div><h3 data-en="Primary sectors">القطاعات الأولية</h3><p data-en="Extraction and production of raw materials.">استخلاصٌ وإنتاجٌ للمواد الخام من الطبيعة.</p></div></div>
+      <div class="tier-grid">
+        <div class="sec"><div class="sec-top"><span class="code">A</span><span class="nm" data-en="Agriculture &amp; natural resources">الزراعة والموارد الطبيعية<small>AGRICULTURE</small></span></div><div class="types"><span data-en="Crops">المحاصيل</span><span data-en="Livestock">الإنتاج الحيواني</span><span data-en="Poultry">الدواجن</span><span data-en="Dairy">الألبان</span><span data-en="Apiculture">النحل والعسل</span><span data-en="Fishing & aquaculture">الصيد والاستزراع</span><span data-en="Forestry">الغابات</span><span data-en="Agri-services">الخدمات الزراعية</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">B</span><span class="nm" data-en="Mining &amp; extractives">التعدين والاستخراج<small>MINING · OIL &amp; GAS</small></span></div><div class="types"><span data-en="Oil & gas">النفط والغاز</span><span data-en="Minerals">استخراج المعادن</span><span data-en="Coal">الفحم</span><span data-en="Precious metals">المعادن النفيسة</span><span data-en="Quarries">المحاجر</span><span data-en="Water extraction">استخراج المياه</span><span data-en="Salts">الأملاح</span></div></div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-no">II</span><div><h3 data-en="Secondary sectors">القطاعات الثانوية</h3><p data-en="Transforming raw materials into manufactured goods, utilities and built assets.">تحويلُ المواد الخام إلى سلعٍ مصنّعةٍ ومرافقَ ومنشآت.</p></div></div>
+      <div class="tier-grid">
+        <div class="sec"><div class="sec-top"><span class="code">C</span><span class="nm" data-en="Industry &amp; manufacturing">الصناعة والتصنيع<small>MANUFACTURING</small></span></div><div class="types"><span class="std" title="OIC/SMIIC 1 — متطلبات الغذاء الحلال" data-en="OIC/SMIIC 1">وفق OIC/SMIIC 1</span><span data-en="Food & beverages">الأغذية والمشروبات</span><span data-en="Pharmaceuticals">الصناعات الدوائية</span><span data-en="Chemicals">الكيماويات</span><span data-en="Cosmetics">مستحضرات التجميل</span><span data-en="Textiles & apparel">المنسوجات والملابس</span><span data-en="Automotive">السيارات</span><span data-en="Electronics">الإلكترونيات</span><span data-en="Furniture">الأثاث</span><span data-en="Advanced manufacturing">التصنيع المتقدّم</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">D·E</span><span class="nm" data-en="Energy &amp; utilities">الطاقة والمرافق<small>ENERGY · UTILITIES</small></span></div><div class="types"><span data-en="Electricity & gas">الكهرباء والغاز</span><span data-en="Renewables">الطاقة المتجدّدة</span><span data-en="Green hydrogen">الهيدروجين الأخضر</span><span data-en="Energy storage">تخزين الطاقة</span><span data-en="Water">المياه</span><span data-en="Sanitation">الصرف الصحي</span><span data-en="Waste">إدارة النفايات</span><span data-en="Recycling">إعادة التدوير</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">F</span><span class="nm" data-en="Construction">التشييد والبناء<small>CONSTRUCTION</small></span></div><div class="types"><span data-en="Residential">المباني السكنية</span><span data-en="Commercial">المنشآت التجارية</span><span data-en="Infrastructure">البنية التحتية</span><span data-en="Civil engineering">الهندسة المدنية</span><span data-en="Installations">التركيبات الفنية</span><span data-en="Finishing">التشطيبات</span></div></div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-no">III</span><div><h3 data-en="Tertiary — traditional services">القطاعات الثالثية — الخدمات التقليدية</h3><p data-en="Services delivered to people and enterprises without direct physical output.">خدماتٌ تُقدَّم للأفراد والمنشآت دون إنتاجٍ ماديٍّ مباشر.</p></div></div>
+      <div class="tier-grid">
+        <div class="sec"><div class="sec-top"><span class="code">G</span><span class="nm" data-en="Trade">التجارة<small>TRADE</small></span></div><div class="types"><span data-en="Wholesale">الجملة</span><span data-en="Retail">التجزئة</span><span data-en="E-commerce">التجارة الإلكترونية</span><span data-en="Vehicle trade (Rev.5: redistributed)" title="أُلغيت الشعبة 45 في ISIC Rev.5 ووُزِّعت أنشطتها">تجارة المركبات ⚑</span><span data-en="Trade agencies">الوكالات التجارية</span><span data-en="Franchising">الامتياز التجاري</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">H</span><span class="nm" data-en="Transport &amp; logistics">النقل واللوجستيات<small>TRANSPORT · LOGISTICS</small></span></div><div class="types"><span data-en="Passenger transport">نقل الركّاب</span><span data-en="Freight">الشحن</span><span data-en="Air transport">النقل الجوي</span><span data-en="Maritime">النقل البحري</span><span data-en="Rail">السكك الحديدية</span><span data-en="Warehousing">التخزين</span><span data-en="Supply chains">سلاسل الإمداد</span><span data-en="Postal & courier">البريد والطرود</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">I</span><span class="nm" data-en="Tourism &amp; hospitality">السياحة والضيافة<small>TOURISM · HOSPITALITY</small></span></div><div class="types"><span class="std" title="معايير SMIIC للسياحة الحلال / الصديقة للمسلمين" data-en="SMIIC halal tourism">وفق معايير SMIIC للسياحة</span><span data-en="Hotels">الفنادق</span><span data-en="Resorts">المنتجعات</span><span data-en="Restaurants">المطاعم</span><span data-en="Travel">السفر والسياحة</span><span data-en="Religious tourism">السياحة الدينية</span><span data-en="Medical tourism">السياحة العلاجية</span><span data-en="Events">الفعاليات</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">L</span><span class="nm" data-en="Real estate">العقارات<small>REAL ESTATE</small></span></div><div class="types"><span data-en="Development">التطوير العقاري</span><span data-en="Leasing">الإيجار والتأجير</span><span data-en="Brokerage">الوساطة</span><span data-en="Property management">إدارة الأملاك</span><span data-en="Valuation">التقييم العقاري</span><span data-en="REITs">صناديق الاستثمار العقاري</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">N</span><span class="nm" data-en="Administrative &amp; support services">الخدمات الإدارية والمساندة<small>ADMIN · SUPPORT</small></span></div><div class="types"><span data-en="Employment">التوظيف والتشغيل</span><span data-en="Operating leasing">التأجير التشغيلي</span><span data-en="Facilities">إدارة المرافق</span><span data-en="Security">الأمن والحراسة</span><span data-en="Cleaning">التنظيف</span><span data-en="Call centres">مراكز الاتصال</span><span data-en="Admin support">الدعم الإداري</span><span data-en="Travel agencies">وكالات السفر</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">S</span><span class="nm" data-en="Other personal services">الخدمات الشخصية والأخرى<small>OTHER SERVICES</small></span></div><div class="types"><span data-en="Personal care">العناية والتجميل</span><span data-en="Laundry">المغاسل</span><span data-en="Repair">إصلاح السلع</span><span data-en="Funeral services">خدمات الجنائز</span><span data-en="Professional associations">الجمعيات المهنية</span><span data-en="Unions">النقابات</span></div></div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-no">IV</span><div><h3 data-en="Quaternary — the knowledge economy">القطاعات الرباعية — اقتصاد المعرفة</h3><p data-en="Production and processing of information, intellectual, technical and financial services — the knowledge layer.">إنتاجُ ومعالجةُ المعلومات والخدمات الفكرية والتقنية والمالية — طبقة المعرفة.</p></div></div>
+      <div class="tier-grid">
+        <div class="sec"><div class="sec-top"><span class="code">J</span><span class="nm" data-en="Technology, information &amp; communication">التقنية والمعلومات والاتصالات<small>ICT · KNOWLEDGE</small></span></div><div class="types"><span data-en="Software">البرمجيات</span><span data-en="Platforms">المنصّات الرقمية</span><span data-en="Cloud">الحوسبة السحابية</span><span data-en="AI">الذكاء الاصطناعي</span><span data-en="Cybersecurity">الأمن السيبراني</span><span data-en="Big data">البيانات الضخمة</span><span data-en="IoT">إنترنت الأشياء</span><span data-en="Telecom">الاتصالات</span><span data-en="Blockchain">البلوك تشين</span><span data-en="Robotics">الروبوتات</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">K</span><span class="nm" data-en="Finance &amp; investment">المال والاستثمار<small>FINANCIAL SERVICES</small></span></div><div class="types"><span class="std" title="مُنظَّم وفق معايير هيئة المحاسبة والمراجعة للمؤسسات المالية الإسلامية" data-en="AAOIFI-governed">وفق معايير AAOIFI</span><span data-en="Banking">المصارف</span><span data-en="Takaful">التكافل</span><span data-en="Sukuk">الصكوك</span><span data-en="Asset management">إدارة الأصول</span><span data-en="Exchanges">البورصات</span><span data-en="Microfinance">التمويل الأصغر</span><span data-en="Payments & fintech">المدفوعات والتقنية المالية</span><span data-en="Crowdfunding">التمويل الجماعي</span><span class="flag" title="وضع إحالة — مخاطر مرتفعة (S3+)" data-en="Digital assets">الأصول الرقمية</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">M</span><span class="nm" data-en="Professional, scientific &amp; technical">الخدمات المهنية والعلمية والتقنية<small>PROFESSIONAL · R&amp;D</small></span></div><div class="types"><span data-en="Consulting">الاستشارات</span><span data-en="Accounting & audit">المحاسبة والتدقيق</span><span data-en="Legal">الخدمات القانونية</span><span data-en="Engineering & architecture">الهندسة والعمارة</span><span data-en="R&D">البحث والتطوير</span><span data-en="Advertising">الدعاية والإعلان</span><span data-en="Market research">أبحاث السوق</span></div></div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-no">V</span><div><h3 data-en="Quinary — decision-making &amp; high human services">القطاعات الخماسية — صناعة القرار والخدمات العليا</h3><p data-en="Top-level decision-making and high-order human services — the &#39;gold-collar&#39; layer: government, education, health and culture.">صناعة القرار والخدمات الإنسانية العليا — طبقةُ «الياقات الذهبية»: الحكم، والتعليم، والصحة، والثقافة.</p></div></div>
+      <div class="tier-grid">
+        <div class="sec"><div class="sec-top"><span class="code">O</span><span class="nm" data-en="Public administration &amp; defence">الإدارة العامة والدفاع<small>GOVERNANCE · DEFENCE</small></span></div><div class="types"><span data-en="Public administration">الإدارة العامة</span><span data-en="Public services">الخدمات الحكومية</span><span data-en="Policy & decision-making">السياسات وصناعة القرار</span><span data-en="Local government">الإدارة المحلية</span><span data-en="Social security">الضمان الاجتماعي</span><span data-en="Diplomacy">الدبلوماسية</span><span data-en="Regulators">الهيئات التنظيمية</span><span data-en="Defence">الدفاع</span><span data-en="Public order">الأمن العام</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">P</span><span class="nm" data-en="Education">التعليم<small>EDUCATION</small></span></div><div class="types"><span data-en="Kindergarten">رياض الأطفال</span><span data-en="General education">التعليم العام</span><span data-en="Higher education">التعليم العالي</span><span data-en="Vocational">التدريب المهني</span><span data-en="E-learning">التعليم الإلكتروني</span><span data-en="Scientific research">البحث العلمي</span><span data-en="Libraries">المكتبات</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">Q</span><span class="nm" data-en="Health &amp; social work">الصحة والعمل الاجتماعي<small>HEALTH · SOCIAL</small></span></div><div class="types"><span class="std" title="معايير SMIIC للدواء ومستحضرات التجميل الحلال" data-en="SMIIC halal pharma">وفق معايير SMIIC</span><span data-en="Healthcare">الرعاية الصحية</span><span data-en="Hospitals">المستشفيات</span><span data-en="Pharma">الصناعات الدوائية</span><span data-en="Medical devices">الأجهزة الطبية</span><span data-en="Telemedicine">التطبيب عن بُعد</span><span data-en="Biotech">التقنية الحيوية</span><span data-en="Laboratories">المختبرات</span><span data-en="Elderly care">رعاية المسنّين</span><span data-en="Mental health">الصحة النفسية</span></div></div>
+        <div class="sec"><div class="sec-top"><span class="code">R</span><span class="nm" data-en="Media, arts &amp; culture">الإعلام والفنون والثقافة<small>MEDIA · ARTS · CULTURE</small></span></div><div class="types"><span data-en="Audiovisual">الإنتاج السمعي البصري</span><span data-en="Publishing">النشر</span><span data-en="Digital media">الإعلام الرقمي</span><span data-en="Social media">التواصل الاجتماعي</span><span data-en="Design">التصميم</span><span data-en="Creative advertising">الإعلان الإبداعي</span><span data-en="Arts & culture">الفنون والثقافة</span><span data-en="Museums & heritage">المتاحف والتراث</span><span data-en="Sports">الرياضة</span><span data-en="E-sports">الرياضات الإلكترونية</span></div></div>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--ink-soft);margin-top:6px" data-en="Note: the quaternary and quinary tiers are analytical overlays that re-group service activities by knowledge intensity and decision level — they are not separate ISIC sections, and definitions vary between schools.">ملاحظة: المرتبتان الرباعية والخماسية طبقتان تحليليتان تُعيدان تجميع الأنشطة الخدمية بحسب كثافة المعرفة ومستوى القرار — وليستا قسمين مستقلّين في ISIC، وتختلف تعريفاتهما بين المدارس.
+
+    <div class="gate" style="margin-top:8px;border-style:dashed;">
+      <h3><span class="gi">⊕</span><span data-en="Institutional layer — cross-cutting, not a sector">طبقةٌ مؤسسيةٌ عابرةٌ للقطاعات — وليست قطاعاً</span></h3>
+      <p data-en="Ownership type (for-profit, non-profit, endowment/awqaf, government) is an institutional dimension, not an ISIC activity. It overlays every sector rather than sitting beside them — correcting the earlier mis-placement of &#39;non-profit&#39; as a sector. It covers charities, endowments (awqaf), zakat funds and government bodies.">نوع الملكية (ربحي، غير ربحي، وقفي، حكومي) بُعدٌ مؤسسيٌّ لا نشاطٌ ضمن ISIC. يتقاطع مع كل القطاعات بدل أن يجاورها — تصحيحاً لوضع «غير الربحي» السابق كقطاع. ويشمل: الجمعيات الخيرية، الأوقاف، صناديق الزكاة، والجهات الحكومية.</p>
+    </div>
+
+    <div class="tier" style="margin-top:46px">
+      <div class="tier-head"><span class="tier-no" style="font-size:18px">±</span><div><h3 data-en="Special-status sections">قطاعاتٌ خاصّةُ الوضع</h3><p data-en="Recognised for full ISIC completeness, but limited in scope for a business-activity standard.">مُدرَجةٌ لاكتمال تغطية ISIC، لكنها محدودةُ النطاق في معيار أنشطة الأعمال.</p></div></div>
+      <div class="tier-grid">
+        <div class="sec ghost"><div class="sec-top"><span class="code">T</span><span class="nm" data-en="Households as employers">أنشطة الأسر كأرباب عمل<small data-en="LIMITED SCOPE">نطاقٌ محدود</small></span></div><div class="types"><span data-en="Domestic staff">العمالة المنزلية</span><span data-en="Own-use household production">إنتاج الأسرة للاستخدام الذاتي</span></div></div>
+        <div class="sec ghost"><div class="sec-top"><span class="code">U</span><span class="nm" data-en="Extraterritorial organisations">المنظمات خارج الحدود الإقليمية<small data-en="OUT OF SCOPE">خارج النطاق</small></span></div><div class="types"><span data-en="Embassies &amp; missions">السفارات والبعثات</span><span data-en="International bodies">المنظمات الدولية</span></div></div>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-top:16px" data-en="Activity types shown are representative; each sector standard carries the full ISIC class breakdown.">الأنشطة المعروضة تمثيليةٌ لا حصرية؛ ويحمل معيار كل قطاعٍ التفصيل الكامل لفئات ISIC.</p>
+    </div>
+
+    <div class="cov-wrap">
+      <div class="cov-title"><span data-en="Complete ISIC Rev.4 coverage — all 21 sections">التغطية الكاملة لـ ISIC Rev.4 — الأقسام الواحد والعشرون</span></div>
+      <div class="cov-sub" data-en="Every section is mapped to a covered sector, the institutional layer, or an explicit limited / out-of-scope status — nothing is left unclassified.">كلُّ قسمٍ مرتبطٌ بقطاعٍ مُغطّى، أو بالطبقة المؤسسية، أو بحالةٍ صريحةٍ محدودة/خارج النطاق — فلا يبقى شيءٌ بلا تصنيف.</div>
+      <div class="cov-grid">
+        <div class="cov"><span class="cl">A</span><span class="cn" data-en="Agriculture, forestry &amp; fishing">الزراعة والحراجة وصيد الأسماك</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">B</span><span class="cn" data-en="Mining &amp; quarrying">التعدين واستغلال المحاجر</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">C</span><span class="cn" data-en="Manufacturing">الصناعة التحويلية</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">D</span><span class="cn" data-en="Electricity &amp; gas supply">إمدادات الكهرباء والغاز</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">E</span><span class="cn" data-en="Water, sewerage &amp; waste">المياه والصرف والنفايات</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">F</span><span class="cn" data-en="Construction">التشييد والبناء</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">G</span><span class="cn" data-en="Wholesale &amp; retail trade">تجارة الجملة والتجزئة</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">H</span><span class="cn" data-en="Transportation &amp; storage">النقل والتخزين</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">I</span><span class="cn" data-en="Accommodation &amp; food service">الإقامة وخدمات الطعام</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">J</span><span class="cn" data-en="Information &amp; communication">المعلومات والاتصالات</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">K</span><span class="cn" data-en="Financial &amp; insurance activities">الأنشطة المالية والتأمينية</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">L</span><span class="cn" data-en="Real estate activities">الأنشطة العقارية</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">M</span><span class="cn" data-en="Professional, scientific &amp; technical">المهنية والعلمية والتقنية</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">N</span><span class="cn" data-en="Administrative &amp; support services">الخدمات الإدارية والمساندة</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">O</span><span class="cn" data-en="Public administration &amp; defence">الإدارة العامة والدفاع</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">P</span><span class="cn" data-en="Education">التعليم</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">Q</span><span class="cn" data-en="Human health &amp; social work">الصحة والعمل الاجتماعي</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">R</span><span class="cn" data-en="Arts, entertainment &amp; recreation">الفنون والترفيه والترويح</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">S</span><span class="cn" data-en="Other service activities">أنشطة الخدمات الأخرى</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
+        <div class="cov"><span class="cl">T</span><span class="cn" data-en="Households as employers">أنشطة الأسر كأرباب عمل</span><span class="cs cs-lim" data-en="Limited">محدود</span></div>
+        <div class="cov"><span class="cl">U</span><span class="cn" data-en="Extraterritorial organisations">المنظمات خارج الحدود الإقليمية</span><span class="cs cs-lim" data-en="Out of scope">خارج النطاق</span></div>
+      </div>
+      <div class="cov-legend">
+        <span><i style="background:var(--green)"></i> <span data-en="Covered sector (19)">قطاع مُغطّى (19)</span></span>
+        <span><i style="background:var(--orange)"></i> <span data-en="Limited / out of scope (2)">محدود / خارج النطاق (2)</span></span>
+        <span><i style="background:var(--indigo)"></i> <span data-en="Plus a cross-cutting institutional layer">إضافةً لطبقةٍ مؤسسيةٍ عابرة</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NON-PROFIT -->
+<section class="section parch" id="nonprofit">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Institutional layer">الطبقة المؤسسية</span>
+      <h2 data-en="Classifying non-profit organisations (ICNPO)">تصنيف المنظمات غير الربحية (ICNPO)</h2>
+      <p data-en="Non-profit is a cross-cutting institutional layer, not an ISIC sector. Its activities are classified on the International Classification of Non-Profit Organisations (ICNPO) — the standard used in the UN handbook on non-profit institutions — then bound to the same Shariah-compliance logic, adapted for funds rather than profit.">القطاع غير الربحي طبقةٌ مؤسسيةٌ عابرةٌ للقطاعات لا قسمٌ في ISIC. تُصنَّف أنشطته على «التصنيف الدولي للمنظمات غير الربحية» (ICNPO) — المعتمَد في دليل الأمم المتحدة للقطاع غير الربحي — ثم تُربَط بمنطق الامتثال الشرعي نفسه، مُعدَّلاً ليناسب الأموال والمصارف لا الربح.</p>
+    </div>
+
+    <div class="npo-grid">
+      <div class="npo"><span class="nn">1</span><span class="nt" data-en="Culture &amp; recreation">الثقافة والترفيه<small>CULTURE &amp; RECREATION</small></span></div>
+      <div class="npo"><span class="nn">2</span><span class="nt" data-en="Education &amp; research">التعليم والبحث<small>EDUCATION &amp; RESEARCH</small></span></div>
+      <div class="npo"><span class="nn">3</span><span class="nt" data-en="Health">الصحة<small>HEALTH</small></span></div>
+      <div class="npo"><span class="nn">4</span><span class="nt" data-en="Social services">الخدمات الاجتماعية<small>SOCIAL SERVICES</small></span></div>
+      <div class="npo"><span class="nn">5</span><span class="nt" data-en="Environment">البيئة<small>ENVIRONMENT</small></span></div>
+      <div class="npo"><span class="nn">6</span><span class="nt" data-en="Development &amp; housing">التنمية والإسكان<small>DEVELOPMENT &amp; HOUSING</small></span></div>
+      <div class="npo"><span class="nn">7</span><span class="nt" data-en="Law, advocacy &amp; politics">القانون والمناصرة<small>LAW &amp; ADVOCACY</small></span></div>
+      <div class="npo"><span class="nn">8</span><span class="nt" data-en="Philanthropic intermediaries &amp; voluntarism">الوساطة الخيرية والتطوّع<small>PHILANTHROPY &amp; VOLUNTARISM</small></span></div>
+      <div class="npo"><span class="nn">9</span><span class="nt" data-en="International activities">الأنشطة الدولية<small>INTERNATIONAL</small></span></div>
+      <div class="npo"><span class="nn">10</span><span class="nt" data-en="Religion">الدين<small>RELIGION</small></span></div>
+      <div class="npo"><span class="nn">11</span><span class="nt" data-en="Business &amp; professional associations, unions">جمعيات الأعمال والمهن والنقابات<small>ASSOCIATIONS &amp; UNIONS</small></span></div>
+      <div class="npo"><span class="nn">12</span><span class="nt" data-en="Not elsewhere classified">غير المصنّف في موضعٍ آخر<small>NOT ELSEWHERE CLASSIFIED</small></span></div>
+    </div>
+
+    <h3 style="font-family:var(--display);font-size:21px;color:var(--ink);margin:30px 0 4px" data-en="Islamic philanthropy overlay">الأنماط الوقفية والزكوية — طبقةٌ إسلامية</h3>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px" data-en="ICNPO is extended with the institutional forms specific to Islamic philanthropy, each governed by its own Shariah rules.">يُوسَّع ICNPO بالأنماط المؤسسية الخاصة بالعمل الخيري الإسلامي، يحكم كلًّا منها ضوابطُه الشرعية.</p>
+    <div class="waqf-row">
+      <div class="waqf"><h4 data-en="Endowments (Awqaf)">الأوقاف</h4><p data-en="Governed by the founder&#39;s conditions, treated as the lawgiver&#39;s text; lawful investment of the corpus.">يحكمها شرطُ الواقف كنصّ الشارع، واستثمارُ أصلها في حلال.</p></div>
+      <div class="waqf"><h4 data-en="Zakat funds">صناديق الزكاة</h4><p data-en="Bound to the eight lawful channels of zakat (Q. 9:60).">مقيّدةٌ بمصارف الزكاة الثمانية (التوبة 60).</p></div>
+      <div class="waqf"><h4 data-en="Charities">الجمعيات الخيرية</h4><p data-en="Lawful funding sources and transparent, legitimate disbursement.">مصادرُ تمويلٍ مشروعةٌ ومصارفُ صرفٍ شفّافةٌ مشروعة.</p></div>
+      <div class="waqf"><h4 data-en="Ongoing charity (Sadaqah Jariyah)">الصدقات الجارية</h4><p data-en="Sustained-benefit giving with continuity of lawful impact.">عطاءٌ دائمُ النفع مع استمرار الأثر المشروع.</p></div>
+    </div>
+
+    <h3 style="font-family:var(--display);font-size:21px;color:var(--ink);margin:30px 0 4px" data-en="Institutional dimension — entity type (12)">البُعد المؤسسي — نوع الكيان (12 نمطًا)</h3>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px" data-en="An independent dimension applied to every activity in every sector. The same activity can run as different entity types (a university may be governmental, for-profit, or waqf).">بُعدٌ مستقلٌّ يُطبَّق على كل نشاطٍ في كل قطاع. النشاط الواحد قد يُمارَس بأنماطٍ مختلفة (جامعةٌ حكوميةٌ أو ربحيةٌ أو وقفية).</p>
+    <div class="itypes">
+      <span data-en="Government">حكومي</span><span data-en="Private for-profit">خاص ربحي</span><span data-en="Non-profit">غير ربحي</span><span data-en="Endowment (Waqf)">وقفي</span><span data-en="Cooperative">تعاوني</span><span data-en="Social enterprise">اجتماعي</span><span data-en="Charitable">خيري</span><span data-en="Developmental">تنموي</span><span data-en="Da&#39;wah">دعوي</span><span data-en="Humanitarian">إنساني</span><span data-en="International">دولي</span><span data-en="Hybrid">هجين</span>
+    </div>
+
+    <h3 style="font-family:var(--display);font-size:21px;color:var(--ink);margin:30px 0 4px" data-en="Civil society spans every sector">المجتمع المدني يمتدّ عبر كل القطاعات</h3>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px" data-en="Non-profit and waqf entities are not confined to social services — they appear across the whole economy.">الكيانات غير الربحية والوقفية ليست محصورةً في الخدمات الاجتماعية، بل تمتدّ عبر الاقتصاد كلّه.</p>
+    <div class="smap-wrap">
+      <table class="smap"><thead><tr><th data-en="Sector">القطاع</th><th data-en="Non-profit / waqf entities">كياناتٌ غير ربحية / وقفية</th><th data-en="Dominant types">الأنماط الغالبة</th></tr></thead><tbody>
+        <tr><td data-en="Education">التعليم</td><td data-en="Waqf universities, charitable schools, scholarships">جامعات وقفية، مدارس خيرية، مِنح</td><td data-en="Waqf / non-profit">وقفي / غير ربحي</td></tr>
+        <tr><td data-en="Health">الصحة</td><td data-en="Charitable hospitals, health endowments, blood banks">مستشفيات خيرية، أوقاف صحية، بنوك دم</td><td data-en="Charitable / waqf">خيري / وقفي</td></tr>
+        <tr><td data-en="Finance">المالية</td><td data-en="Zakat funds, cooperative takaful, dev. microfinance">صناديق زكاة، تكافل تعاوني، تمويل أصغر تنموي</td><td data-en="Waqf / cooperative">وقفي / تعاوني</td></tr>
+        <tr><td data-en="Agri-food">الزراعة والغذاء</td><td data-en="Agri-cooperatives, food banks">تعاونيات زراعية، بنوك طعام</td><td data-en="Cooperative / charitable">تعاوني / خيري</td></tr>
+        <tr><td data-en="Technology">التكنولوجيا</td><td data-en="Open-source software, digital giving platforms">برمجيات مفتوحة المصدر، منصّات تبرّع</td><td data-en="Non-profit / social">غير ربحي / اجتماعي</td></tr>
+        <tr><td data-en="Housing">الإسكان</td><td data-en="Cooperative housing, mosque &amp; housing endowments">إسكان تعاوني، أوقاف الإسكان والمساجد</td><td data-en="Cooperative / waqf">تعاوني / وقفي</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="gate" style="margin-top:26px;">
+      <h3><span class="gi">⊕</span><span data-en="How compliance applies to non-profits">كيف يُطبَّق الامتثال على غير الربحي</span></h3>
+      <p data-en="The eligibility gate checks the lawfulness of the purpose, the funding sources, and the disbursement channels. The six axes are adapted: revenues → purity of funding sources; financing → lawful investment of the endowment/surplus; operations → integrity of programmes and disbursement; governance → fiduciary and Shariah oversight of funds (e.g. waqf trusteeship); disclosure → transparency of sources and uses. Profit is not the measure — lawful stewardship of funds is.">تفحص بوابةُ الأهلية مشروعيةَ الغرض، ومصادرِ التمويل، ومصارفِ الصرف. وتُعدَّل المحاور الستة: الإيرادات ← نقاء مصادر التمويل؛ التمويل ← استثمار الوقف/الفائض في حلال؛ العمليات ← سلامة البرامج والمصارف؛ الحوكمة ← الرقابة الائتمانية والشرعية على الأموال (كنظارة الوقف)؛ الإفصاح ← شفافية المصادر والمصارف. فالمعيار هنا ليس الربح، بل أمانةُ التصرّف في المال المشروع.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CROSSWALK -->
+<section class="section" id="crosswalk">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Crosswalks &amp; verification">التقاطع والتحقّق</span>
+      <h2 data-en="Three views, one backbone">ثلاث رؤًى، عمودٌ واحد</h2>
+      <p data-en="The standard&#39;s backbone is ISIC Rev.4. The business-sector view (17 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.">عمود المعيار هو ISIC Rev.4. ورؤيةُ الأعمال (17 قطاعًا) ورؤيةُ الأسواق الحديثة (GICS) ليستا عمودين منافسين، بل كلاهما ينطبق على ISIC — ما يؤكّد أنّ كل تصنيفٍ متوافرٌ ومُمثَّل.</p>
+    </div>
+    <div style="text-align:center;margin:-6px 0 26px">
+      <a href="/explorer" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:var(--indigo-deep);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 26px;border-radius:30px;box-shadow:0 6px 20px rgba(22,35,74,.22)"><span data-en="Open the interactive classification explorer">افتح المستكشف التفاعلي للتصنيف</span><span style="color:var(--saffron-soft);font-size:18px">↗</span></a>
+      <p style="font-size:12.5px;color:var(--ink-soft);margin-top:9px" data-en="Drill down from functional sector to product, build the GSCS code, and search any activity.">تنقّل من القطاع الوظيفي حتى المنتج، ابنِ كود GSCS، وابحث عن أي نشاط.</p>
+    </div>
+
+    <div class="smap-wrap">
+      <div class="smap-head"><span data-en="Business-sector view (17) → ISIC backbone">رؤية الأعمال (17 قطاعًا) ← عمود ISIC</span><small data-en="Every business sector is mapped to its ISIC home; none is missing.">كل قطاع أعمالٍ مرتبطٌ بموطنه في ISIC؛ لا شيء مفقود.</small></div>
+      <table class="smap"><thead><tr><th data-en="Business sector">قطاع الأعمال</th><th data-en="ISIC mapping">المقابل في ISIC</th><th data-en="Status">الحالة</th></tr></thead><tbody>
+        <tr><td data-en="Agriculture &amp; food">الزراعة والغذاء</td><td>A + C</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Natural resources &amp; energy">الموارد الطبيعية والطاقة</td><td>B + D·E</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Industry &amp; manufacturing">الصناعة والتحويل</td><td>C</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Construction &amp; real estate">البناء والعقارات</td><td>F + L</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Trade &amp; retail">التجارة والتجزئة</td><td>G</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Transport &amp; logistics">النقل واللوجستيات</td><td>H</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Finance &amp; investment">المالية والاستثمار</td><td>K</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Technology &amp; telecom">التقنية والاتصالات</td><td>J</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Education &amp; training">التعليم والتدريب</td><td>P</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Health &amp; pharma">الصحة والدواء</td><td>Q</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Media &amp; publishing">الإعلام والنشر</td><td>R + J</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Tourism &amp; hospitality">السياحة والضيافة</td><td>I</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Professional &amp; consulting">الخدمات المهنية والاستشارية</td><td>M</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Non-profit &amp; awqaf">غير الربحي والأوقاف</td><td data-en="Institutional layer + ICNPO">الطبقة المؤسسية + ICNPO</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Creative &amp; cultural">الإبداعية والثقافية</td><td data-en="R + J (cross-cutting)">R + J (عابر)</td><td class="sref" data-en="Added">مُضاف</td></tr>
+        <tr><td data-en="Security &amp; safety">الأمن والسلامة</td><td data-en="N + O (cross-cutting)">N + O (عابر)</td><td class="sref" data-en="Available">متوافر</td></tr>
+        <tr><td data-en="Government &amp; public services">الحكومي والخدمات العامة</td><td data-en="O + institutional layer">O + الطبقة المؤسسية</td><td class="sref" data-en="Available">متوافر</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="smap-wrap" style="margin-top:22px">
+      <div class="smap-head"><span data-en="Modern market view (GICS) → ISIC — display crosswalk only">رؤية الأسواق الحديثة (GICS) ← ISIC — طبقة عرضٍ فقط</span><small data-en="GICS is used as a display/crosswalk layer, never as the backbone.">يُستخدَم GICS طبقةَ عرضٍ وتقاطعٍ فقط، لا عموداً.</small></div>
+      <table class="smap"><thead><tr><th data-en="GICS sector">قطاع الأسواق (GICS)</th><th data-en="ISIC mapping">المقابل في ISIC</th></tr></thead><tbody>
+        <tr><td data-en="Energy">الطاقة</td><td>B + D</td></tr>
+        <tr><td data-en="Materials">المواد الأساسية</td><td>B + C</td></tr>
+        <tr><td data-en="Industrials">الصناعة</td><td>C + F + H + N</td></tr>
+        <tr><td data-en="Consumer (disc. &amp; staples)">الاستهلاكي</td><td>G + C + I</td></tr>
+        <tr><td data-en="Health care">الصحة</td><td>Q</td></tr>
+        <tr><td data-en="Financials">المالي</td><td>K</td></tr>
+        <tr><td data-en="Information technology">التكنولوجيا</td><td>J</td></tr>
+        <tr><td data-en="Communication services">الاتصالات والإعلام</td><td>J + R</td></tr>
+        <tr><td data-en="Utilities">المرافق</td><td>D·E</td></tr>
+        <tr><td data-en="Real estate">العقارات</td><td>L</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="smap-wrap" style="margin-top:22px">
+      <div class="smap-head"><span data-en="The drill-down hierarchy — sector to product">الهيكل المتدرّج — من القطاع إلى المنتج</span><small data-en="The document&#39;s five levels map onto the standard&#39;s ISIC levels plus the GSCS code.">مستويات المستند الخمسة تنطبق على مستويات ISIC في المعيار مع كود GSCS.</small></div>
+      <table class="smap"><thead><tr><th data-en="Document level">مستوى المستند</th><th data-en="Standard level">المستوى المعياري</th><th data-en="Example">مثال</th></tr></thead><tbody>
+        <tr><td data-en="Sector">القطاع</td><td data-en="Section (ISIC A–U)">القسم (A–U)</td><td>K</td></tr>
+        <tr><td data-en="Industry">الصناعة</td><td data-en="Division / Group">الباب / المجموعة</td><td>64 / 64.1</td></tr>
+        <tr><td data-en="Activity">النشاط</td><td data-en="Class">الفئة</td><td>64.19</td></tr>
+        <tr><td data-en="Sub-activity">النشاط الفرعي</td><td data-en="Activity">النشاط</td><td data-en="Islamic retail banking">الصيرفة الإسلامية للأفراد</td></tr>
+        <tr><td data-en="Product / service">المنتج / الخدمة</td><td data-en="Business model + GSCS code">نموذج العمل + كود GSCS</td><td>K·64.19·C2·S2</td></tr>
+        <tr><td data-en="Institutional entity type">نوع الكيان المؤسسي</td><td data-en="Cross-cutting dimension (12 types)">بُعدٌ عابر (12 نمطًا)</td><td data-en="e.g. waqf / for-profit">وقفي / ربحي مثلاً</td></tr>
+      </tbody></table>
+    </div>
+    <div style="border:1px solid var(--saffron);border-radius:13px;padding:22px 24px;background:rgba(198,138,46,.06);margin-top:26px">
+      <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron);font-weight:700" data-en="Version policy &amp; migration path">سياسةُ النسخة وخارطةُ الانتقال</div>
+      <h3 style="font-family:var(--display);font-size:19px;color:var(--ink);margin:6px 0 10px" data-en="Built on ISIC Rev.4 — with a declared path to Rev.5">مبنيٌّ على ISIC Rev.4 — بمسارٍ مُعلَنٍ إلى Rev.5</h3>
+      <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.75" data-en="The UN Statistical Commission endorsed ISIC Rev.5 in 2023; countries are expected to adapt their national classifications between 2025–2026 and implement from 2027. This standard is therefore built on Rev.4 — still the version in live national use during the transition — while a migration to Rev.5 is declared policy, not an afterthought.">أقرّت اللجنةُ الإحصائيةُ للأمم المتحدة المراجعةَ الخامسة (Rev.5) عام 2023، ويُتوقَّع أن تُوائم الدولُ تصنيفاتِها الوطنية بين 2025–2026 وتنفّذها من 2027. ولذلك بُني هذا المعيار على <b>Rev.4</b> — وهي النسخةُ المستعمَلةُ فعليًّا في السجلّات الوطنية أثناء الانتقال — مع إعلانِ الانتقال إلى Rev.5 <b>سياسةً معلنة</b> لا استدراكًا لاحقًا.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px">
+        <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;color:var(--saffron)" data-en="Phase 1 — now">المرحلة ١ — الآن</div><div style="font-size:12.5px;color:var(--ink-soft);margin-top:5px;line-height:1.6" data-en="Rev.4 spine + published Rev.4↔Rev.5 crosswalk for the affected categories.">عمود Rev.4 + نشرُ جدول تقاطعٍ بين Rev.4 وRev.5 للفئات المتأثّرة.</div></div>
+        <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;color:var(--saffron)" data-en="Phase 2 — dual coding">المرحلة ٢ — ترميزٌ مزدوج</div><div style="font-size:12.5px;color:var(--ink-soft);margin-top:5px;line-height:1.6" data-en="Each activity carries both codes during the transition window.">يحمل كلُّ نشاطٍ الكودين معًا خلال نافذة الانتقال.</div></div>
+        <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;color:var(--saffron)" data-en="Phase 3 — Rev.5 primary">المرحلة ٣ — Rev.5 أساسًا</div><div style="font-size:12.5px;color:var(--ink-soft);margin-top:5px;line-height:1.6" data-en="Rev.5 becomes the spine as national implementation completes; Rev.4 retained for historical comparability.">يصير Rev.5 العمود مع اكتمال التنفيذ الوطني، ويُحفَظ Rev.4 للمقارنة التاريخية.</div></div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-soft);margin-top:14px;font-style:italic" data-en="Known Rev.5 impacts already flagged: Division 45 (trade &amp; repair of motor vehicles) is removed and its activities redistributed; Section J is split; new classes cover cloud/computing infrastructure and web search portals.">أثرٌ معلومٌ من Rev.5 رُصِد مسبقًا: إلغاءُ الشعبة 45 (تجارة المركبات وإصلاحها) وتوزيعُ أنشطتها، وشطرُ القسم J، واستحداثُ فئاتٍ للبنية الحاسوبية السحابية وبوّابات البحث.</p>
+    </div>
+  </div>
+</section>
+<section class="section dark" id="gscs">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker">GSCS</span>
+      <h2 data-en="The Global Shariah Classification Standard">المعيار العالمي للتصنيف الشرعي</h2>
+      <p data-en="GSCS is the coding layer: every activity carries one structured code that states its sector, its compliance band, and its Shariah-risk tier — comparable across markets and institutions.">GSCS هو طبقة الترميز: يحمل كل نشاطٍ رمزاً منظّماً واحداً يُبيّن قطاعه ودرجة امتثاله ومرتبة مخاطره الشرعية — قابلاً للمقارنة عبر الأسواق والمؤسسات.</p>
+    </div>
+
+    <div class="anatomy">
+      <div class="codeline">
+        <div class="seg"><span class="v">K <small style="color:var(--saffron-soft);font-size:.6em">/ ما</small></span><span class="k" data-en="Sector (ISIC / Arabic)">القطاع (ISIC / عربي)</span></div>
+        <span class="codejoin">·</span>
+        <div class="seg"><span class="v">64.19</span><span class="k" data-en="Activity class">فئة النشاط</span></div>
+        <span class="codejoin">·</span>
+        <div class="seg"><span class="v">C2 <small style="color:var(--saffron-soft);font-size:.6em">/ ام٢</small></span><span class="k" data-en="Compliance band">مرتبة الامتثال</span></div>
+        <span class="codejoin">·</span>
+        <div class="seg"><span class="v">S2 <small style="color:var(--saffron-soft);font-size:.6em">/ مخ٢</small></span><span class="k" data-en="Shariah-risk tier">مرتبة المخاطر</span></div>
+        <span class="codejoin">·</span>
+        <div class="seg"><span class="v" data-en="Waqf">وقفي</span><span class="k" data-en="Entity type">نوع الكيان</span></div>
+      </div>
+      <div class="indic">
+        <div class="ind"><h4 data-en="Compliance indicators">مؤشرات الامتثال</h4><ul>
+          <li data-en="Weighted axis score (0–100)">درجة المحاور المرجّحة (0–100)</li>
+          <li data-en="Eligibility-gate status (pass / fail)">حالة بوابة الأهلية (اجتياز / تخلّف)</li>
+          <li data-en="Impermissible income ratio vs. thresholds">نسبة الدخل غير المباح مقابل الحدود</li>
+          <li data-en="Interest-bearing debt ratio vs. thresholds">نسبة الدَّيْن الربوي مقابل الحدود</li>
+        </ul></div>
+        <div class="ind"><h4 data-en="Risk indicators">مؤشرات المخاطر</h4><ul>
+          <li data-en="Maturity of the applicable ruling">نضج الحكم المنطبق</li>
+          <li data-en="Referral status for emerging activities">وضع الإحالة للأنشطة المستجدّة</li>
+          <li data-en="Madhhab divergence on the issue">تفاوت المذاهب في المسألة</li>
+          <li data-en="Income-mixing and structural exposure">اختلاط الدخل والتعرّض البنيوي</li>
+        </ul></div>
+      </div>
+      <div class="risk-tiers">
+        <div class="rt"><div class="rl">S1</div><div class="rd" data-en="Settled, low risk">مستقرّ، مخاطر منخفضة</div></div>
+        <div class="rt"><div class="rl">S2</div><div class="rd" data-en="Conditioned">مشروط</div></div>
+        <div class="rt"><div class="rl">S3</div><div class="rd" data-en="Referral / elevated">إحالة / مرتفع</div></div>
+        <div class="rt"><div class="rl">S4</div><div class="rd" data-en="Disqualifying">مانع</div></div>
+      </div>
+    </div>
+
+    <div class="worked-code">
+      <div class="wc-label" data-en="Worked example — one detailed activity, one complete code">نموذج تطبيقي — نشاطٌ تفصيليٌّ واحدٌ بكودٍ كامل</div>
+      <div class="wc-title" data-en="Islamic retail banking — murabaha financing (waqf-owned)">الصيرفة الإسلامية للأفراد — تمويلٌ بالمرابحة (مملوكٌ لوقف)</div>
+      <div class="wc-path">
+        <span class="st"><b data-en="Functional">القطاع الوظيفي</b><span data-en="Tertiary">ثالثي</span></span><span class="ar">‹</span>
+        <span class="st"><b data-en="Detailed">القطاع التفصيلي</b><span data-en="Finance &amp; investment">المالية والاستثمار</span></span><span class="ar">‹</span>
+        <span class="st"><b data-en="Industry">الصناعة</b><span data-en="Banking">المصارف</span></span><span class="ar">‹</span>
+        <span class="st"><b data-en="Activity">النشاط</b><span data-en="Retail banking">الصيرفة للأفراد</span></span><span class="ar">‹</span>
+        <span class="st"><b data-en="Sub-activity">النشاط الفرعي</b><span data-en="Murabaha financing">تمويل بالمرابحة</span></span><span class="ar">‹</span>
+        <span class="st"><b data-en="Product / entity">المنتج / الكيان</b><span data-en="Financing product · waqf">منتج تمويل · وقفي</span></span>
+      </div>
+      <div class="wc-final">
+        <div style="flex:1;min-width:230px">
+          <span class="lab" data-en="Arabic code (for display):">الكود العربي (للعرض):</span>
+          <span class="code" dir="rtl" style="color:var(--saffron-soft)">ما · 64.19 · ام٢ · مخ٢ · وقفي</span>
+        </div>
+        <div style="flex:1;min-width:230px">
+          <span class="lab" data-en="International code (ISIC — for interoperability):">الكود الدولي (ISIC — للتوافق):</span>
+          <span class="code" dir="ltr">K · 64.19 · C2 · S2 · وقفي</span>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:rgba(255,255,255,.66);margin-top:14px;line-height:1.7" data-en="Two synchronized renderings of one code: an Arabic form for local display (ما = finance sector · ام = compliance tier · مخ = risk tier) and the ISIC-based Latin form for international interoperability. Reads as: sector K (financial activities) · ISIC class 64.19 (other monetary intermediation) · compliance C2/ام٢ (compliant, 85–94) · risk S2/مخ٢ (settled but conditioned) · entity: waqf. Illustrative — the tiers are assigned only after the six-axis evaluation.">صيغتان متطابقتان لكودٍ واحد: عربيةٌ للعرض المحلّي (ما = قطاع المال · ام = مرتبة الامتثال · مخ = مرتبة المخاطر) ولاتينيةٌ على أساس ISIC للتوافق الدولي. تُقرأ: القسم K/ما (الأنشطة المالية) · الفئة 64.19 (الوساطة النقدية الأخرى) · الامتثال C2/ام٢ (متوافق، 85–94) · المخاطر S2/مخ٢ (مستقرٌّ مشروط) · الكيان: وقفي. توضيحيٌّ — وتُسنَد المراتب بعد التقييم عبر المحاور الستة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GOVERNANCE -->
+<section class="section" id="governance">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Governance &amp; due process">الحوكمة وإجراءات الإصدار</span>
+      <h2 data-en="How the standard is issued and kept honest">كيف يُصدَر المعيار ويُصان</h2>
+      <p data-en="To earn the trust of a global standard, the framework follows an open, IFRS/AAOIFI-style due process — not a single voice. The current text is an advanced working draft under collective review.">لكي يستحقّ ثقة المعيار العالمي، يتبع الإطار إجراءاتٍ معلنةً على نمط IFRS/AAOIFI — لا صوتاً واحداً. والنص الحالي مسودةُ عملٍ متقدّمةٌ قيد المراجعة الجماعية.</p>
+    </div>
+    <div class="gov-grid">
+      <div class="gov"><div class="gn">1</div><h3 data-en="Standards board">مجلس المعايير</h3><p data-en="An independent board with declared conflict-of-interest rules.">مجلسٌ مستقلٌّ بقواعدَ معلنةٍ لتضارب المصالح.</p></div>
+      <div class="gov"><div class="gn">2</div><h3 data-en="Technical &amp; Shariah committees">لجانٌ فنيةٌ وشرعية</h3><p data-en="Sector committees and a reviewing Shariah board.">لجانٌ قطاعيةٌ وهيئةٌ شرعيةٌ مراجِعة.</p></div>
+      <div class="gov"><div class="gn">3</div><h3 data-en="Exposure drafts">مسودات التعرّض</h3><p data-en="Public comment periods before any text is adopted.">فتراتُ تعليقٍ عامٍّ قبل اعتماد أي نص.</p></div>
+      <div class="gov"><div class="gn">4</div><h3 data-en="Versioning &amp; review">إصداراتٌ ومراجعة</h3><p data-en="Numbered versions, a change log, and periodic collective review.">نسخٌ مرقّمةٌ وسجلّ تغييرٍ ومراجعةٌ دورية.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section" id="benefits">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Who it serves">لمن هذا المعيار؟</span>
+      <h2 data-en="Value for every stakeholder">قيمةٌ لكل طرفٍ معني</h2>
+      <p data-en="One standard, seven audiences — each gaining a different, concrete benefit from the same disciplined reference.">معيارٌ واحد، سبع جهات — كلٌّ منها يكسب فائدةً مختلفةً وملموسةً من المرجعية المنضبطة نفسها.</p>
+    </div>
+    <div class="benefits">
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V8l8-4 8 4v13"/><path d="M9 21v-6h6v6"/></svg></div><h3 data-en="Companies">الشركات</h3><p data-en="A clear path to compliance and a defensible Shariah profile.">مسارٌ واضحٌ للامتثال وملفٌّ شرعيٌّ قابلٌ للدفاع عنه.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M4 18l5-5 4 3 7-8"/><path d="M14 8h6v6"/></svg></div><h3 data-en="Investors">المستثمرون</h3><p data-en="Comparable screening and transparent Shariah-risk signals.">فرزٌ قابلٌ للمقارنة وإشاراتُ مخاطرَ شرعيةٍ شفّافة.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></div><h3 data-en="Shariah boards">الهيئات الشرعية</h3><p data-en="A shared, evidence-backed methodology that reduces inconsistency.">منهجيةٌ مشتركةٌ موثّقةٌ تُقلّل التفاوت.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M21 7v6M7 9v5c0 1.5 5 3 5 3s5-1.5 5-3V9"/></svg></div><h3 data-en="Researchers">الباحثون</h3><p data-en="A citable framework with documented takhrij and resolution numbers.">إطارٌ قابلٌ للإحالة بتخريجٍ موثّقٍ وأرقام قرارات.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M3 9l9-5 9 5-9 5z"/><path d="M5 11v5h14v-5"/></svg></div><h3 data-en="Universities">الجامعات</h3><p data-en="A teachable, structured reference for curricula and programs.">مرجعٌ مهيكلٌ قابلٌ للتدريس في المناهج والبرامج.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></div><h3 data-en="Regulators">الجهات الرقابية</h3><p data-en="An auditable basis for supervision and market disclosure.">أساسٌ قابلٌ للتدقيق للرقابة والإفصاح السوقي.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div><h3 data-en="Entrepreneurs">رواد الأعمال</h3><p data-en="Early clarity on whether and how a model can be made compliant.">وضوحٌ مبكّرٌ عن إمكانية جعل النموذج متوافقاً وكيفيته.</p></div>
+      <div class="benefit"><div class="bic"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><h3 data-en="Certification bodies">جهات الاعتماد</h3><p data-en="A consistent rubric for issuing comparable certificates.">معيارٌ متّسقٌ لإصدار شهاداتٍ قابلةٍ للمقارنة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADOPTION & CERTIFICATION -->
+<section class="section parch" id="adoption">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Adoption · publication · certification (proposed model)">الاعتماد والنشر والتأهيل (نموذجٌ مقترَح)</span>
+      <h2 data-en="From a standard to a living institution for the Ummah">من معيارٍ إلى مؤسسةٍ حيّةٍ تخدم الأمّة</h2>
+      <p data-en="The proposed governance path: a sponsoring body adopts and openly publishes the standards to the Ummah, and an academy trains and certifies specialists per sector. (A roadmap model — not yet an established accredited authority.)">المسار المؤسسي المقترَح: جهةٌ راعيةٌ تعتمد المعايير وتنشرها للأمّة نشراً مفتوحاً، وأكاديميةٌ تُؤهّل وتمنح شهادات تخصّصٍ لكل قطاع. (نموذجُ طريقٍ — لا سلطةً معتمَدةً قائمةً بعد.)</p>
+    </div>
+    <div class="cert-grid">
+      <div class="cert"><div class="ci">⚖︎</div><h3 data-en="Issuing &amp; adoption body">جهة الإصدار والاعتماد</h3><p data-en="An independent standards council with declared due process — drafts, public-comment periods, versioning — that adopts the standards and presents them to fiqh academies and Shariah boards for collective endorsement.">مجلسُ معاييرَ مستقلٌّ بإجراءاتٍ معلنة (مسودّات، تعليقٌ عام، ترقيمُ نسخ) يعتمد المعايير ويعرضها على المجامع والهيئات لإقرارها جماعياً.</p></div>
+      <div class="cert"><div class="ci">🌍</div><h3 data-en="Open publication to the Ummah">النشر المفتوح للأمّة</h3><p data-en="The adopted standards are published openly and freely — bilingual, machine-readable codes, and a public registry — so any institution worldwide can apply them.">تُنشَر المعايير المعتمَدة نشراً مفتوحاً مجّانياً — ثنائية اللغة، بأكوادٍ آليّة القراءة وسجلٍّ عام — ليطبّقها أيّ كيانٍ في العالم.</p></div>
+      <div class="cert"><div class="ci">🎓</div><h3 data-en="Academy &amp; training">الأكاديمية والتأهيل</h3><p data-en="A training arm builds curricula and qualifies assessors and practitioners on the methodology, the six axes, and the coding system — with a sector-by-sector track.">ذراعٌ تدريبيٌّ يبني المناهج ويؤهّل المُقيّمين والممارسين على المنهجية والمحاور الستة ونظام الترميز — بمسارٍ قطاعيٍّ متخصّص.</p></div>
+      <div class="cert"><div class="ci">📜</div><h3 data-en="Sector-specialist certification">شهادة التخصّص القطاعي</h3><p data-en="Graduates earn a credential as a certified specialist in the Shariah standards of a chosen sector or industry — e.g. finance, food, tourism, health.">يحصل الخرّيج على اعتمادٍ بوصفه متخصّصاً في المعايير الشرعية لقطاعٍ أو صناعةٍ بعينها — كالمال، الغذاء، السياحة، الصحة.</p></div>
+    </div>
+    <div class="cert-badge">
+      <div class="t" data-en="Certified Specialist — Shariah Standards for [Sector/Industry]">متخصّص معتمَد — المعايير الشرعية لقطاع [القطاع/الصناعة]</div>
+      <div class="s" data-en="A proposed professional credential tied to a specific sector, issued by the academy upon qualification.">اعتمادٌ مهنيٌّ مقترَحٌ مرتبطٌ بقطاعٍ محدّد، يُمنح من الأكاديمية بعد التأهيل.</div>
+    </div>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:14px;font-style:italic" data-en="Transparency: this is the proposed institutional roadmap. No accredited body, academy, or certification currently exists; establishing them is the next step toward global adoption.">شفافية: هذا هو نموذج الطريق المؤسسي المقترَح. لا توجد حالياً جهةٌ معتمَدةٌ أو أكاديميةٌ أو شهادةٌ قائمة؛ وإنشاؤها هو الخطوة التالية نحو الاعتماد العالمي.</p>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="section dark" id="method">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Evaluation methodology">منهجية التقييم</span>
+      <h2 data-en="Points, risk, and a disciplined decision">نقاطٌ ومخاطرُ وقرارٌ منضبط</h2>
+      <p data-en="The verdict is never a single opinion. It is assembled from a weighted score, a Shariah-risk tier, and a fixed decision rule.">النتيجة ليست رأياً مفرداً، بل تُركَّب من درجةٍ مرجّحةٍ، ومرتبةِ مخاطرَ شرعية، وقاعدةِ قرارٍ ثابتة.</p>
+    </div>
+    <div class="grid3">
+      <div class="mcol" style="border-radius:14px;border:1px solid var(--line-light);padding:28px;background:rgba(255,255,255,.03)"><h3 style="font-family:var(--display);font-size:20px;color:#fff;margin-bottom:10px" data-en="1 · Points system">١ · نظام النقاط</h3><p style="font-size:14.5px;color:rgba(255,255,255,.76)" data-en="Six weighted axes (25/25/20/15/10/5) produce a 0–100 score, gated by activity legitimacy.">ستة محاورَ مرجّحة (25/25/20/15/10/5) تُنتج درجةً من 0–100، تحكمها بوابة مشروعية النشاط.</p></div>
+      <div class="mcol" style="border-radius:14px;border:1px solid var(--line-light);padding:28px;background:rgba(255,255,255,.03)"><h3 style="font-family:var(--display);font-size:20px;color:#fff;margin-bottom:10px" data-en="2 · Shariah-risk system">٢ · نظام المخاطر الشرعية</h3><p style="font-size:14.5px;color:rgba(255,255,255,.76)" data-en="An S1–S4 tier captures ruling maturity, referral status, and madhhab divergence.">مرتبةٌ من S1 إلى S4 تلتقط نضج الحكم ووضع الإحالة وتفاوت المذاهب.</p></div>
+      <div class="mcol" style="border-radius:14px;border:1px solid var(--line-light);padding:28px;background:rgba(255,255,255,.03)"><h3 style="font-family:var(--display);font-size:20px;color:#fff;margin-bottom:10px" data-en="3 · Decision rule">٣ · آلية القرار</h3><p style="font-size:14.5px;color:rgba(255,255,255,.76)" data-en="Gate → score → band → risk overlay → final, documented verdict.">بوابة ← درجة ← مرتبة ← طبقة مخاطر ← نتيجةٌ نهائيةٌ موثّقة.</p></div>
+    </div>
+    <div class="grid3" style="margin-top:18px">
+      <div class="mcol" style="border-radius:14px;border:1px dashed var(--line-light);padding:24px;background:rgba(198,138,46,.06)"><h3 style="font-family:var(--display);font-size:18px;color:var(--saffron-soft);margin-bottom:8px" data-en="Sectoral weight profiles">أوزانٌ قطاعية</h3><p style="font-size:14px;color:rgba(255,255,255,.74)" data-en="Weights are calibrated per sector — finance lifts financing and governance — instead of one global vector.">تُعايَر الأوزان لكل قطاع — فالمالي يرفع التمويل والحوكمة — بدل متجهٍ عالميٍّ واحد.</p></div>
+      <div class="mcol" style="border-radius:14px;border:1px dashed var(--line-light);padding:24px;background:rgba(198,138,46,.06)"><h3 style="font-family:var(--display);font-size:18px;color:var(--saffron-soft);margin-bottom:8px" data-en="Per-axis floors">حدودٌ دنيا لكل محور</h3><p style="font-size:14px;color:rgba(255,255,255,.74)" data-en="Conjunctive minimums stop a strong axis from masking a critically weak one.">قيودٌ اقترانيةٌ تمنع محوراً قوياً من إخفاء محورٍ حرجٍ ضعيف.</p></div>
+      <div class="mcol" style="border-radius:14px;border:1px dashed var(--line-light);padding:24px;background:rgba(198,138,46,.06)"><h3 style="font-family:var(--display);font-size:18px;color:var(--saffron-soft);margin-bottom:8px" data-en="Anchored rubric">روبريك مرساة</h3><p style="font-size:14px;color:rgba(255,255,255,.74)" data-en="A published 0/25/50/75/100 rubric per axis ensures reproducible, inter-rater-consistent scoring.">روبريك منشورٌ 0/25/50/75/100 لكل محورٍ يضمن قياساً متّسقاً قابلاً للتكرار.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RUBRIC -->
+<section class="section" id="rubric">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Published scoring rubric">روبريك القياس المنشور</span>
+      <h2 data-en="Anchored levels for reproducible scoring">مستوياتٌ مرساةٌ لقياسٍ قابلٍ للتكرار</h2>
+      <p data-en="Each of the six axes is scored against the same five anchored levels — so the verdict is auditable and consistent across different assessors, not left to individual discretion.">يُقاس كل محورٍ من المحاور الستة على المستويات الخمسة المرساة نفسها — فتصير النتيجة قابلةً للتدقيق ومتّسقةً بين المُقيّمين، لا متروكةً للاجتهاد الفردي.</p>
+    </div>
+    <div class="smap-wrap">
+      <table class="smap rub">
+        <thead><tr><th data-en="Score">الدرجة</th><th data-en="Anchored description">الوصف المرسى</th></tr></thead>
+        <tbody>
+          <tr><td>100</td><td data-en="Full, documented compliance — no observed deviation.">التزامٌ تامٌّ موثّق — لا انحراف ملحوظ.</td></tr>
+          <tr><td>75</td><td data-en="Good compliance with limited, manageable observations.">التزامٌ جيدٌ مع ملحوظاتٍ محدودةٍ يمكن معالجتها.</td></tr>
+          <tr><td>50</td><td data-en="Partial compliance requiring clear remediation.">التزامٌ جزئيٌّ يحتاج معالجةً واضحة.</td></tr>
+          <tr><td>25</td><td data-en="Weak compliance with multiple deviations.">التزامٌ ضعيفٌ مع مخالفاتٍ متعدّدة.</td></tr>
+          <tr><td>0</td><td data-en="A substantive, explicit breach.">مخالفةٌ جوهريةٌ صريحة.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13px;color:var(--ink-soft);margin-top:14px" data-en="The axis score is the rubric level; the weighted sum across the six axes (25/25/20/15/10/5) yields the 0–100 result, subject to per-axis floors and the eligibility gate.">درجةُ المحور هي مستوى الروبريك؛ والمجموعُ المرجّح عبر المحاور الستة (25/25/20/15/10/5) يُنتج النتيجة 0–100، خاضعاً للحدود الدنيا لكل محورٍ ولبوابة الأهلية.</p>
+  </div>
+</section>
+
+<!-- RELIABILITY -->
+<section class="section parch" id="trust">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Reliability &amp; scientific method">الموثوقية والمنهج العلمي</span>
+      <h2 data-en="Anchored in recognised references">مُستندٌ إلى مرجعياتٍ معتبرة</h2>
+      <p data-en="The framework declares its method openly: weighing between madhhabs with maslaha, under the maqasid, with an explicit facilitation tendency — no implied consensus where none exists.">يُعلِن الإطار منهجه صراحة: الترجيح بين المذاهب مع المصلحة، تحت المقاصد، بميلٍ معلنٍ للتيسير — دون ادّعاء إجماعٍ حيث لا إجماع.</p>
+    </div>
+    <div class="refs">
+      <div class="ref"><div class="rtag">ISIC Rev.4</div><p data-en="The structural spine for sector and activity classification — with a declared migration path to Rev.5.">العمودُ البنيويُّ لتصنيف القطاعات والأنشطة — مع خارطةِ انتقالٍ مُعلَنةٍ إلى Rev.5.</p></div>
+      <div class="ref"><div class="rtag">AAOIFI</div><p data-en="The governing reference for the financial sector (K): Shariah, accounting, auditing, governance and ethics standards for Islamic banks, takaful operators and Islamic financial institutions. Includes screening thresholds — e.g. interest-bearing debt ≤30% of assets, impermissible income ≤5% of revenues (adoption and thresholds vary by jurisdiction).">المرجعية الحاكمة للقطاع المالي (K): معاييرُ شرعيةٌ ومحاسبيةٌ ومراجعةٌ وحوكمةٌ وأخلاقياتٌ تنظّم البنوك الإسلامية وشركات التكافل والمؤسسات المالية الإسلامية. وتشمل حدودَ الفرز — كالدَّيْن الربوي ≤30% من الأصول والدخل غير المباح ≤5% من الإيرادات (يتفاوت الإلزام والحدود بين الولايات القضائية).</p></div>
+      <div class="ref"><div class="rtag">OIC/SMIIC</div><p data-en="The OIC standards body (Istanbul): halal standards for food (OIC/SMIIC 1), tourism, pharmaceuticals &amp; cosmetics, the halal supply chain, plus certification and accreditation requirements (OIC/SMIIC 2 &amp; 3) — applied per sector and activity.">هيئة المواصفات للدول الإسلامية (إسطنبول): معاييرُ حلالٍ للغذاء (OIC/SMIIC 1)، والسياحة، والدواء ومستحضرات التجميل، وسلسلة الإمداد الحلال، ومتطلبات منح الشهادات والاعتماد (OIC/SMIIC 2 و3) — تُطبَّق كلٌّ حسب القطاع والنشاط.</p></div>
+      <div class="ref"><div class="rtag" data-en="Fiqh academies">مجامع الفقه</div><p data-en="Resolutions cited by number, e.g. cultured meat (265) and the crypto referral (237).">قراراتٌ مُحالٌ إليها بأرقامها، كاللحوم المستزرعة (265) وإحالة العملات الرقمية (237).</p></div>
+      <div class="ref"><div class="rtag" data-en="Islamic economics">الاقتصاد الإسلامي</div><p data-en="Contract theory, revenue purity, and financing structures.">نظرية العقود، ونقاء الإيراد، وهياكل التمويل.</p></div>
+      <div class="ref"><div class="rtag" data-en="Governance">الحوكمة</div><p data-en="Board oversight and Shariah audit alignment.">رقابة المجالس ومواءمة التدقيق الشرعي.</p></div>
+      <div class="ref"><div class="rtag" data-en="Evidence base">قاعدة الأدلة</div><p data-en="Hadith gradings with chain analysis; marfu' separated from mawquf.">درجات الحديث بتحليل الأسانيد، وفصلُ المرفوع عن الموقوف.</p></div>
+    </div>
+
+    <div class="smap-wrap">
+      <div class="smap-head"><span data-en="Standards anchoring — per sector and activity">المرجعية المعيارية — لكل قطاعٍ ونشاط</span><small data-en="Each sector is anchored to its authoritative reference, applied alongside the six weighted axes.">يُربَط كل قطاعٍ بمرجعيته المعتمَدة، تُطبَّق إلى جانب محاور التقييم الستة.</small></div>
+      <table class="smap">
+        <thead><tr>
+          <th data-en="Sector / activity">القطاع / النشاط</th>
+          <th data-en="Standards reference">المرجعية المعيارية</th>
+          <th data-en="Scope of application">نطاق التطبيق</th>
+        </tr></thead>
+        <tbody>
+          <tr><td data-en="Finance &amp; insurance (K)">المال والتأمين (K)</td><td class="sref">AAOIFI</td><td data-en="Shariah, accounting, governance &amp; auditing for Islamic banks, takaful and IFIs.">معاييرُ شرعيةٌ ومحاسبيةٌ وحوكمةٌ ومراجعةٌ للبنوك والتكافل والمؤسسات المالية الإسلامية.</td></tr>
+          <tr><td data-en="Food &amp; manufacturing (C)">الصناعات الغذائية (C)</td><td class="sref">OIC/SMIIC 1</td><td data-en="Halal food: slaughtering, additives, processing and packaging.">الغذاء الحلال: الذبح، الإضافات، التصنيع، والتغليف.</td></tr>
+          <tr><td data-en="Tourism &amp; hospitality (I)">السياحة والضيافة (I)</td><td class="sref" data-en="SMIIC — Halal tourism">SMIIC — السياحة الحلال</td><td data-en="Muslim-friendly accommodation, food service and travel.">الإقامة والمطاعم والسفر المتوافقة (الصديقة للمسلمين).</td></tr>
+          <tr><td data-en="Health &amp; pharma (Q)">الصحة والدواء (Q)</td><td class="sref" data-en="SMIIC — Pharma &amp; cosmetics">SMIIC — الدواء والتجميل</td><td data-en="Halal pharmaceuticals, medical products and cosmetics.">الدواء الحلال والمنتجات الطبية ومستحضرات التجميل.</td></tr>
+          <tr><td data-en="Agriculture (A)">الزراعة والموارد (A)</td><td class="sref" data-en="SMIIC — Feed &amp; slaughter">SMIIC — الأعلاف والذبح</td><td data-en="Halal animal feed, livestock and slaughtering inputs.">الأعلاف الحلال والثروة الحيوانية ومدخلات الذبح.</td></tr>
+          <tr><td data-en="Trade &amp; transport (G · H)">التجارة والنقل (G · H)</td><td class="sref" data-en="SMIIC — Halal supply chain">SMIIC — سلسلة الإمداد الحلال</td><td data-en="Halal integrity, traceability and segregation across the chain.">سلامة السلسلة الحلال وتتبّعها وعزلها من المصدر للمستهلك.</td></tr>
+          <tr><td data-en="Accreditation (governance layer)">الاعتماد والتصديق (طبقة الحوكمة)</td><td class="sref">OIC/SMIIC 2 · 3</td><td data-en="Requirements for halal certification and accreditation bodies.">متطلبات جهات منح شهادات الحلال وجهات الاعتماد.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WORKED EXAMPLE -->
+<section class="section" id="example">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Worked example">مثالٌ محسوب</span>
+      <h2 data-en="One activity, from inputs to verdict">نشاطٌ واحد، من المدخلات إلى النتيجة</h2>
+      <p data-en="An illustrative pass through the system for a takaful operator — the same path any activity follows.">تطبيقٌ توضيحيٌّ للنظام على شركة تكافل — وهو المسار نفسه لأي نشاط.</p>
+    </div>
+    <div class="we">
+      <div class="we-card">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+          <span class="code" style="width:46px;height:46px;flex:none;border-radius:10px;display:grid;place-items:center;background:var(--indigo-deep);color:var(--saffron-soft);font-family:var(--display);font-size:23px;font-weight:700">K</span>
+          <span style="font-weight:600;font-size:16px" data-en="Takaful operator · ISIC 65.11">شركة تكافل · ISIC 65.11<small style="display:block;font-size:11px;color:var(--ink-soft);letter-spacing:.1em;font-weight:400">FINANCE · TAKAFUL</small></span>
+        </div>
+        <p style="font-size:13px;color:var(--ink-soft);margin-bottom:6px" data-en="Eligibility gate: passed — the activity is legitimate.">بوابة الأهلية: مجتازة — النشاط مشروع.</p>
+        <div class="we-rows">
+          <div class="we-row"><span data-en="Contracts 25%">العقود 25%</span><span class="wt"><span class="wf" style="width:90%"></span></span><span class="wv">90</span></div>
+          <div class="we-row"><span data-en="Revenues 25%">الإيرادات 25%</span><span class="wt"><span class="wf" style="width:88%"></span></span><span class="wv">88</span></div>
+          <div class="we-row"><span data-en="Financing 20%">التمويل 20%</span><span class="wt"><span class="wf" style="width:80%"></span></span><span class="wv">80</span></div>
+          <div class="we-row"><span data-en="Operations 15%">العمليات 15%</span><span class="wt"><span class="wf" style="width:85%"></span></span><span class="wv">85</span></div>
+          <div class="we-row"><span data-en="Governance 10%">الحوكمة 10%</span><span class="wt"><span class="wf" style="width:78%"></span></span><span class="wv">78</span></div>
+          <div class="we-row"><span data-en="Disclosure 5%">الإفصاح 5%</span><span class="wt"><span class="wf" style="width:82%"></span></span><span class="wv">82</span></div>
+        </div>
+      </div>
+      <div class="we-result">
+        <span style="font-size:13px;color:rgba(255,255,255,.65)" data-en="Weighted score">الدرجة المرجّحة</span>
+        <div class="we-score">85</div>
+        <span class="we-badge" data-en="Compliant · Approved with condition">متوافق · معتمد بشرط</span>
+        <div class="we-code">K · 65.11 · C2 · S2</div>
+        <div class="we-note" data-en="Risk S2: the ruling is settled but conditioned.">المخاطر S2: الحكم مستقرٌّ لكنه مشروط.</div>
+        <ul>
+          <li data-en="Compliant band (85) × risk S2 → approved with condition.">مرتبة متوافق (85) × مخاطر S2 ← معتمد بشرط.</li>
+          <li data-en="Condition: purify residual non-permitted income.">الشرط: تطهير الدخل غير المباح المتبقّي.</li>
+          <li data-en="No per-axis floor breached.">لا اختراق لأيّ حدٍّ أدنى محوري.</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <h3 style="font-family:var(--display);font-size:21px;color:var(--ink);margin:26px 0 2px" data-en="The same path, across sectors">المسار نفسه، عبر القطاعات</h3>
+      <p style="font-size:13.5px;color:var(--ink-soft)" data-en="Illustrative calculated outcomes showing the standard produces a graded, auditable verdict in every sector — not a blunt binary.">نتائجُ محسوبةٌ توضيحيةٌ تبيّن أنّ المعيار يُنتج حكماً متدرّجاً قابلاً للتدقيق في كل قطاع — لا ثنائيةً خشنة.</p>
+      <div class="case-grid">
+        <div class="casecard"><div class="ch"><span class="cb">C</span><span class="cn" data-en="Food manufacturing">تصنيع أغذية</span></div><div class="cscore" data-en="Score 82 · OIC/SMIIC 1">الدرجة 82 · OIC/SMIIC 1</div><span class="ccode">C·10.x·C3·S2</span><br><span class="cv" style="background:rgba(201,162,39,.14);color:#9a7b16" data-en="Conditional">مشروط</span></div>
+        <div class="casecard"><div class="ch"><span class="cb">J</span><span class="cn" data-en="Tech platform">منصّة تقنية</span></div><div class="cscore" data-en="Score 88">الدرجة 88</div><span class="ccode">J·62.01·C2·S1</span><br><span class="cv" style="background:rgba(46,139,99,.12);color:var(--green)" data-en="Approved">معتمد</span></div>
+        <div class="casecard"><div class="ch"><span class="cb">I</span><span class="cn" data-en="Hospitality">ضيافة وسياحة</span></div><div class="cscore" data-en="Score 79 · SMIIC">الدرجة 79 · SMIIC</div><span class="ccode">I·55.10·C3·S2</span><br><span class="cv" style="background:rgba(201,162,39,.14);color:#9a7b16" data-en="Conditional">مشروط</span></div>
+        <div class="casecard"><div class="ch"><span class="cb">A</span><span class="cn" data-en="Farm production">إنتاج زراعي</span></div><div class="cscore" data-en="Score 90">الدرجة 90</div><span class="ccode">A·01.x·C2·S1</span><br><span class="cv" style="background:rgba(46,139,99,.12);color:var(--green)" data-en="Approved">معتمد</span></div>
+        <div class="casecard"><div class="ch"><span class="cb">G</span><span class="cn" data-en="E-commerce (mixed)">تجارة إلكترونية مختلطة</span></div><div class="cscore" data-en="Score 72">الدرجة 72</div><span class="ccode">G·47.91·C4·S2</span><br><span class="cv" style="background:rgba(200,116,58,.14);color:var(--orange)" data-en="Remediation">معالجة</span></div>
+        <div class="casecard"><div class="ch"><span class="cb">P</span><span class="cn" data-en="Education">مؤسسة تعليمية</span></div><div class="cscore" data-en="Score 91">الدرجة 91</div><span class="ccode">P·85.x·C2·S1</span><br><span class="cv" style="background:rgba(46,139,99,.12);color:var(--green)" data-en="Approved">معتمد</span></div>
+      </div>
+      <p style="font-size:11.5px;color:var(--ink-soft);margin-top:12px;font-style:italic" data-en="Illustrative figures for demonstration, not audited evaluations.">أرقامٌ توضيحيةٌ للبيان لا تقييماتٌ مدقّقة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIGITAL MODELS -->
+<section class="section dark" id="digital">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Emerging digital models">نماذج الأعمال الرقمية</span>
+      <h2 data-en="Built for the age of agentic systems">مصمَّمٌ لعصر الأنظمة الذكية</h2>
+      <p data-en="The standard classifies the model by its axes, not its name — so it re-evaluates as fast as digital business models change.">يصنّف المعيار النموذج بمحاوره لا باسمه — فيُعيد التقييم بسرعة تغيّر النماذج الرقمية.</p>
+    </div>
+    <div class="dig-grid">
+      <div class="dig"><div class="dt" data-en="Crowdfunding">التمويل الجماعي</div><h3 data-en="Ruled by its contract form">يُحكَم بصيغته التعاقدية</h3><p data-en="Equity (musharakah/mudarabah) is judged on partnership purity; interest-bearing lending fails the gate; donation/reward models are judged on transparency and absence of gharar.">المشاركة تُقيَّم على نقاء الشراكة؛ والإقراض الربوي يسقط بالبوابة؛ والتبرّع والمكافأة على الشفافية وخلوّ الغرر.</p></div>
+      <div class="dig"><div class="dt" data-en="Sharing platforms">منصّات الاقتصاد التشاركي</div><h3 data-en="Liability for what they host">مسؤوليةٌ عمّا تستضيفه</h3><p data-en="Revenue purity (share of non-permitted income) and operations (admission and oversight controls) set the band — not a blunt yes/no.">نقاء الإيراد (نسبة الدخل غير المباح) وضوابط العمليات تُحدّدان المرتبة — لا حكمٌ ثنائيٌّ خشن.</p></div>
+      <div class="dig"><div class="dt" data-en="Virtual influencers">المؤثّرون الافتراضيون</div><h3 data-en="Honest, gharar-free promotion">ترويجٌ صادقٌ بلا غرر</h3><p data-en="Truthfulness, no promotion of the impermissible, no gharar in advertising deals, and privacy — risk rises where disclosure is absent.">الصدق، وعدم الترويج للمحرّم، وانتفاء الغرر، وحفظ الخصوصية — وترتفع المخاطر عند غياب الإفصاح.</p></div>
+      <div class="dig"><div class="dt" data-en="Agentic AI">الذكاء الاصطناعي الوكيل</div><h3 data-en="Automation assists, it does not issue fatwa">الأتمتة تُعِين ولا تُفتي</h3><p data-en="The machine-readable GSCS code enables automated first-pass screening, while ijtihad stays with the human Shariah board and oversight remains on high-risk tiers.">الكود القابل للقراءة الآلية يتيح فرزاً أوّلياً مؤتمتاً، ويبقى الاجتهاد للهيئة الشرعية البشرية والرقابة على المخاطر المرتفعة.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section class="section" id="positioning">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Honest positioning">التموضع الصادق</span>
+      <h2 data-en="What is genuinely new here">ما الجديد فعلاً</h2>
+      <p data-en="Shariah screening is not new — continuous compliance scoring exists in the equity literature. The contribution is a shift of scope, stated plainly without overclaiming.">الفرز الشرعي ليس جديداً — والقياس المتدرّج موجودٌ في أدبيات الأسهم. الإسهام هو نقلةُ نطاقٍ تُقال بصراحةٍ دون مبالغة.</p>
+    </div>
+    <div class="pos-grid">
+      <div class="pos no">
+        <h3 data-en="What it does NOT claim">ما لا يدّعيه</h3>
+        <ul>
+          <li data-en="Not the first to score Shariah compliance — DJIMI (1999), Malaysia&#39;s SAC, and a 2026 continuous-index paper precede it.">ليس أول من يقيس الامتثال — داو جونز (1999)، والمجلس الماليزي، وورقة مؤشرٍ متّصلٍ 2026 سبقته.</li>
+          <li data-en="Not a consensus ruling — it declares a facilitation tendency, not ijma&#39;.">ليس إجماعاً — يُعلِن ميلاً للتيسير لا اتفاقاً مُلزِماً.</li>
+          <li data-en="Not yet an adopted, binding standard — it is an advanced research framework.">ليس معياراً مُعتمَداً مُلزِماً بعد — بل إطارٌ بحثيٌّ متقدّم.</li>
+        </ul>
+      </div>
+      <div class="pos yes">
+        <h3 data-en="What it DOES contribute">ما يقدّمه فعلاً</h3>
+        <ul>
+          <li data-en="Moves from equity/portfolio screening to a whole-economy, activity-based reference standard.">ينقل التصنيف من فرز الأسهم إلى معيارٍ شاملٍ للأنشطة عبر الاقتصاد كلّه.</li>
+          <li data-en="Built on the ISIC activity backbone — not on market indices.">مبنيٌّ على عمود ISIC للأنشطة — لا على مؤشرات الأسواق.</li>
+          <li data-en="Six axes beyond debt/revenue ratios, an independent risk tier, and a machine-readable code.">ستة محاورَ تتجاوز نِسَب الدَّيْن والإيراد، ومرتبةُ مخاطرَ مستقلّة، وكودٌ آليّ القراءة.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-soft);margin-top:16px;background:var(--parch);border-radius:10px;padding:14px 16px;line-height:1.7" data-en="Distinct from the 2026 continuous-index (CSCI) work: that measures equities on a [0,1] portfolio-screening index from the same financial ratios. This standard instead classifies activities and business models across the whole economy on the ISIC backbone, adds an independent Shariah-risk tier and an eligibility gate separate from scoring, and emits a machine-readable code — a different object, not a re-weighting of the same screen."><b>تمييزٌ صريحٌ عن مؤشر الامتثال المتّصل (CSCI 2026):</b> ذاك يقيس الأسهم على مؤشرٍ مداه [0,1] لفرز المحافظ من النِّسَب المالية نفسها. أمّا هذا المعيار فيصنّف الأنشطة ونماذج الأعمال عبر الاقتصاد كلّه على عمود ISIC، ويضيف مرتبةَ مخاطرَ شرعيةٍ مستقلّة وبوابةَ أهليةٍ منفصلةً عن التقييم، ويُصدِر كوداً آليّ القراءة — فهو شيءٌ مختلفٌ لا إعادةَ ترجيحٍ للفرز ذاته.</p>
+  </div>
+</section>
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="shead center">
+      <span class="kicker" data-en="FAQ">الأسئلة الشائعة</span>
+      <h2 data-en="Questions, answered plainly">أسئلةٌ بإجاباتٍ صريحة</h2>
+    </div>
+    <div class="faq">
+      <details class="qa" open><summary data-en="What is the difference between SSESBA and GSCS?">ما الفرق بين SSESBA و GSCS؟</summary><div class="ans" data-en="SSESBA is the body of Shariah standards for each sector; GSCS is the coding layer that classifies any activity and places it on the compliance scale. One sets the rules, the other expresses the result.">SSESBA هو مجموعة المعايير الشرعية لكل قطاع؛ وGSCS هو طبقة الترميز التي تُصنّف أي نشاطٍ وتضعه على مقياس الامتثال. الأول يضع القواعد، والثاني يُعبّر عن النتيجة.</div></details>
+      <details class="qa"><summary data-en="On what basis are activities classified?">على أي أساسٍ تُصنَّف الأنشطة؟</summary><div class="ans" data-en="On three layers: (1) a structural spine — ISIC Rev.4 — which fixes each activity's single home; (2) an extension layer for distinctions ISIC cannot express (e.g. class 6419 lumps conventional and Islamic banks together, so the eligibility gate, the six axes and the entity dimension carry that distinction); (3) a crosswalk layer to GICS/NACE for interoperability and display. ISIC is the spine, not the whole standard.">على ثلاث طبقات: <b>(١) عمودٌ بنيوي</b> هو ISIC Rev.4، ويحدّد لكل نشاطٍ موطنَه الواحد؛ <b>(٢) طبقةُ امتداد</b> لِما لا يعبّر عنه ISIC — فالفئة 6419 تضمّ المصرف التقليدي والإسلامي معًا، فتحمل التمييزَ بوابةُ الأهلية والمحاورُ الستة والبُعدُ المؤسسي؛ <b>(٣) طبقةُ تقاطع</b> مع GICS/NACE للتشغيل البيني والعرض. فـISIC عمودُ المعيار لا المعيارُ كلّه.</div></details>
+      <details class="qa"><summary data-en="How is the compliance score calculated?">كيف تُحتسب درجة الامتثال؟</summary><div class="ans" data-en="From six weighted axes — contracts 25%, revenues 25%, financing 20%, operations 15%, governance 10%, disclosure 5% — after the activity passes the eligibility gate.">من ستة محاورَ مرجّحة — العقود 25%، الإيرادات 25%، التمويل 20%، العمليات 15%، الحوكمة 10%، الإفصاح 5% — بعد اجتياز النشاط لبوابة الأهلية.</div></details>
+      <details class="qa"><summary data-en="Does the financial sector follow AAOIFI standards?">هل يتبع القطاع المالي معايير AAOIFI؟</summary><div class="ans" data-en="Yes. The financial &amp; insurance sector (K) is governed by AAOIFI — the accounting, auditing, governance, ethics and Shariah standards for Islamic banks, takaful operators and Islamic financial institutions — applied alongside the activity&#39;s six weighted axes. Legal adoption and exact screening thresholds vary by jurisdiction.">نعم. القطاع المالي والتأميني (K) مُنظَّمٌ وفق معايير AAOIFI — وهي المعايير الشرعية والمحاسبية والمراجعة والحوكمة والأخلاقيات للبنوك الإسلامية وشركات التكافل والمؤسسات المالية الإسلامية — تُطبَّق إلى جانب محاور التقييم الستة. ويتفاوت الإلزام القانوني وحدود الفرز الدقيقة بين الولايات القضائية.</div></details>
+      <details class="qa"><summary data-en="Do you adopt OIC/SMIIC standards, and how are they mapped?">هل تعتمدون معايير OIC/SMIIC وكيف تُربَط بالقطاعات؟</summary><div class="ans" data-en="Yes. Halal sectors are anchored to the OIC/SMIIC family per activity: food (OIC/SMIIC 1), tourism, pharmaceuticals and cosmetics, and the halal supply chain — with OIC/SMIIC 2 &amp; 3 governing certification and accreditation bodies. These apply alongside the six weighted axes, while finance is anchored to AAOIFI.">نعم. تُربَط القطاعات الحلال بعائلة OIC/SMIIC كلٌّ حسب نشاطه: الغذاء (OIC/SMIIC 1)، والسياحة، والدواء ومستحضرات التجميل، وسلسلة الإمداد الحلال — مع OIC/SMIIC 2 و3 لجهات منح الشهادات والاعتماد. تُطبَّق إلى جانب محاور التقييم الستة، بينما يُربَط القطاع المالي بـ AAOIFI.</div></details>
+      <details class="qa"><summary data-en="Is the result a binding fatwa?">هل النتيجة فتوى مُلزِمة؟</summary><div class="ans" data-en="No. It is a standards framework, not a binding ruling. The current text is an advanced working draft under collective scholarly review.">لا. إنه إطارٌ معياري، لا حكمٌ مُلزِم. والنص الحالي مسودةُ عملٍ متقدّمةٌ قيد المراجعة العلمية الجماعية.</div></details>
+      <details class="qa"><summary data-en="What is your jurisprudential method?">ما منهجكم الفقهي؟</summary><div class="ans" data-en="Weighing between the madhhabs with consideration of maslaha, under the framework of the maqasid, with a declared tendency toward facilitation — stated as a methodological choice, not implied consensus.">الترجيح بين المذاهب مع مراعاة المصلحة، تحت إطار المقاصد، بميلٍ معلنٍ للتيسير — مذكورٌ بوصفه خياراً منهجياً لا إجماعاً مُضمَراً.</div></details>
+      <details class="qa"><summary data-en="How are emerging activities like digital assets handled?">كيف تُعامَل الأنشطة المستجدّة كالأصول الرقمية؟</summary><div class="ans" data-en="With referral status and elevated risk (S3+), consistent with the fiqh academy resolution that recommends further study without a definitive ruling.">بوضع الإحالة ومخاطرَ مرتفعة (S3+)، اتساقاً مع قرار المجمع الفقهي الذي يوصي بمزيدٍ من الدراسة دون حكمٍ قاطع.</div></details>
+      <details class="qa"><summary data-en="Is social responsibility part of the score?">هل المسؤولية الاجتماعية ضمن الدرجة؟</summary><div class="ans" data-en="No. It is treated as aspirational and excluded from the binding compliance score.">لا. تُعامَل بوصفها تطلّعيةً ومُستبعَدةً من درجة الامتثال الملزِمة.</div></details>
+      <details class="qa"><summary data-en="How do I request an evaluation or accreditation?">كيف أطلب تقييماً أو اعتماداً؟</summary><div class="ans" data-en="Use the request buttons below; institutional and academic partnerships are reviewed individually.">عبر أزرار الطلب أدناه؛ وتُراجَع الشراكات المؤسسية والأكاديمية كلٌّ على حدة.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS & TOOLS LIBRARY -->
+<section class="section parch" id="library">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kicker" data-en="Documents &amp; tools library">مكتبة الوثائق والأدوات</span>
+      <h2 data-en="The full institutional package">الحزمة المؤسسية الكاملة</h2>
+      <p data-en="The founding charter, the governance framework, the implementation guides, and the operating tools — the documents that turn the standard into an institution.">الوثيقة التأسيسية، وإطار الحوكمة، وأدلة التنفيذ، وأدوات التشغيل — الوثائق التي تحوّل المعيار إلى مؤسسة.</p>
+    </div>
+    <div class="doclib">
+      <a class="doccard" href="SSESBA_الوثيقة_التأسيسية.docx">
+        <div class="dic">⚑</div>
+        <div><h3 data-en="Founding charter">الوثيقة التأسيسية</h3><p data-en="The founding charter — identity, name, vision, governing principles, and the standard&#39;s architecture in numbered articles.">الميثاق المؤسِّس — الهوية والاسم والرؤية والمبادئ الحاكمة وبنية المعيار في موادّ مرقّمة.</p><span class="tag" data-en="Word document">وثيقة Word</span></div>
+      </a>
+      <a class="doccard" href="SSESBA_وثيقة_الحوكمة.docx">
+        <div class="dic">⚖︎</div>
+        <div><h3 data-en="Governance document">وثيقة الحوكمة</h3><p data-en="The governance framework — the issuing body, due-process procedures, review cycle, roles, and the collective-adoption path.">إطار الحوكمة — جهة الإصدار والإجراءات الأصولية ودورة المراجعة والأدوار ومسار الاعتماد الجماعي.</p><span class="tag" data-en="Word document">وثيقة Word</span></div>
+      </a>
+      <a class="doccard" href="SSESBA_قوالب_التنفيذ.docx">
+        <div class="dic">📋</div>
+        <div><h3 data-en="Implementation guides">أدلة التنفيذ</h3><p data-en="Ready-to-use templates — endorsement letters, an inter-rater consistency protocol, and a case-study data-collection sheet.">قوالب جاهزة للتعبئة — خطاب التزكية، وبروتوكول اختبار الاتساق بين المقيّمين، ونموذج جمع بيانات دراسة الحالة.</p><span class="tag" data-en="Word document">وثيقة Word</span></div>
+      </a>
+      <a class="doccard" href="/explorer" target="_blank" rel="noopener">
+        <div class="dic">🧭</div>
+        <div><h3 data-en="Operating tools">أدوات التشغيل</h3><p data-en="The interactive classification explorer and the GSCS coding system — drill from functional sector to product and build the final code live.">المستكشف التفاعلي للتصنيف ونظام الترميز GSCS — تنقّل من القطاع الوظيفي حتى المنتج وابنِ الكود النهائي حيًّا.</p><span class="tag" data-en="Interactive tool ↗">أداة تفاعلية ↗</span></div>
+      </a>
+    </div>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:14px;font-style:italic" data-en="Downloadable files resolve when hosted alongside the page. The founding charter and governance framework describe the proposed institutional model.">تُفتَح الملفات عند استضافتها بجوار الصفحة. والوثيقتان التأسيسية والحوكمة تصفان النموذج المؤسسي المقترَح.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta" style="padding-top:0">
+  <div class="wrap">
+    <div class="ctaband">
+      <h2 data-en="A reference standard, ready for review">معيارٌ مرجعيٌّ جاهزٌ للمراجعة</h2>
+      <p data-en="Three clear paths — by what you want to do next.">ثلاثة مساراتٍ واضحة — كلٌّ حسب ما تريد فعله.</p>
+      <div class="tier-grid">
+        <div class="tier">
+          <div class="tier-h" data-en="1 · Apply the standard">١ · طبّق المعيار</div>
+          <p data-en="For institutions, companies &amp; investors — classify your activity, build its GSCS code, and read its Shariah criteria.">للمؤسسات والشركات والمستثمرين — صنّف نشاطك، وابنِ كوده في GSCS، واقرأ معاييره الشرعية.</p>
+          <a class="btn btn-primary" href="/explorer" target="_blank" rel="noopener" data-en="Open the interactive explorer">افتح المستكشف التفاعلي</a>
+        </div>
+        <div class="tier">
+          <div class="tier-h" data-en="2 · Collaborate &amp; review">٢ · تعاوَن وراجِع</div>
+          <p data-en="For scholars, Shariah boards &amp; academics — review the working draft and join as an expert or academic partner.">للباحثين والهيئات الشرعية والأكاديميين — راجِع مسودة العمل وانضمّ كخبيرٍ أو شريكٍ أكاديمي.</p>
+          <a class="btn btn-ghost" href="#governance" data-en="Review &amp; join">راجِع وانضمّ</a>
+        </div>
+        <div class="tier">
+          <div class="tier-h" data-en="3 · Adopt &amp; endorse">٣ · تبنَّ واعتمِد</div>
+          <p data-en="For fiqh academies, standard-setters &amp; regulators — adopt the standard and help publish it to the Ummah.">للمجامع الفقهية وجهات وضع المعايير والرقابة — تبنَّ المعيار وأسهِم في نشره للأمّة.</p>
+          <a class="btn btn-ghost" href="#adoption" data-en="The adoption path">مسار الاعتماد</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section dark" id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="shead center">
+      <span class="kicker" data-en="Get in touch">تواصل معنا</span>
+      <h2 data-en="Start a request">ابدأ طلبك</h2>
+    </div>
+    <div class="contact">
+      <div class="ccard"><h3 data-en="Shariah evaluation">تقييمٌ شرعي</h3><p data-en="Submit an activity for classification and scoring.">قدّم نشاطاً للتصنيف والقياس.</p><a href="mailto:evaluation@ssesba.org?subject=Shariah%20Evaluation%20Request" data-en="Request evaluation">اطلب تقييماً</a></div>
+      <div class="ccard"><h3 data-en="Accreditation">اعتماد</h3><p data-en="Apply for a comparable compliance certificate.">تقدّم لشهادة امتثالٍ قابلةٍ للمقارنة.</p><a href="mailto:accreditation@ssesba.org?subject=Accreditation%20Request" data-en="Request accreditation">اطلب اعتماداً</a></div>
+      <div class="ccard"><h3 data-en="Academic &amp; expert partnership">شراكةٌ أكاديميةٌ وخبراء</h3><p data-en="Join the review work or partner institutionally.">انضمّ لعمل المراجعة أو الشراكة المؤسسية.</p><a href="mailto:partners@ssesba.org?subject=Partnership%20Inquiry" data-en="Become a partner">كُن شريكاً</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <div class="name">SSESBA · GSCS</div>
+        <p data-en="The reference standard for evaluating and classifying economic sectors and business activities under Islamic law.">المعيار المرجعي لتقييم وتصنيف القطاعات الاقتصادية وأنشطة الأعمال وفق الشريعة الإسلامية.</p>
+      </div>
+      <div class="foot-col"><h4 data-en="Standard">المعيار</h4><a href="#what" data-en="Overview">التعريف</a><a href="#how" data-en="How it works">آلية العمل</a><a href="#classification" data-en="Classification">التصنيف</a><a href="#gscs">GSCS</a></div>
+      <div class="foot-col"><h4 data-en="Coverage">التغطية</h4><a href="#sectors" data-en="Sectors">القطاعات</a><a href="#method" data-en="Methodology">المنهجية</a><a href="#trust" data-en="References">المرجعيات</a><a href="#faq" data-en="FAQ">الأسئلة الشائعة</a></div>
+      <div class="foot-col"><h4 data-en="Engage">المشاركة</h4><a href="#cta" data-en="Request accreditation">اطلب اعتماداً</a><a href="#cta" data-en="Academic partner">شريك أكاديمي</a><a href="#cta" data-en="Join as expert">انضمّ كخبير</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span class="status"><span class="blip"></span> <span data-en="Status: Advanced Working Draft v0.9 — non-binding">الحالة: مسودة عمل متقدّمة v0.9 — غير ملزِمة</span></span>
+      <span data-en="© SSESBA — built on ISIC Rev.4 · AAOIFI · fiqh academy resolutions">© SSESBA — مبنيٌّ على ISIC Rev.4 · AAOIFI · قرارات مجامع الفقه</span>
+    </div>
+  </div>
+</footer>

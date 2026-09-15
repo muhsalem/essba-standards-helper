@@ -1,0 +1,33 @@
+
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SSESBA — Shariah Standards for Economic Sectors and Business Activities",
+  "alternateName": "المعايير الشرعية للقطاعات الاقتصادية وأنشطة الأعمال",
+  "url": "https://ssesba.org/",
+  "description": "A unified reference standard for evaluating and classifying economic activity under Islamic law, built on ISIC Rev.4, AAOIFI standards, and fiqh academy resolutions.",
+  "knowsAbout": ["Shariah compliance", "Islamic economics", "Economic activity classification", "ISIC Rev.4", "AAOIFI standards"],
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "CreativeWork",
+      "name": "Global Shariah Classification Standard (GSCS)",
+      "about": "Dual-coded Shariah classification and compliance scoring for economic activities."
+    }
+  }
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"What is the difference between SSESBA and GSCS?","acceptedAnswer":{"@type":"Answer","text":"SSESBA is the body of Shariah standards for each sector; GSCS is the coding layer that classifies any activity and places it on the compliance scale."}},
+    {"@type":"Question","name":"On what basis are activities classified?","acceptedAnswer":{"@type":"Answer","text":"On three layers: ISIC Rev.4 as the structural spine, an extension layer for Shariah distinctions ISIC cannot express, and a crosswalk layer to GICS/NACE for interoperability."}},
+    {"@type":"Question","name":"How is the compliance score calculated?","acceptedAnswer":{"@type":"Answer","text":"From six weighted axes — contracts 25%, revenues 25%, financing 20%, operations 15%, governance 10%, disclosure 5% — after the activity passes the eligibility gate."}},
+    {"@type":"Question","name":"Does the financial sector follow AAOIFI standards?","acceptedAnswer":{"@type":"Answer","text":"Yes. The financial and insurance sector (K) is governed by AAOIFI standards — accounting, auditing, governance, ethics and Shariah standards for Islamic banks, takaful operators and Islamic financial institutions — applied alongside the six weighted axes. Legal adoption and screening thresholds vary by jurisdiction."}},
+    {"@type":"Question","name":"Do you adopt OIC/SMIIC standards, and how are they mapped?","acceptedAnswer":{"@type":"Answer","text":"Yes. Halal sectors are anchored to the OIC/SMIIC family per activity: food (OIC/SMIIC 1), tourism, pharmaceuticals and cosmetics, and the halal supply chain, with OIC/SMIIC 2 and 3 governing certification and accreditation bodies. These apply alongside the six weighted axes, while finance is anchored to AAOIFI."}},
+    {"@type":"Question","name":"Is the result a binding fatwa?","acceptedAnswer":{"@type":"Answer","text":"No. It is a standards framework, not a binding ruling. The current text is an advanced working draft under collective scholarly review."}},
+    {"@type":"Question","name":"How are emerging activities like digital assets handled?","acceptedAnswer":{"@type":"Answer","text":"With referral status and elevated risk (S3+), consistent with the fiqh academy resolution that recommends further study without a definitive ruling."}}
+  ]
+}
