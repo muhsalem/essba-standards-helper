@@ -4,6 +4,8 @@ type Props = {
   html: string;
   script: string;
   className?: string;
+  lang?: "ar" | "en";
+  dir?: "rtl" | "ltr";
 };
 
 /**
@@ -11,8 +13,10 @@ type Props = {
  * outside React. The script is injected as a real <script> element so that
  * global functions referenced by inline onclick handlers stay reachable.
  */
-export function LegacyHtmlPage({ html, script, className }: Props) {
+export function LegacyHtmlPage({ html, script, className, lang = "ar", dir = "rtl" }: Props) {
   useEffect(() => {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir;
     const el = document.createElement("script");
     el.textContent = script;
     document.body.appendChild(el);
@@ -24,7 +28,7 @@ export function LegacyHtmlPage({ html, script, className }: Props) {
     return () => {
       el.remove();
     };
-  }, [script]);
+  }, [dir, lang, script]);
 
   return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }

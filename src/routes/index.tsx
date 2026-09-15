@@ -23,12 +23,14 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: StandardPage,
 });
 
 function StandardPage() {
-  return <LegacyHtmlPage html={standardHtml} script={standardScript} />;
+  return <LegacyHtmlPage html={standardHtml} script={standardScript} lang="ar" dir="rtl" />;
 }
