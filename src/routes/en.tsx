@@ -30,6 +30,7 @@ function EnglishStandardPage() {
     <LegacyHtmlPage
       html={standardEnglishHtml}
       script={standardScript}
+      className="standard-page"
       lang="en"
       dir="ltr"
     />

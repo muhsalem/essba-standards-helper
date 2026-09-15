@@ -20,6 +20,8 @@
     --body:"IBM Plex Sans Arabic",system-ui,sans-serif;
   }
   html[lang="en"]{--display:"Spectral",serif;--body:"Inter",system-ui,sans-serif;}
+  .standard-page{--indigo-deep:var(--brand-navy);--indigo:var(--brand-navy-soft);--paper:var(--brand-paper);--parchment:var(--brand-parchment);--saffron:var(--brand-gold);--saffron-soft:var(--brand-gold-soft);--display:"Amiri","Times New Roman",serif;--body:"IBM Plex Sans Arabic",system-ui,sans-serif;font-family:var(--body);background:var(--paper);color:var(--ink);}
+  html[lang="en"] .standard-page{--display:"Spectral",serif;--body:"Inter",system-ui,sans-serif;}
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -58,7 +60,7 @@
   .hero .wrap{position:relative;z-index:1;}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.16em;font-weight:500;color:var(--saffron-soft);margin-bottom:24px;}
   .eyebrow::before{content:"";width:30px;height:1px;background:var(--saffron-soft);}
-  .hero h1{font-family:var(--display);font-size:clamp(32px,5vw,58px);line-height:1.2;font-weight:700;max-width:20ch;margin-bottom:22px;}
+  .standard-page .hero h1{font-family:var(--display);font-size:clamp(32px,5vw,58px);line-height:1.2;font-weight:700;max-width:20ch;margin-bottom:22px;color:#fff;}
   .hero h1 em{font-style:normal;color:var(--saffron-soft);}
   .hero .lead{font-size:clamp(16px,1.9vw,20px);font-weight:300;color:rgba(255,255,255,.85);max-width:62ch;margin-bottom:32px;}
   .hero .lead b{font-weight:600;color:#fff;}

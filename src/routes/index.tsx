@@ -32,5 +32,5 @@ export const Route = createFileRoute("/")({
 });
 
 function StandardPage() {
-  return <LegacyHtmlPage html={standardHtml} script={standardScript} lang="ar" dir="rtl" />;
+  return <LegacyHtmlPage html={standardHtml} script={standardScript} className="standard-page" lang="ar" dir="rtl" />;
 }
