@@ -1,0 +1,43 @@
+<div class="wrap">
+  <header>
+    <div class="kick">SSESBA · GSCS</div>
+    <h1>مستكشف التصنيف الاقتصادي</h1>
+    <p><b>عمودٌ تصنيفيٌّ من خمسة مستويات:</b> القطاع الاقتصادي ← الصناعة ← القطاع الفرعي ← النشاط الاقتصادي ← النشاط الفرعي — ثم <b>ثلاثة أبعادٍ وصفيةٍ متعامدة</b>: المنتج/الخدمة · نموذج الأعمال · نوع الكيان.</p>
+    <div class="stats">
+      <div class="stat"><b>5</b> قطاعات اقتصادية</div>
+      <div class="stat"><b id="st-sec">22</b> صناعة</div>
+      <div class="stat"><b id="st-ind">0</b> قطاعًا فرعيًا</div>
+      <div class="stat"><b id="st-act">0</b> نشاطًا اقتصاديًا</div>
+      <div class="stat"><b id="st-sub">0</b> نشاط فرعي</div>
+    </div>
+  </header>
+
+  <div class="disclaimer">
+    <span class="dic">⚠︎</span>
+    <div><b>أداة استرشادٍ وتصنيف — وليست فتوى.</b> النتائجُ والضوابطُ عامةٌ مبنيةٌ على فقهٍ معتبَر لأغراض التصنيف والتقييم الأولي، ولم تُراجَع بعدُ من هيئةٍ شرعيةٍ مؤهَّلة. مراتبُ الامتثال والمخاطر تقديريةٌ حتى التقييم الكامل، والنوازلُ الخاصة تُعرَض على أهل العلم قبل أيّ اعتمادٍ مرجعي.</div>
+  </div>
+
+  <div class="search">
+    <span class="si">🔍</span>
+    <input id="q" type="text" placeholder="ابحث عن نشاط أو صناعة... (مثال: تكافل، تحلية، روبوتات)">
+    <div id="results"></div>
+  </div>
+
+  <div class="crumbs" id="crumbs"></div>
+
+  <div class="cols">
+    <div class="col"><div class="col-h">القطاع الاقتصادي <span>Economic sector</span></div><div class="col-b" id="c1"></div></div>
+    <div class="col"><div class="col-h">الصناعة <span>Industry</span></div><div class="col-b" id="c2"><div class="ph">اختر قطاعًا اقتصاديًا</div></div></div>
+    <div class="col"><div class="col-h">القطاع الفرعي <span>Subsector</span></div><div class="col-b" id="c3"><div class="ph">—</div></div></div>
+    <div class="col"><div class="col-h">النشاط الاقتصادي <span>Economic activity</span></div><div class="col-b" id="c4"><div class="ph">—</div></div></div>
+    <div class="col"><div class="col-h">النشاط الفرعي <span>Business activity</span></div><div class="col-b" id="c5"><div class="ph">—</div></div></div>
+  </div>
+
+  <div class="detail" id="detail"></div>
+
+  <div class="codebar" id="codebar"></div>
+
+  <div class="profile" id="profile"></div>
+
+  <footer>المعيار المرجعي لتقييم وتصنيف القطاعات الاقتصادية وأنشطة الأعمال وفق الشريعة الإسلامية — مبنيٌّ على ISIC Rev.4 (العمود البنيوي) مع خارطةِ انتقالٍ مُعلَنةٍ إلى Rev.5 المُقرَّة 2023 — والتغطيةُ شاملةٌ على مستوى النشاط لا المنتج النهائي.<br><span style="color:var(--saffron);font-weight:600">تنويه:</span> أُجِّل عرضُ القطاع الحكومي والأمن والدفاع والحكومات العليا (وظائف سيادية لا أنشطة أعمالٍ تجارية تُقيَّم) — والبيانات محفوظةٌ قابلةٌ للاسترجاع.</footer>
+</div>
