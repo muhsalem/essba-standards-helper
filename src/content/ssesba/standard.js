@@ -1,16 +1,8 @@
 
   // language toggle
   function setLang(lang){
-    var toEN = lang === 'en';
-    document.querySelectorAll('[data-en]').forEach(function(el){
-      if(el.dataset.ar === undefined) el.dataset.ar = el.innerHTML;
-      el.innerHTML = toEN ? el.dataset.en : el.dataset.ar;
-    });
-    var html = document.documentElement;
-    html.lang = lang;
-    html.dir = toEN ? 'ltr' : 'rtl';
-    document.getElementById('btn-ar').classList.toggle('active', !toEN);
-    document.getElementById('btn-en').classList.toggle('active', toEN);
+    var target = lang === 'en' ? '/en' : '/';
+    window.location.assign(target + window.location.hash);
   }
 
   // reveal spectrum

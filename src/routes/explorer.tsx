@@ -17,12 +17,14 @@ export const Route = createFileRoute("/explorer")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/explorer" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/explorer" }],
   }),
   component: ExplorerPage,
 });
 
 function ExplorerPage() {
-  return <LegacyHtmlPage html={explorerHtml} script={explorerScript} />;
+  return <LegacyHtmlPage html={explorerHtml} script={explorerScript} lang="ar" dir="rtl" />;
 }

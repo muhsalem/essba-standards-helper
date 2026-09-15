@@ -1,16 +1,16 @@
 
   :root{
-    --indigo-deep:#131F38;
-    --indigo:#1C2B4D;
-    --indigo-soft:#2A3D63;
-    --paper:#FBF9F4;
-    --parchment:#F1ECE0;
+    --indigo-deep:var(--brand-navy);
+    --indigo:var(--brand-navy-soft);
+    --indigo-soft:oklch(0.42 0.055 256);
+    --paper:var(--brand-paper);
+    --parchment:var(--brand-parchment);
     --ink:#1A2333;
     --ink-soft:#56607A;
     --line:rgba(26,35,51,.12);
     --line-light:rgba(255,255,255,.14);
-    --saffron:#C68A2E;
-    --saffron-soft:#E0B361;
+    --saffron:var(--brand-gold);
+    --saffron-soft:var(--brand-gold-soft);
 
     --c95:#1F6F5C; --c85:#2E8B63; --c75:#C68A2E; --c60:#C8743A; --c45:#B5532A; --c00:#8A3320;
     --green:#2E8B63; --yellow:#C9A227; --orange:#C8743A; --red:#9A3324;
@@ -25,7 +25,7 @@
   html{scroll-behavior:smooth;}
   body{margin:0;font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
   a{color:inherit;text-decoration:none;}
-  h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-.01em;}
+  h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:0;}
   p{margin:0;}
   :focus-visible{outline:2px solid var(--saffron);outline-offset:3px;border-radius:3px;}
   .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:28px;}
@@ -42,7 +42,7 @@
   .topbar{position:sticky;top:0;z-index:50;background:rgba(19,31,56,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-light);}
   .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px;}
   .mark{display:flex;align-items:center;gap:12px;color:#fff;}
-  .mark .seal{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--saffron-soft);display:grid;place-items:center;font-family:var(--display);font-size:15px;color:var(--saffron-soft);flex:none;font-weight:700;}
+  .mark .seal{width:44px;height:44px;border-radius:8px;border:1.5px solid var(--saffron-soft);display:grid;place-items:center;font-family:var(--display);font-size:15px;color:var(--saffron-soft);flex:none;font-weight:700;box-shadow:inset 0 0 0 4px color-mix(in oklab,var(--saffron-soft) 10%,transparent);}
   .mark .name{font-size:13px;font-weight:600;line-height:1.3;color:#fff;max-width:330px;}
   .mark .sub{font-size:11px;letter-spacing:.18em;color:var(--saffron-soft);font-weight:500;}
   .nav{display:flex;gap:22px;align-items:center;}
@@ -53,7 +53,7 @@
   .navtoggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;}
 
   /* hero */
-  .hero{background:radial-gradient(120% 80% at 85% -10%,rgba(198,138,46,.16),transparent 55%),linear-gradient(160deg,var(--indigo-deep),var(--indigo) 70%);color:#fff;padding:84px 0 0;position:relative;overflow:hidden;}
+  .hero{background:linear-gradient(160deg,var(--indigo-deep),var(--indigo) 70%);color:#fff;padding:84px 0 0;position:relative;overflow:hidden;}
   .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--line-light) 1px,transparent 1px);background-size:100% 46px;opacity:.32;mask-image:linear-gradient(to bottom,transparent,black 30%,black 70%,transparent);}
   .hero .wrap{position:relative;z-index:1;}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.16em;font-weight:500;color:var(--saffron-soft);margin-bottom:24px;}
@@ -363,12 +363,12 @@
   .cert-badge .t{font-family:var(--display);font-size:19px;color:var(--indigo-deep);font-weight:700;}
   .cert-badge .s{font-size:13px;color:var(--ink-soft);margin-top:5px;}
   @media(max-width:640px){.cert-grid{grid-template-columns:1fr;}}
-  .tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;text-align:right;}
-  .tier{background:rgba(255,255,255,.06);border:1px solid var(--line-light);border-radius:13px;padding:22px 20px;display:flex;flex-direction:column;}
+  .action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;text-align:start;}
+  .action-tier{background:rgba(255,255,255,.06);border:1px solid var(--line-light);border-radius:8px;padding:22px 20px;display:flex;flex-direction:column;}
   .tier-h{font-family:var(--display);font-size:17px;color:#fff;font-weight:700;margin-bottom:7px;}
-  .tier p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6;margin-bottom:16px;flex:1;}
-  .tier .btn{width:100%;text-align:center;}
-  @media(max-width:760px){.tier-grid{grid-template-columns:1fr;}}
+  .action-tier p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6;margin-bottom:16px;flex:1;}
+  .action-tier .btn{width:100%;text-align:center;}
+  @media(max-width:760px){.action-grid{grid-template-columns:1fr;}}
   .doclib{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px;}
   .doccard{display:flex;gap:15px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;padding:20px 22px;background:#fff;text-decoration:none;transition:border-color .15s,transform .15s;}
   .doccard:hover{border-color:var(--saffron);transform:translateY(-2px);}
@@ -412,7 +412,9 @@
     .foot-cols{grid-template-columns:1fr 1fr;}
   }
   @media (max-width:820px){
-    .nav{display:none;}
+    .nav{display:none;position:absolute;inset-inline:18px;top:76px;flex-direction:column;align-items:stretch;gap:2px;padding:12px;background:var(--indigo-deep);border:1px solid var(--line-light);border-radius:8px;box-shadow:0 20px 50px color-mix(in oklab,var(--indigo-deep) 60%,transparent);}
+    .nav a{padding:10px 12px;border-radius:6px;}
+    .nav a:hover{background:color-mix(in oklab,var(--saffron) 12%,transparent);}
     .navtoggle{display:block;}
     .grid2,.indic{grid-template-columns:1fr;}
     .flow-arrow{transform:rotate(90deg);}
@@ -430,5 +432,11 @@
     .codeline{flex-direction:column;align-items:center;}
     .codejoin{display:none;}
     .mark .name{display:none;}
+    .wrap{padding-inline:18px;}
+    .hero{padding-top:56px;}
+    .util-tag{font-size:10px;letter-spacing:.08em;}
   }
+  html[lang="en"] .hero-demo .hd-path,html[lang="en"] .hero-demo .hd-code{direction:ltr;}
+  html[lang="en"] .pos li{padding-right:0;padding-left:20px;}
+  html[lang="en"] .pos li::before{right:auto;left:0;}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto;}.bar.lit .sweep{transform:scaleX(0);}}
