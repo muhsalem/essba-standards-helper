@@ -1,0 +1,2 @@
+REVOKE ALL ON public.content_revisions FROM authenticated, anon;
+CREATE POLICY "No direct access to revision history" ON public.content_revisions FOR ALL TO anon, authenticated USING (false) WITH CHECK (false);
