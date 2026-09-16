@@ -2,14 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Landmark, Languages } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { copy, type Lang } from "@/lib/ssesba-data";
+import { brand, copy, type Lang } from "@/lib/ssesba-data";
 
 export function SiteShell({ lang, title, eyebrow, children }: { lang: Lang; title: string; eyebrow: string; children: ReactNode }) {
   const t = copy[lang]; const en = lang === "en"; const base = en ? "/en" : "/";
   return <div className="min-h-screen bg-background text-foreground" dir={en ? "ltr" : "rtl"}>
     <header className="border-b border-brand-gold/30 bg-brand-navy text-primary-foreground">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4">
-        <Link to={base} className="flex items-center gap-3"><span className="grid size-11 place-items-center rounded-md border border-brand-gold text-brand-gold"><Landmark /></span><span><b className="block font-serif text-lg">SSESBA</b><small className="text-brand-gold-soft">GSCS Standard</small></span></Link>
+        <Link to={base} className="flex items-center gap-3" title={`${brand[lang].short} — ${brand[lang].full}`}><span className="grid size-11 place-items-center rounded-md border border-brand-gold text-brand-gold"><Landmark /></span><span><b className="block font-serif text-lg">{brand[lang].short}</b><small className="text-brand-gold-soft">{en ? "SSESBA · GSCS" : "مِشْق · GSCS"}</small></span></Link>
         <nav className="hidden items-center gap-5 text-sm md:flex"><Link to={base}>{t.standard}</Link><Link to={en ? "/en/request" : "/request"}>{t.request}</Link><Link to={en ? "/en/assessment" : "/assessment"}>{t.assessment}</Link><Link to="/explorer">{t.explorer}</Link></nav>
         <Button asChild variant="outline" size="sm" className="border-brand-gold/60 bg-transparent text-primary-foreground hover:bg-brand-gold hover:text-brand-navy"><Link to={en ? location.pathname.replace(/^\/en/, "") || "/" : `/en${location.pathname === "/" ? "" : location.pathname}`}><Languages />{t.language}</Link></Button>
       </div>
