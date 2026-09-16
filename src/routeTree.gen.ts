@@ -10,12 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as EnRouteImport } from './routes/en'
 import { Route as ExplorerRouteImport } from './routes/explorer'
+import { Route as RequestRouteImport } from './routes/request'
+import { Route as EnAssessmentRouteImport } from './routes/en.assessment'
+import { Route as EnRequestRouteImport } from './routes/en.request'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssessmentRoute = AssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnRoute = EnRouteImport.update({
@@ -28,35 +37,86 @@ const ExplorerRoute = ExplorerRouteImport.update({
   path: '/explorer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RequestRoute = RequestRouteImport.update({
+  id: '/request',
+  path: '/request',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnAssessmentRoute = EnAssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => EnRoute,
+} as any)
+const EnRequestRoute = EnRequestRouteImport.update({
+  id: '/request',
+  path: '/request',
+  getParentRoute: () => EnRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/en': typeof EnRoute
+  '/assessment': typeof AssessmentRoute
+  '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
+  '/request': typeof RequestRoute
+  '/en/assessment': typeof EnAssessmentRoute
+  '/en/request': typeof EnRequestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/en': typeof EnRoute
+  '/assessment': typeof AssessmentRoute
+  '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
+  '/request': typeof RequestRoute
+  '/en/assessment': typeof EnAssessmentRoute
+  '/en/request': typeof EnRequestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/en': typeof EnRoute
+  '/assessment': typeof AssessmentRoute
+  '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
+  '/request': typeof RequestRoute
+  '/en/assessment': typeof EnAssessmentRoute
+  '/en/request': typeof EnRequestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/en' | '/explorer'
+  fullPaths:
+    | '/'
+    | '/assessment'
+    | '/en'
+    | '/explorer'
+    | '/request'
+    | '/en/assessment'
+    | '/en/request'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/en' | '/explorer'
-  id: '__root__' | '/' | '/en' | '/explorer'
+  to:
+    | '/'
+    | '/assessment'
+    | '/en'
+    | '/explorer'
+    | '/request'
+    | '/en/assessment'
+    | '/en/request'
+  id:
+    | '__root__'
+    | '/'
+    | '/assessment'
+    | '/en'
+    | '/explorer'
+    | '/request'
+    | '/en/assessment'
+    | '/en/request'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  EnRoute: typeof EnRoute
+  AssessmentRoute: typeof AssessmentRoute
+  EnRoute: typeof EnRouteWithChildren
   ExplorerRoute: typeof ExplorerRoute
+  RequestRoute: typeof RequestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -66,6 +126,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assessment': {
+      id: '/assessment'
+      path: '/assessment'
+      fullPath: '/assessment'
+      preLoaderRoute: typeof AssessmentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en': {
@@ -82,13 +149,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExplorerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/request': {
+      id: '/request'
+      path: '/request'
+      fullPath: '/request'
+      preLoaderRoute: typeof RequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/assessment': {
+      id: '/en/assessment'
+      path: '/assessment'
+      fullPath: '/en/assessment'
+      preLoaderRoute: typeof EnAssessmentRouteImport
+      parentRoute: typeof EnRoute
+    }
+    '/en/request': {
+      id: '/en/request'
+      path: '/request'
+      fullPath: '/en/request'
+      preLoaderRoute: typeof EnRequestRouteImport
+      parentRoute: typeof EnRoute
+    }
   }
 }
 
+interface EnRouteChildren {
+  EnAssessmentRoute: typeof EnAssessmentRoute
+  EnRequestRoute: typeof EnRequestRoute
+}
+
+const EnRouteChildren: EnRouteChildren = {
+  EnAssessmentRoute: EnAssessmentRoute,
+  EnRequestRoute: EnRequestRoute,
+}
+
+const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  EnRoute: EnRoute,
+  AssessmentRoute: AssessmentRoute,
+  EnRoute: EnRouteWithChildren,
   ExplorerRoute: ExplorerRoute,
+  RequestRoute: RequestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
