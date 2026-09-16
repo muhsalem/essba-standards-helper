@@ -5,7 +5,7 @@ import standardHtml from "@/content/ssesba/standard.body.html?raw";
 import standardScript from "@/content/ssesba/standard.js?raw";
 import "@/content/ssesba/standard.css";
 
-const title = "مِشْق — المعايير الشرعية للقطاعات الاقتصادية وأنشطة الأعمال";
+const title = "مِشْق (SSESBA) — المعايير الشرعية للقطاعات الاقتصادية وأنشطة الأعمال";
 const description =
   "إطارٌ معياريٌّ موحّد يصنّف القطاعات والأنشطة الاقتصادية ويقيس امتثالها الشرعي بمنهجيةٍ مُرجّحةٍ شفّافة، على ظهر ISIC Rev.4 ومعايير AAOIFI وقرارات مجامع الفقه.";
 
