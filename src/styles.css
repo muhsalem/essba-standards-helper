@@ -65,6 +65,12 @@
   --color-brand-gold-soft: var(--brand-gold-soft);
   --color-brand-paper: var(--brand-paper);
   --color-brand-parchment: var(--brand-parchment);
+  --color-brand-emerald: var(--brand-emerald);
+  --color-brand-emerald-soft: var(--brand-emerald-soft);
+  --font-display-ar: "Amiri", serif;
+  --font-body-ar: "IBM Plex Sans Arabic", sans-serif;
+  --font-display-en: "Spectral", serif;
+  --font-body-en: "Fira Sans", sans-serif;
 }
 
 :root {
@@ -107,6 +113,8 @@
   --brand-gold-soft: oklch(0.77 0.105 78);
   --brand-paper: oklch(0.985 0.009 89);
   --brand-parchment: oklch(0.945 0.021 88);
+  --brand-emerald: oklch(0.43 0.073 166);
+  --brand-emerald-soft: oklch(0.89 0.035 166);
 }
 
 .dark {
@@ -152,5 +160,22 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-body-ar);
+    letter-spacing: 0;
   }
+
+  html[lang="en"] body { font-family: var(--font-body-en); }
+
+  h1, h2, h3 { font-family: var(--font-display-ar); letter-spacing: 0; }
+  html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3 { font-family: var(--font-display-en); }
+}
+
+@utility brand-rule {
+  background: linear-gradient(90deg, transparent, var(--brand-gold), transparent);
+}
+
+@utility brand-surface {
+  background-color: var(--brand-paper);
+  background-image: linear-gradient(color-mix(in oklab, var(--brand-navy) 3%, transparent) 1px, transparent 1px);
+  background-size: 100% 2.75rem;
 }
