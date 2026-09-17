@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, Building2, CheckCircle2, Sparkles } from "lucide-react";
 import { SiteShell } from "./SiteShell";
@@ -13,12 +13,15 @@ import {
   axes, brand, calculateAssessment, copy, gateChecks, structuralFailureThreshold,
   type AssessmentMode, type GateState, type Lang, type RiskTier,
 } from "@/lib/ssesba-data";
-import { suggestHospitalAssessment } from "@/lib/ssesba.functions";
+import { getAssessmentExamples, suggestHospitalAssessment } from "@/lib/ssesba.functions";
+
+type Example = Awaited<ReturnType<typeof getAssessmentExamples>>[number];
 
 const labels = {
   ar: {
-    title: "تقييم مستشفى نموذجي", eyebrow: "تطبيق واقعي تفاعلي",
-    desc: "مستشفى عام يقدم خدمات علاجية وتشخيصية وصيدلية. راجع اختبارات الأهلية المستقلة أولًا، ثم عدّل درجات المحاور وفق الأدلة المتاحة.",
+    title: "تقييم نماذج قطاعية واقعية", eyebrow: "تطبيق واقعي تفاعلي",
+    desc: "اختر نموذج قطاع واقعيًا، فتُطبَّق بوادر الأهلية ودرجات المحاور تلقائيًا وتظهر النتيجة فورًا. راجع اختبارات الأهلية المستقلة أولًا، ثم عدّل درجات المحاور وفق الأدلة المتاحة.",
+    model: "نموذج القطاع", loadingModels: "جاري تحميل النماذج…", reset: "إعادة تعيين النموذج",
     gate: "بوابة الأهلية", gateNote: "اختبارات ملزمة مستقلة؛ تخلّف أي اختبار يُسقط الأهلية ولا تعوّضه درجات المحاور.",
     gateFailed: "تخلّف اختبار أهلية واحد أو أكثر:", risk: "مستوى المخاطر الشرعية",
     riskNote: "يحدده المراجع المختص؛ لا يستنتجه النظام آليًا.", result: "النتيجة المركبة",
@@ -30,8 +33,9 @@ const labels = {
     how: "كيف تُقرأ النتيجة: تُطبَّق بوابة الأهلية أولًا، ثم يُحسب متوسط مرجّح للمحاور الستة، وتُترجم الدرجة إلى نطاق، ثم يُدمج النطاق مع مستوى المخاطر S1–S4 في مصفوفة المعيار للوصول إلى الحكم.",
   },
   en: {
-    title: "Sample hospital assessment", eyebrow: "Interactive real-world application",
-    desc: "A general hospital providing clinical, diagnostic, and pharmacy services. Review the independent eligibility tests first, then adjust each axis using available evidence.",
+    title: "Real sector model assessments", eyebrow: "Interactive real-world application",
+    desc: "Pick a real sector model; its eligibility gate and axis scores load automatically and the result appears instantly. Review the independent eligibility tests first, then adjust each axis using available evidence.",
+    model: "Sector model", loadingModels: "Loading models…", reset: "Reset model",
     gate: "Eligibility gate", gateNote: "Independent binding tests; failing any one removes eligibility and cannot be offset by axis scores.",
     gateFailed: "One or more eligibility tests failed:", risk: "Shariah risk tier",
     riskNote: "Selected by a qualified reviewer; the system does not infer it automatically.", result: "Combined result",
@@ -56,9 +60,42 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
   const [aiNote, setAiNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [examples, setExamples] = useState<Example[]>([]);
+  const [exampleId, setExampleId] = useState("");
   const suggest = useServerFn(suggestHospitalAssessment);
+  const loadExamples = useServerFn(getAssessmentExamples);
   const result = useMemo(() => calculateAssessment(scores, gate, risk), [scores, gate, risk]);
   const failed = gateChecks.filter((c) => gate[c.id] !== true);
+  const current = examples.find((e) => e.id === exampleId);
+
+  function applyExample(example: Example) {
+    setExampleId(example.id);
+    setGate(Object.fromEntries(gateChecks.map((c) => [c.id, (example.gate_state as GateState)?.[c.id] === true])));
+    const raw = (example.scores ?? {}) as Record<string, number>;
+    setScores(Object.fromEntries(axes.map((a) => [a.id, Number(raw[a.id] ?? 0)])));
+    setRisk((example.risk_tier as RiskTier) ?? "S2");
+    setDescription(lang === "ar" ? example.description_ar : example.description_en);
+    setAiNote("");
+  }
+
+  useEffect(() => {
+    let active = true;
+    loadExamples()
+      .then((rows) => {
+        if (!active || rows.length === 0) return;
+        setExamples(rows);
+        const first = rows[0]!;
+        setExampleId(first.id);
+        setGate(Object.fromEntries(gateChecks.map((c) => [c.id, (first.gate_state as GateState)?.[c.id] === true])));
+        const raw = (first.scores ?? {}) as Record<string, number>;
+        setScores(Object.fromEntries(axes.map((a) => [a.id, Number(raw[a.id] ?? 0)])));
+        setRisk((first.risk_tier as RiskTier) ?? "S2");
+        setDescription(lang === "ar" ? first.description_ar : first.description_en);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load sector models"));
+    return () => { active = false; };
+  }, [loadExamples, lang]);
+
 
   async function runAI() {
     setBusy(true); setError("");
@@ -79,9 +116,16 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
         <div className="mb-8 flex flex-col justify-between gap-5 border-b pb-8 md:flex-row md:items-end">
           <div className="max-w-3xl">
             <div className="mb-3 flex items-center gap-2 text-brand-gold">
-              <Building2 /><span className="font-semibold">{lang === "ar" ? "الرعاية الصحية · ISIC 8610" : "Healthcare · ISIC 8610"}</span>
+              <Building2 /><span className="font-semibold">{current ? `${lang === "ar" ? current.activity_ar : current.activity_en} · ${current.isic_code}` : t.loadingModels}</span>
             </div>
-            <p className="leading-7 text-muted-foreground">{t.desc}</p>
+            <div className="mb-4 max-w-sm">
+              <Label>{t.model}</Label>
+              <Select value={exampleId} onValueChange={(v) => { const e = examples.find((x) => x.id === v); if (e) applyExample(e); }}>
+                <SelectTrigger className="mt-2"><SelectValue placeholder={t.loadingModels} /></SelectTrigger>
+                <SelectContent>{examples.map((e) => <SelectItem key={e.id} value={e.id}>{lang === "ar" ? e.title_ar : e.title_en}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
+            <p className="leading-7 text-muted-foreground">{current ? (lang === "ar" ? current.description_ar : current.description_en) : t.desc}</p>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">{brand[lang].short} — {brand[lang].full}</p>
           </div>
           <Tabs value={mode} onValueChange={(v) => setMode(v as AssessmentMode)}>
