@@ -29,6 +29,11 @@ export const getStandardSections = createServerFn({ method: "GET" }).handler(asy
   if (error) throw new Error(error.message); return data;
 });
 
+export const getAssessmentExamples = createServerFn({ method: "GET" }).handler(async () => {
+  const { data, error } = await publicClient().from("assessment_examples").select("id,sector_key,isic_code,title_ar,title_en,activity_ar,activity_en,description_ar,description_en,gate_state,scores,risk_tier,sort_order").eq("is_published", true).order("sort_order");
+  if (error) throw new Error(error.message); return data;
+});
+
 export const submitAssessmentRequest = createServerFn({ method: "POST" }).inputValidator((input: unknown) => requestSchema.parse(input)).handler(async ({ data }) => {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: row, error } = await supabaseAdmin.from("assessment_requests").insert({ client_name: data.clientName, organization_name: data.organizationName, email: data.email, phone: data.phone || null, country: data.country || null, sector: data.sector, activity: data.activity, assessment_type: data.assessmentType, notes: data.notes || null, preferred_language: data.preferredLanguage }).select("reference_code").single();
