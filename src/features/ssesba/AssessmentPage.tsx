@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, Building2, CheckCircle2, Sparkles } from "lucide-react";
 import { SiteShell } from "./SiteShell";
@@ -13,7 +13,9 @@ import {
   axes, brand, calculateAssessment, copy, gateChecks, structuralFailureThreshold,
   type AssessmentMode, type GateState, type Lang, type RiskTier,
 } from "@/lib/ssesba-data";
-import { suggestHospitalAssessment } from "@/lib/ssesba.functions";
+import { getAssessmentExamples, suggestHospitalAssessment } from "@/lib/ssesba.functions";
+
+type Example = Awaited<ReturnType<typeof getAssessmentExamples>>[number];
 
 const labels = {
   ar: {
