@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { StandardContentPage } from "@/features/ssesba/StandardContentPage";
+import { LegacyHtmlPage } from "@/components/LegacyHtmlPage";
+import standardEnglishHtml from "@/content/ssesba/standard.en.body.html?raw";
+import standardScript from "@/content/ssesba/standard.js?raw";
+import "@/content/ssesba/standard.css";
 
-const title = "MASHTAQ · SSEBA — Shariah Classification Standards";
+const title = "SSESBA — Shariah Standards for Economic Sectors & Business Activities";
 const description =
   "A unified reference framework for classifying economic sectors and measuring Shariah compliance across business activities.";
 
@@ -23,5 +26,13 @@ export const Route = createFileRoute("/en")({
 });
 
 function EnglishStandardPage() {
-  return <StandardContentPage lang="en" />;
+  return (
+    <LegacyHtmlPage
+      html={standardEnglishHtml}
+      script={standardScript}
+      className="standard-page"
+      lang="en"
+      dir="ltr"
+    />
+  );
 }

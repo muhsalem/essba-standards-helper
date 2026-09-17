@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, Building2, CheckCircle2, Save, Sparkles } from "lucide-react";
+import { AlertTriangle, Building2, CheckCircle2, Sparkles } from "lucide-react";
 import { SiteShell } from "./SiteShell";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,9 +13,7 @@ import {
   axes, brand, calculateAssessment, copy, gateChecks, structuralFailureThreshold,
   type AssessmentMode, type GateState, type Lang, type RiskTier,
 } from "@/lib/ssesba-data";
-import { getAssessmentCatalog, suggestHospitalAssessment } from "@/lib/ssesba.functions";
-import { supabase } from "@/integrations/supabase/client";
-import type { Json } from "@/integrations/supabase/types";
+import { suggestHospitalAssessment } from "@/lib/ssesba.functions";
 
 const labels = {
   ar: {
@@ -30,7 +28,6 @@ const labels = {
     band: "النطاق", weight: "الوزن", structural: "إخفاق بنيوي: الدرجة أقل من 45.",
     flagged: "محاور دون 45 تستوجب مراجعة الأدلة (تنبيه فقط؛ لا يوجد حدٌّ أدنى معتمد لكل محور في هذه النسخة):",
     how: "كيف تُقرأ النتيجة: تُطبَّق بوابة الأهلية أولًا، ثم يُحسب متوسط مرجّح للمحاور الستة، وتُترجم الدرجة إلى نطاق، ثم يُدمج النطاق مع مستوى المخاطر S1–S4 في مصفوفة المعيار للوصول إلى الحكم.",
-    example: "اختر نموذج قطاع واقعي", save: "حفظ النتيجة", saved: "حُفظت النتيجة برقم",
   },
   en: {
     title: "Sample hospital assessment", eyebrow: "Interactive real-world application",
@@ -44,7 +41,6 @@ const labels = {
     band: "Band", weight: "Weight", structural: "Structural failure: score below 45.",
     flagged: "Axes below 45 require evidence review (advisory only; this version defines no approved per-axis floor):",
     how: "Reading the result: the eligibility gate applies first, then the six axes are combined into a weighted score, the score resolves into a band, and the band is combined with the S1–S4 risk tier in the standard's matrix to reach the verdict.",
-    example: "Choose a real-sector example", save: "Save result", saved: "Result saved as",
   },
 } as const;
 
@@ -60,19 +56,9 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
   const [aiNote, setAiNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [examples, setExamples] = useState<Awaited<ReturnType<typeof getAssessmentCatalog>>["examples"]>([]);
-  const [selectedExample, setSelectedExample] = useState("healthcare");
-  const [savedReference, setSavedReference] = useState("");
   const suggest = useServerFn(suggestHospitalAssessment);
-  const getCatalog = useServerFn(getAssessmentCatalog);
   const result = useMemo(() => calculateAssessment(scores, gate, risk), [scores, gate, risk]);
   const failed = gateChecks.filter((c) => gate[c.id] !== true);
-
-  useEffect(() => { getCatalog().then((catalog) => setExamples(catalog.examples)).catch(() => undefined); }, [getCatalog]);
-
-  function applyExample(key:string){const example=examples.find((item)=>item.sector_key===key);if(!example)return;setSelectedExample(key);setDescription(lang==="ar"?example.description_ar:example.description_en);setRisk(example.risk_tier as RiskTier);setGate(example.gate_state as GateState);setScores(example.scores as Record<string,number>);setSavedReference("");}
-
-  async function saveResult(){setBusy(true);setError("");try{const{data:{user}}=await supabase.auth.getUser();const example=examples.find((item)=>item.sector_key===selectedExample);const{data,error:saveError}=await supabase.from("assessment_results").insert({owner_user_id:user?.id??null,organization_name:null,sector_key:selectedExample,activity_name:example?(lang==="ar"?example.activity_ar:example.activity_en):"General assessment",assessment_mode:mode,gate_state:gate as Json,scores:scores as Json,risk_tier:risk,weighted_score:result.score,result_band:result.band,verdict:result.verdict,is_eligible:!result.ineligible,notes:description}).select("reference_code").single();if(saveError)throw saveError;setSavedReference(data.reference_code);}catch(e){setError(e instanceof Error?e.message:"Save failed");}finally{setBusy(false);}}
 
   async function runAI() {
     setBusy(true); setError("");
@@ -106,7 +92,6 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
             </TabsList>
           </Tabs>
         </div>
-        {examples.length>0&&<div className="mb-8 max-w-xl"><Label>{t.example}</Label><Select value={selectedExample} onValueChange={applyExample}><SelectTrigger className="mt-2 h-11 bg-card"><SelectValue/></SelectTrigger><SelectContent>{examples.map((item)=><SelectItem key={item.id} value={item.sector_key}>{lang==="ar"?item.title_ar:item.title_en} · {item.isic_code}</SelectItem>)}</SelectContent></Select></div>}
 
         <div className="grid gap-8 lg:grid-cols-[1.25fr_.75fr]">
           <section className="space-y-7">
@@ -193,9 +178,6 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                 )}
                 <p className="border-t pt-4 text-xs leading-5 text-muted-foreground">{t.how}</p>
                 <p className="text-xs leading-5 text-muted-foreground">{copy[lang].advisory}</p>
-                <Button onClick={saveResult} disabled={busy} className="w-full bg-brand-emerald text-primary-foreground"><Save/>{t.save}</Button>
-                {savedReference&&<p className="text-center text-sm font-semibold text-brand-emerald">{t.saved}: {savedReference}</p>}
-                {error&&<p className="text-sm text-destructive">{error}</p>}
               </div>
             </div>
           </aside>
