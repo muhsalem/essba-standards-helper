@@ -116,9 +116,16 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
         <div className="mb-8 flex flex-col justify-between gap-5 border-b pb-8 md:flex-row md:items-end">
           <div className="max-w-3xl">
             <div className="mb-3 flex items-center gap-2 text-brand-gold">
-              <Building2 /><span className="font-semibold">{lang === "ar" ? "الرعاية الصحية · ISIC 8610" : "Healthcare · ISIC 8610"}</span>
+              <Building2 /><span className="font-semibold">{current ? `${lang === "ar" ? current.activity_ar : current.activity_en} · ${current.isic_code}` : t.loadingModels}</span>
             </div>
-            <p className="leading-7 text-muted-foreground">{t.desc}</p>
+            <div className="mb-4 max-w-sm">
+              <Label>{t.model}</Label>
+              <Select value={exampleId} onValueChange={(v) => { const e = examples.find((x) => x.id === v); if (e) applyExample(e); }}>
+                <SelectTrigger className="mt-2"><SelectValue placeholder={t.loadingModels} /></SelectTrigger>
+                <SelectContent>{examples.map((e) => <SelectItem key={e.id} value={e.id}>{lang === "ar" ? e.title_ar : e.title_en}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
+            <p className="leading-7 text-muted-foreground">{current ? (lang === "ar" ? current.description_ar : current.description_en) : t.desc}</p>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">{brand[lang].short} — {brand[lang].full}</p>
           </div>
           <Tabs value={mode} onValueChange={(v) => setMode(v as AssessmentMode)}>
