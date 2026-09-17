@@ -60,9 +60,42 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
   const [aiNote, setAiNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [examples, setExamples] = useState<Example[]>([]);
+  const [exampleId, setExampleId] = useState("");
   const suggest = useServerFn(suggestHospitalAssessment);
+  const loadExamples = useServerFn(getAssessmentExamples);
   const result = useMemo(() => calculateAssessment(scores, gate, risk), [scores, gate, risk]);
   const failed = gateChecks.filter((c) => gate[c.id] !== true);
+  const current = examples.find((e) => e.id === exampleId);
+
+  function applyExample(example: Example) {
+    setExampleId(example.id);
+    setGate(Object.fromEntries(gateChecks.map((c) => [c.id, (example.gate_state as GateState)?.[c.id] === true])));
+    const raw = (example.scores ?? {}) as Record<string, number>;
+    setScores(Object.fromEntries(axes.map((a) => [a.id, Number(raw[a.id] ?? 0)])));
+    setRisk((example.risk_tier as RiskTier) ?? "S2");
+    setDescription(lang === "ar" ? example.description_ar : example.description_en);
+    setAiNote("");
+  }
+
+  useEffect(() => {
+    let active = true;
+    loadExamples()
+      .then((rows) => {
+        if (!active || rows.length === 0) return;
+        setExamples(rows);
+        const first = rows[0]!;
+        setExampleId(first.id);
+        setGate(Object.fromEntries(gateChecks.map((c) => [c.id, (first.gate_state as GateState)?.[c.id] === true])));
+        const raw = (first.scores ?? {}) as Record<string, number>;
+        setScores(Object.fromEntries(axes.map((a) => [a.id, Number(raw[a.id] ?? 0)])));
+        setRisk((first.risk_tier as RiskTier) ?? "S2");
+        setDescription(lang === "ar" ? first.description_ar : first.description_en);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load sector models"));
+    return () => { active = false; };
+  }, [loadExamples, lang]);
+
 
   async function runAI() {
     setBusy(true); setError("");
