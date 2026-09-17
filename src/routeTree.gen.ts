@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EnRouteImport } from './routes/en'
 import { Route as ExplorerRouteImport } from './routes/explorer'
 import { Route as RequestRouteImport } from './routes/request'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as EnAssessmentRouteImport } from './routes/en.assessment'
 import { Route as EnRequestRouteImport } from './routes/en.request'
 
@@ -22,9 +25,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnRoute = EnRouteImport.update({
@@ -42,6 +54,11 @@ const RequestRoute = RequestRouteImport.update({
   path: '/request',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const EnAssessmentRoute = EnAssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
@@ -56,28 +73,35 @@ const EnRequestRoute = EnRequestRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/auth': typeof AuthRoute
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/request': typeof EnRequestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/auth': typeof AuthRoute
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/request': typeof EnRequestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/assessment': typeof AssessmentRoute
+  '/auth': typeof AuthRoute
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/request': typeof EnRequestRoute
 }
@@ -86,34 +110,43 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/assessment'
+    | '/auth'
     | '/en'
     | '/explorer'
     | '/request'
+    | '/admin'
     | '/en/assessment'
     | '/en/request'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/assessment'
+    | '/auth'
     | '/en'
     | '/explorer'
     | '/request'
+    | '/admin'
     | '/en/assessment'
     | '/en/request'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/assessment'
+    | '/auth'
     | '/en'
     | '/explorer'
     | '/request'
+    | '/_authenticated/admin'
     | '/en/assessment'
     | '/en/request'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AssessmentRoute: typeof AssessmentRoute
+  AuthRoute: typeof AuthRoute
   EnRoute: typeof EnRouteWithChildren
   ExplorerRoute: typeof ExplorerRoute
   RequestRoute: typeof RequestRoute
@@ -128,11 +161,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessment': {
       id: '/assessment'
       path: '/assessment'
       fullPath: '/assessment'
       preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en': {
@@ -156,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/en/assessment': {
       id: '/en/assessment'
       path: '/assessment'
@@ -173,6 +227,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 interface EnRouteChildren {
   EnAssessmentRoute: typeof EnAssessmentRoute
   EnRequestRoute: typeof EnRequestRoute
@@ -187,7 +252,9 @@ const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AssessmentRoute: AssessmentRoute,
+  AuthRoute: AuthRoute,
   EnRoute: EnRouteWithChildren,
   ExplorerRoute: ExplorerRoute,
   RequestRoute: RequestRoute,
