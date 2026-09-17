@@ -3,72 +3,31 @@ import { streamText } from "ai";
 import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createLovableResponsesProvider } from "@/lib/ai-gateway.server";
 
-const requestSchema = z.object({
-  clientName: z.string().trim().min(2).max(120), organizationName: z.string().trim().min(2).max(160),
-  email: z.string().trim().email().max(255), phone: z.string().trim().max(30).optional(), country: z.string().trim().max(100).optional(),
-  sector: z.string().trim().min(2).max(160), activity: z.string().trim().min(2).max(240),
-  assessmentType: z.enum(["expert", "self", "ai_review"]), notes: z.string().trim().max(2000).optional(), preferredLanguage: z.enum(["ar", "en"]),
-});
-const translationSchema = z.object({ sectionId: z.string().uuid(), titleAr: z.string().trim().min(2).max(300), bodyAr: z.string().trim().min(10).max(12000) });
-const updateSchema = translationSchema.extend({ titleEn: z.string().trim().min(2).max(300), bodyEn: z.string().trim().min(10).max(12000), note: z.string().trim().max(500).optional() });
-const aiAssessmentSchema = z.object({ description: z.string().trim().min(20).max(6000) });
+const requestSchema = z.object({ clientName:z.string().trim().min(2).max(120), organizationName:z.string().trim().min(2).max(160), email:z.string().trim().email().max(255), phone:z.string().trim().max(30).optional(), country:z.string().trim().max(100).optional(), sector:z.string().trim().min(2).max(160), activity:z.string().trim().min(2).max(240), assessmentType:z.enum(["expert","self","ai_review"]), notes:z.string().trim().max(2000).optional(), preferredLanguage:z.enum(["ar","en"]) });
+const translationSchema = z.object({ sectionId:z.string().uuid(), titleAr:z.string().trim().min(2).max(300), bodyAr:z.string().trim().min(10).max(12000) });
+const updateSchema = translationSchema.extend({ titleEn:z.string().trim().min(2).max(300), bodyEn:z.string().trim().min(10).max(12000), note:z.string().trim().max(500).optional() });
+const gateUpdateSchema = z.object({ id:z.string().uuid(), labelAr:z.string().trim().min(2).max(300), labelEn:z.string().trim().min(2).max(300), guidanceAr:z.string().trim().max(1200).optional(), guidanceEn:z.string().trim().max(1200).optional() });
+const aiAssessmentSchema = z.object({ description:z.string().trim().min(20).max(6000) });
 
-function publicClient() {
-  const url = process.env['SUPABASE_URL']; const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
-  if (!url || !key) throw new Error("Cloud configuration is unavailable");
-  return createClient<Database>(url, key, { auth: { persistSession: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_')) headers.delete('Authorization'); headers.set('apikey', key); return fetch(input, { ...init, headers }); } } });
-}
-function assertPreviewAdmin() { if (!import.meta.env.DEV) throw new Error("Admin editing is locked on the published site until secure sign-in is enabled."); }
-function aiKey() { const key = process.env['LOVABLE_API_KEY']; if (!key) throw new Error("Lovable AI is not configured."); return key; }
-function gatewayMessage(error: unknown) { return error instanceof Error ? error.message : "Lovable AI request failed."; }
+function publicClient(){const url=process.env['SUPABASE_URL'];const key=process.env['SUPABASE_PUBLISHABLE_KEY'];if(!url||!key)throw new Error("Cloud configuration is unavailable");return createClient<Database>(url,key,{auth:{storage:undefined,persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>{const headers=new Headers(init?.headers);if(key.startsWith('sb_'))headers.delete('Authorization');headers.set('apikey',key);return fetch(input,{...init,headers})}}});}
+function aiKey(){const key=process.env['LOVABLE_API_KEY'];if(!key)throw new Error("Lovable AI is not configured.");return key;}
+function gatewayMessage(error:unknown){return error instanceof Error?error.message:"Lovable AI request failed.";}
 
-export const getStandardSections = createServerFn({ method: "GET" }).handler(async () => {
-  const { data, error } = await publicClient().from("standard_sections").select("id,section_key,sort_order,title_ar,title_en,body_ar,body_en,translation_status,translated_at,updated_at").eq("is_published", true).order("sort_order");
-  if (error) throw new Error(error.message); return data;
-});
+export const getStandardSections=createServerFn({method:"GET"}).handler(async()=>{const{data,error}=await publicClient().from("standard_sections").select("id,section_key,sort_order,title_ar,title_en,body_ar,body_en,translation_status,translated_at,updated_at").eq("is_published",true).order("sort_order");if(error)throw new Error(error.message);return data;});
 
-export const submitAssessmentRequest = createServerFn({ method: "POST" }).inputValidator((input: unknown) => requestSchema.parse(input)).handler(async ({ data }) => {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data: row, error } = await supabaseAdmin.from("assessment_requests").insert({ client_name: data.clientName, organization_name: data.organizationName, email: data.email, phone: data.phone || null, country: data.country || null, sector: data.sector, activity: data.activity, assessment_type: data.assessmentType, notes: data.notes || null, preferred_language: data.preferredLanguage }).select("reference_code").single();
-  if (error) throw new Error(error.message); return row;
-});
+export const getAssessmentCatalog=createServerFn({method:"GET"}).handler(async()=>{const client=publicClient();const[{data:examples,error:examplesError},{data:checks,error:checksError}]=await Promise.all([client.from("assessment_examples").select("*").eq("is_published",true).order("sort_order"),client.from("eligibility_gate_checks").select("*").eq("is_published",true).order("sort_order")]);if(examplesError||checksError)throw new Error(examplesError?.message||checksError?.message);return{examples:examples??[],checks:checks??[]};});
 
-export const translateStandardSection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => translationSchema.parse(input)).handler(async ({ data }) => {
-  assertPreviewAdmin(); const gateway = createLovableResponsesProvider(aiKey());
-  try {
-    const result = streamText({ model: gateway.model, maxRetries: 0, system: "You are a senior Arabic-English translator specializing in Islamic finance and Shariah standards. Preserve exact percentages, thresholds, proper names, and normative force. Return exactly two lines: TITLE: ... and BODY: ... with no markdown.", prompt: `Translate accurately into formal professional English.\nArabic title: ${data.titleAr}\nArabic body: ${data.bodyAr}`, providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } } });
-    const text = await result.text; const title = text.match(/^TITLE:\s*(.+)$/m)?.[1]?.trim(); const body = text.match(/^BODY:\s*([\s\S]+)$/m)?.[1]?.trim();
-    if (!title || !body) throw new Error("The translation response was incomplete.");
-    return { title, body, runId: gateway.getRunId() };
-  } catch (error) { throw new Error(gatewayMessage(error)); }
-});
+export const submitAssessmentRequest=createServerFn({method:"POST"}).inputValidator((input:unknown)=>requestSchema.parse(input)).handler(async({data})=>{const{supabaseAdmin}=await import("@/integrations/supabase/client.server");const{data:row,error}=await supabaseAdmin.from("assessment_requests").insert({client_name:data.clientName,organization_name:data.organizationName,email:data.email,phone:data.phone||null,country:data.country||null,sector:data.sector,activity:data.activity,assessment_type:data.assessmentType,notes:data.notes||null,preferred_language:data.preferredLanguage}).select("reference_code").single();if(error)throw new Error(error.message);return row;});
 
-export const suggestHospitalAssessment = createServerFn({ method: "POST" }).inputValidator((input: unknown) => aiAssessmentSchema.parse(input)).handler(async ({ data }) => {
-  const gateway = createLovableResponsesProvider(aiKey());
-  try {
-    const result = streamText({ model: gateway.model, maxRetries: 0, system: "You assist a qualified Shariah reviewer using SSESBA. Never issue a final fatwa. Analyze only the supplied hospital business description. Propose six integer scores from 0 to 100 for contracts, revenues, financing, operations, governance, disclosure. Return one line only: SCORES: contracts,revenues,financing,operations,governance,disclosure | NOTE: concise Arabic rationale. Do not infer a risk tier.", prompt: data.description, providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } } });
-    const text = await result.text; const match = text.match(/SCORES:\s*([0-9,\s]+)/i); const values = match?.[1]?.split(',').map((v) => Math.max(0, Math.min(100, Number.parseInt(v.trim(), 10))));
-    if (!values || values.length !== 6 || values.some(Number.isNaN)) throw new Error("The AI assessment response was incomplete.");
-    return { scores: values, note: text.match(/NOTE:\s*(.+)$/is)?.[1]?.trim() ?? "", runId: gateway.getRunId() };
-  } catch (error) { throw new Error(gatewayMessage(error)); }
-});
+export const translateStandardSection=createServerFn({method:"POST"}).middleware([requireSupabaseAuth]).inputValidator((input:unknown)=>translationSchema.parse(input)).handler(async({data,context})=>{const{data:role}=await context.supabase.from("user_roles").select("role").eq("user_id",context.userId).eq("role","admin").maybeSingle();if(!role)throw new Error("Admin access required");const gateway=createLovableResponsesProvider(aiKey());try{const result=streamText({model:gateway.model,maxRetries:0,system:"You are a senior Arabic-English translator specializing in Islamic finance and Shariah standards. Preserve exact percentages, thresholds, names, and normative force. Return exactly two lines: TITLE: ... and BODY: ... with no markdown.",prompt:`Translate accurately into formal professional English.\nArabic title: ${data.titleAr}\nArabic body: ${data.bodyAr}`,providerOptions:{openai:{store:false,forceReasoning:true,reasoningEffort:"medium",reasoningSummary:"auto",include:["reasoning.encrypted_content"]}}});const text=await result.text;const title=text.match(/^TITLE:\s*(.+)$/m)?.[1]?.trim();const body=text.match(/^BODY:\s*([\s\S]+)$/m)?.[1]?.trim();if(!title||!body)throw new Error("The translation response was incomplete.");return{title,body,runId:gateway.getRunId()};}catch(error){throw new Error(gatewayMessage(error));}});
 
-export const updateStandardSection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => updateSchema.parse(input)).handler(async ({ data }) => {
-  assertPreviewAdmin(); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data: current, error: readError } = await supabaseAdmin.from("standard_sections").select("*").eq("id", data.sectionId).single();
-  if (readError) throw new Error(readError.message);
-  const { error: revisionError } = await supabaseAdmin.from("content_revisions").insert({ section_id: current.id, snapshot: current, change_note: data.note || "Content updated" });
-  if (revisionError) throw new Error(revisionError.message);
-  const { error } = await supabaseAdmin.from("standard_sections").update({ title_ar: data.titleAr, body_ar: data.bodyAr, title_en: data.titleEn, body_en: data.bodyEn, translation_status: "approved", translated_at: new Date().toISOString() }).eq("id", data.sectionId);
-  if (error) throw new Error(error.message); return { ok: true };
-});
+export const suggestHospitalAssessment=createServerFn({method:"POST"}).middleware([requireSupabaseAuth]).inputValidator((input:unknown)=>aiAssessmentSchema.parse(input)).handler(async({data,context})=>{const since=new Date(Date.now()-60*60*1000).toISOString();const{count}=await context.supabase.from("ai_usage_events").select("id",{count:"exact",head:true}).eq("user_id",context.userId).eq("request_kind","assessment").gte("created_at",since);if((count??0)>=10)throw new Error("تم بلوغ الحد المؤقت للتحليلات؛ حاول لاحقًا.");await context.supabase.from("ai_usage_events").insert({user_id:context.userId,request_kind:"assessment"});const gateway=createLovableResponsesProvider(aiKey());try{const result=streamText({model:gateway.model,maxRetries:0,system:"You assist a qualified Shariah reviewer using MASHTAQ SSEBA. Never issue a final fatwa. Propose six integer scores from 0 to 100 for contracts, revenues, financing, operations, governance, disclosure. Return one line only: SCORES: contracts,revenues,financing,operations,governance,disclosure | NOTE: concise Arabic rationale. Do not infer a risk tier.",prompt:data.description,providerOptions:{openai:{store:false,forceReasoning:true,reasoningEffort:"medium",reasoningSummary:"auto",include:["reasoning.encrypted_content"]}}});const text=await result.text;const match=text.match(/SCORES:\s*([0-9,\s]+)/i);const values=match?.[1]?.split(',').map(v=>Math.max(0,Math.min(100,Number.parseInt(v.trim(),10))));if(!values||values.length!==6||values.some(Number.isNaN))throw new Error("The AI assessment response was incomplete.");return{scores:values,note:text.match(/NOTE:\s*(.+)$/is)?.[1]?.trim()??"",runId:gateway.getRunId()};}catch(error){throw new Error(gatewayMessage(error));}});
 
-export const getAdminData = createServerFn({ method: "GET" }).handler(async () => {
-  assertPreviewAdmin(); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const [{ data: sections, error: sectionError }, { data: brand, error: brandError }, { data: revisions, error: revisionError }] = await Promise.all([
-    supabaseAdmin.from("standard_sections").select("*").order("sort_order"), supabaseAdmin.from("brand_settings").select("*").order("setting_key"), supabaseAdmin.from("content_revisions").select("id,section_id,change_note,created_at").order("created_at", { ascending: false }).limit(20),
-  ]);
-  if (sectionError || brandError || revisionError) throw new Error(sectionError?.message || brandError?.message || revisionError?.message); return { sections, brand, revisions };
-});
+export const getAdminData=createServerFn({method:"GET"}).middleware([requireSupabaseAuth]).handler(async({context})=>{const{data:role}=await context.supabase.from("user_roles").select("role").eq("user_id",context.userId).eq("role","admin").maybeSingle();if(!role)throw new Error("Admin access required");const[{data:sections,error:sectionError},{data:checks,error:checkError},{data:results,error:resultError},{data:profiles,error:profileError}]=await Promise.all([context.supabase.from("standard_sections").select("*").order("sort_order"),context.supabase.from("eligibility_gate_checks").select("*").order("sort_order"),context.supabase.from("assessment_results").select("*").order("created_at",{ascending:false}).limit(100),context.supabase.from("profiles").select("*").order("created_at",{ascending:false})]);if(sectionError||checkError||resultError||profileError)throw new Error(sectionError?.message||checkError?.message||resultError?.message||profileError?.message);return{sections:sections??[],checks:checks??[],results:results??[],profiles:profiles??[]};});
+
+export const updateStandardSection=createServerFn({method:"POST"}).middleware([requireSupabaseAuth]).inputValidator((input:unknown)=>updateSchema.parse(input)).handler(async({data,context})=>{const{data:current,error:readError}=await context.supabase.from("standard_sections").select("*").eq("id",data.sectionId).single();if(readError)throw new Error(readError.message);const{error:revisionError}=await context.supabase.from("content_revisions").insert({section_id:current.id,snapshot:current,change_note:data.note||"Content updated"});if(revisionError)throw new Error(revisionError.message);const{error}=await context.supabase.from("standard_sections").update({title_ar:data.titleAr,body_ar:data.bodyAr,title_en:data.titleEn,body_en:data.bodyEn,translation_status:"approved",translated_at:new Date().toISOString()}).eq("id",data.sectionId);if(error)throw new Error(error.message);await context.supabase.from("admin_audit_log").insert({actor_user_id:context.userId,action:"update_standard_section",target_type:"standard_section",target_id:data.sectionId});return{ok:true};});
+
+export const updateGateCheck=createServerFn({method:"POST"}).middleware([requireSupabaseAuth]).inputValidator((input:unknown)=>gateUpdateSchema.parse(input)).handler(async({data,context})=>{const{error}=await context.supabase.from("eligibility_gate_checks").update({label_ar:data.labelAr,label_en:data.labelEn,guidance_ar:data.guidanceAr||null,guidance_en:data.guidanceEn||null}).eq("id",data.id);if(error)throw new Error(error.message);await context.supabase.from("admin_audit_log").insert({actor_user_id:context.userId,action:"update_eligibility_gate",target_type:"eligibility_gate_check",target_id:data.id});return{ok:true};});
