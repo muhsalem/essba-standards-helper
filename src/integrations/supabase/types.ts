@@ -295,6 +295,45 @@ export type Database = {
           },
         ]
       }
+      eligibility_gate_checks: {
+        Row: {
+          check_key: string
+          created_at: string
+          guidance_ar: string | null
+          guidance_en: string | null
+          id: string
+          is_published: boolean
+          label_ar: string
+          label_en: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          check_key: string
+          created_at?: string
+          guidance_ar?: string | null
+          guidance_en?: string | null
+          id?: string
+          is_published?: boolean
+          label_ar: string
+          label_en: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          check_key?: string
+          created_at?: string
+          guidance_ar?: string | null
+          guidance_en?: string | null
+          id?: string
+          is_published?: boolean
+          label_ar?: string
+          label_en?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
