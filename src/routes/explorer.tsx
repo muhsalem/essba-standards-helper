@@ -5,7 +5,7 @@ import explorerHtml from "@/content/ssesba/explorer.body.html?raw";
 import explorerScript from "@/content/ssesba/explorer.js?raw";
 import "@/content/ssesba/explorer.css";
 
-const title = "مستكشف التصنيف الاقتصادي — SSESBA / GSCS";
+const title = "مستكشف التصنيف الاقتصادي — SSEBA / GSCS";
 const description =
   "استكشف عمود التصنيف من خمسة مستويات: القطاع الاقتصادي، الصناعة، القطاع الفرعي، النشاط الاقتصادي، والنشاط الفرعي، مع الأبعاد الوصفية والامتثال الشرعي.";
 
