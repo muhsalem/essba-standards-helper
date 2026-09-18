@@ -19,9 +19,9 @@
     --display:"Amiri","Times New Roman",serif;
     --body:"IBM Plex Sans Arabic",system-ui,sans-serif;
   }
-  html[lang="en"]{--display:"Spectral",serif;--body:"Inter",system-ui,sans-serif;}
+  html[lang="en"]{--display:"Spectral",serif;--body:"Fira Sans",system-ui,sans-serif;}
   .standard-page{--indigo-deep:var(--brand-navy);--indigo:var(--brand-navy-soft);--paper:var(--brand-paper);--parchment:var(--brand-parchment);--saffron:var(--brand-gold);--saffron-soft:var(--brand-gold-soft);--display:"Amiri","Times New Roman",serif;--body:"IBM Plex Sans Arabic",system-ui,sans-serif;font-family:var(--body);background:var(--paper);color:var(--ink);letter-spacing:0;}
-  html[lang="en"] .standard-page{--display:"Spectral",serif;--body:"Inter",system-ui,sans-serif;}
+  html[lang="en"] .standard-page{--display:"Spectral",serif;--body:"Fira Sans",system-ui,sans-serif;}
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}

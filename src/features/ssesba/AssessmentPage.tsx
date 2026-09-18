@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, Building2, CheckCircle2, Sparkles } from "lucide-react";
+import { AlertTriangle, Building2, CheckCircle2, ShieldAlert, Sparkles } from "lucide-react";
 import { SiteShell } from "./SiteShell";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -47,6 +47,13 @@ const labels = {
     how: "Reading the result: the eligibility gate applies first, then the six axes are combined into a weighted score, the score resolves into a band, and the band is combined with the S1–S4 risk tier in the standard's matrix to reach the verdict.",
   },
 } as const;
+
+function scoreTone(score: number) {
+  if (score >= 85) return "bg-brand-emerald-soft text-brand-emerald";
+  if (score >= 75) return "bg-brand-parchment text-brand-navy";
+  if (score >= structuralFailureThreshold) return "bg-brand-gold/20 text-brand-gold";
+  return "bg-destructive/10 text-destructive";
+}
 
 export function AssessmentPage({ lang }: { lang: Lang }) {
   const t = labels[lang];
@@ -141,7 +148,9 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
           <section className="space-y-7">
             <div className="rounded-md border bg-card p-5">
               <h2 className="text-base font-semibold">{t.gate}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{t.gateNote}</p>
+              <p className="mt-3 flex items-start gap-2 rounded-md border border-brand-gold/50 bg-brand-parchment p-3 text-sm font-medium leading-6 text-brand-navy">
+                <ShieldAlert className="mt-0.5 size-5 shrink-0 text-brand-gold" />{t.gateNote}
+              </p>
               <div className="mt-4 space-y-3">
                 {gateChecks.map((check) => (
                   <div key={check.id} className="flex items-start gap-3">
@@ -179,7 +188,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                         <h3 className="font-semibold">{axis[lang]}</h3>
                         <p className="text-xs text-muted-foreground">{t.weight} {axis.weight}%</p>
                       </div>
-                      <output className={`font-mono text-xl font-bold ${low ? "text-destructive" : "text-brand-navy"}`}>{score}</output>
+                      <output className={`rounded-md px-2.5 py-1 font-mono text-xl font-bold ${scoreTone(score)}`}>{score}</output>
                     </div>
                     <Slider value={[score]} max={100} step={1} onValueChange={(v) => setScores({ ...scores, [axis.id]: v[0] ?? 0 })} />
                   </div>
@@ -220,11 +229,18 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                     <p className="mt-1">{result.flagged.map((a) => a[lang]).join(lang === "ar" ? "، " : ", ")}</p>
                   </div>
                 )}
-                <p className="border-t pt-4 text-xs leading-5 text-muted-foreground">{t.how}</p>
-                <p className="text-xs leading-5 text-muted-foreground">{copy[lang].advisory}</p>
+                <p className="border-t pt-4 text-sm leading-6 text-foreground/80">{t.how}</p>
+                <p className="border-t pt-4 text-xs leading-5 font-medium text-brand-navy">{copy[lang].advisory}</p>
               </div>
             </div>
           </aside>
+        </div>
+      </div>
+      <div className="sticky bottom-0 z-40 border-t border-brand-gold/40 bg-brand-navy px-5 py-3 text-primary-foreground lg:hidden">
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-xs text-brand-gold-soft">{t.result}</span>
+          <span className="flex items-baseline gap-1"><strong className="font-mono text-2xl">{result.score}</strong><small className="text-xs">/100</small></span>
+          <span className="truncate text-sm font-semibold">{verdict}</span>
         </div>
       </div>
     </SiteShell>

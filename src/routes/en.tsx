@@ -5,7 +5,7 @@ import standardEnglishHtml from "@/content/ssesba/standard.en.body.html?raw";
 import standardScript from "@/content/ssesba/standard.js?raw";
 import "@/content/ssesba/standard.css";
 
-const title = "SSESBA — Shariah Standards for Economic Sectors & Business Activities";
+const title = "SSEBA — Shariah Standards for the Classification of Economic Sectors & Business Activities";
 const description =
   "A unified reference framework for classifying economic sectors and measuring Shariah compliance across business activities.";
 
