@@ -181,7 +181,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                         <h3 className="font-semibold">{axis[lang]}</h3>
                         <p className="text-xs text-muted-foreground">{t.weight} {axis.weight}%</p>
                       </div>
-                      <output className={`font-mono text-xl font-bold ${low ? "text-destructive" : "text-brand-navy"}`}>{score}</output>
+                      <output className={`rounded-md px-2.5 py-1 font-mono text-xl font-bold ${scoreTone(score)}`}>{score}</output>
                     </div>
                     <Slider value={[score]} max={100} step={1} onValueChange={(v) => setScores({ ...scores, [axis.id]: v[0] ?? 0 })} />
                   </div>
@@ -222,11 +222,18 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                     <p className="mt-1">{result.flagged.map((a) => a[lang]).join(lang === "ar" ? "، " : ", ")}</p>
                   </div>
                 )}
-                <p className="border-t pt-4 text-xs leading-5 text-muted-foreground">{t.how}</p>
-                <p className="text-xs leading-5 text-muted-foreground">{copy[lang].advisory}</p>
+                <p className="border-t pt-4 text-sm leading-6 text-foreground/80">{t.how}</p>
+                <p className="border-t pt-4 text-xs leading-5 font-medium text-brand-navy">{copy[lang].advisory}</p>
               </div>
             </div>
           </aside>
+        </div>
+      </div>
+      <div className="sticky bottom-0 z-40 border-t border-brand-gold/40 bg-brand-navy px-5 py-3 text-primary-foreground lg:hidden">
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-xs text-brand-gold-soft">{t.result}</span>
+          <span className="flex items-baseline gap-1"><strong className="font-mono text-2xl">{result.score}</strong><small className="text-xs">/100</small></span>
+          <span className="truncate text-sm font-semibold">{verdict}</span>
         </div>
       </div>
     </SiteShell>
