@@ -1,45 +1,27 @@
-<!-- UTILITY BAR -->
-<div class="utilbar">
-  <div class="wrap">
-    <span class="util-tag" data-en="A GLOBAL REFERENCE STANDARD · SHARIAH COMPLIANCE">معيارٌ مرجعيٌّ عالميٌّ · للامتثال الشرعي</span>
-    <div class="langtoggle" role="group" aria-label="Language">
-      <a class="lang-btn active" id="btn-ar" href="/">العربية</a>
-      <a class="lang-btn" id="btn-en" href="/en">EN</a>
-    </div>
-  </div>
-</div>
-
-<!-- TOP NAV -->
-<header class="topbar">
-  <div class="wrap">
-    <a class="mark" href="#top" aria-label="SSEBA">
-      <span class="seal">م</span>
-      <span>
-        <span class="name" data-en="SSEBA — Shariah Standards">مَشْتَق — المعايير الشرعية</span><br/>
-        <span class="sub">مَشْتَق · SSEBA</span>
-      </span>
-    </a>
-    <nav class="nav" aria-label="الأقسام">
-      <a href="#what" data-en="Overview">التعريف</a>
-      <a href="#how" data-en="How it works">آلية العمل</a>
-      <a href="#classification" data-en="Classification">التصنيف</a>
-      <a href="#sectors" data-en="Sectors">القطاعات</a>
-      <a href="#gscs" data-en="GSCS">GSCS</a>
-      <a href="#positioning" data-en="Positioning">التموضع</a>
-      <a href="#adoption" data-en="Adoption">الاعتماد</a>
-      <a href="#library" data-en="Documents">الوثائق</a>
-      <a href="#governance" data-en="Governance">الحوكمة</a>
-      <a href="#faq" data-en="FAQ">الأسئلة</a>
-      <a href="/explorer" style="color:var(--saffron)" data-en="Explorer">المستكشف</a>
-      <a href="/assessment" data-en="Start assessment">ابدأ التقييم</a>
-      <a class="pill" href="/request" data-en="Request assessment">اطلب تقييماً</a>
-    </nav>
-    <button class="navtoggle" aria-label="القائمة" onclick="var n=document.querySelector('.nav');n.style.display=n.style.display==='flex'?'':'flex'">☰</button>
-  </div>
+<header class="mobilebar">
+  <a class="mobile-brand" href="#top"><span class="seal">م</span><span><b>مَشْتَق</b><small>SSEBA</small></span></a>
+  <button class="navtoggle" aria-label="فتح فهرس المعيار" aria-expanded="false" onclick="toggleStandardNav(this)">☰</button>
 </header>
-<aside class="reading-rail" aria-label="فهرس المعيار">
-  <span class="rail-title">فهرس المعيار</span>
-  <a href="#what"><b>01</b> التعريف</a><a href="#how"><b>02</b> المنهجية</a><a href="#classification"><b>03</b> التصنيف</a><a href="#sectors"><b>04</b> القطاعات</a><a href="#gscs"><b>05</b> الترميز</a><a href="#governance"><b>06</b> الحوكمة</a><a href="#faq"><b>07</b> الأسئلة</a>
+<button class="sidebar-scrim" aria-label="إغلاق فهرس المعيار" onclick="closeStandardNav()"></button>
+<aside class="standard-sidebar" aria-label="التنقل وفهرس المعيار">
+  <div class="sidebar-brand">
+    <a class="mark" href="#top" aria-label="مَشْتَق SSEBA">
+      <span class="seal">م</span>
+      <span><span class="name">مَشْتَق</span><span class="sub">SSEBA</span></span>
+    </a>
+    <p>المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال</p>
+  </div>
+  <nav class="standard-nav" aria-label="أقسام المعيار">
+    <section class="nav-group"><h2>التعريف والأساسيات</h2><a href="#what">التعريف</a><a href="#how">آلية العمل</a><a href="#positioning">التموضع الاستراتيجي</a></section>
+    <section class="nav-group"><h2>المعايير والقطاعات</h2><a href="#classification">التصنيف</a><a href="#sectors">القطاعات</a><a href="#gscs">الترميز GSCS</a></section>
+    <section class="nav-group"><h2>الاعتماد والوثائق</h2><a href="#adoption">الاعتماد</a><a href="#library">الوثائق</a><a href="#governance">الحوكمة</a></section>
+    <section class="nav-group"><h2>أدوات المساعدة</h2><a class="nav-featured" href="/explorer">المستكشف</a><a href="#faq">الأسئلة الشائعة</a></section>
+  </nav>
+  <div class="sidebar-actions">
+    <div class="langtoggle" role="group" aria-label="اللغة"><a class="lang-btn active" href="/">العربية</a><a class="lang-btn" href="/en">EN</a></div>
+    <a class="sidebar-cta" href="/assessment">ابدأ التقييم <span>←</span></a>
+    <a class="sidebar-request" href="/request">اطلب تقييمًا متخصصًا</a>
+  </div>
 </aside>
 
 <!-- HERO -->
