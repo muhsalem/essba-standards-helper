@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, Building2, CheckCircle2, Sparkles } from "lucide-react";
+import { AlertTriangle, Building2, CheckCircle2, ShieldAlert, Sparkles } from "lucide-react";
 import { SiteShell } from "./SiteShell";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -141,7 +141,9 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
           <section className="space-y-7">
             <div className="rounded-md border bg-card p-5">
               <h2 className="text-base font-semibold">{t.gate}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{t.gateNote}</p>
+              <p className="mt-3 flex items-start gap-2 rounded-md border border-brand-gold/50 bg-brand-parchment p-3 text-sm font-medium leading-6 text-brand-navy">
+                <ShieldAlert className="mt-0.5 size-5 shrink-0 text-brand-gold" />{t.gateNote}
+              </p>
               <div className="mt-4 space-y-3">
                 {gateChecks.map((check) => (
                   <div key={check.id} className="flex items-start gap-3">
