@@ -5,6 +5,20 @@
     window.location.assign(target + window.location.hash);
   }
 
+  function toggleStandardNav(button){
+    var page = document.querySelector('.standard-page');
+    if(!page) return;
+    var open = page.classList.toggle('nav-open');
+    if(button) button.setAttribute('aria-expanded', String(open));
+  }
+
+  function closeStandardNav(){
+    var page = document.querySelector('.standard-page');
+    if(page) page.classList.remove('nav-open');
+    var button = document.querySelector('.navtoggle');
+    if(button) button.setAttribute('aria-expanded', 'false');
+  }
+
   // reveal spectrum
   window.addEventListener('load', function(){
     var bar = document.getElementById('specBar');
@@ -23,6 +37,6 @@
   if(axes) io.observe(axes);
 
   // close mobile nav on link tap
-  document.querySelectorAll('.nav a').forEach(function(a){
-    a.addEventListener('click', function(){ if(window.innerWidth <= 820){ document.querySelector('.nav').style.display=''; } });
+  document.querySelectorAll('.standard-nav a').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.innerWidth <= 980){ closeStandardNav(); } });
   });

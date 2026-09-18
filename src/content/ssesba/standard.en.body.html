@@ -1,44 +1,17 @@
-<!-- UTILITY BAR -->
-<div class="utilbar">
-<div class="wrap">
-<span class="util-tag" data-en="A GLOBAL REFERENCE STANDARD · SHARIAH COMPLIANCE">A GLOBAL REFERENCE STANDARD · SHARIAH COMPLIANCE</span>
-<div aria-label="Language" class="langtoggle" role="group">
-<a class="lang-btn" id="btn-ar" href="/">العربية</a>
-<a class="lang-btn active" id="btn-en" href="/en">EN</a>
-</div>
-</div>
-</div>
-<!-- TOP NAV -->
-<header class="topbar">
-<div class="wrap">
-<a aria-label="SSEBA" class="mark" href="#top">
-<span class="seal">S</span>
-<span>
-<span class="name" data-en="SSEBA — Shariah Standards">SSEBA — Shariah Standards</span><br/>
-<span class="sub">SSEBA · MASHTAQ</span>
-</span>
-</a>
-<nav aria-label="Sections" class="nav">
-<a data-en="Overview" href="#what">Overview</a>
-<a data-en="How it works" href="#how">How it works</a>
-<a data-en="Classification" href="#classification">Classification</a>
-<a data-en="Sectors" href="#sectors">Sectors</a>
-<a data-en="GSCS" href="#gscs">GSCS</a>
-<a data-en="Positioning" href="#positioning">Positioning</a>
-<a data-en="Adoption" href="#adoption">Adoption</a>
-<a data-en="Documents" href="#library">Documents</a>
-<a data-en="Governance" href="#governance">Governance</a>
-<a data-en="FAQ" href="#faq">FAQ</a>
-<a data-en="Explorer" href="/explorer" style="color:var(--saffron)">Explorer</a>
-<a data-en="Start assessment" href="/en/assessment">Start assessment</a>
-<a class="pill" data-en="Request assessment" href="/en/request">Request assessment</a>
-</nav>
-<button aria-label="Open navigation menu" class="navtoggle" onclick="var n=document.querySelector('.nav');n.style.display=n.style.display==='flex'?'':'flex'">☰</button>
-</div>
+<header class="mobilebar">
+<a class="mobile-brand" href="#top"><span class="seal">S</span><span><b>SSEBA</b><small>MASHTAQ</small></span></a>
+<button class="navtoggle" aria-label="Open standard contents" aria-expanded="false" onclick="toggleStandardNav(this)">☰</button>
 </header>
-<aside class="reading-rail" aria-label="Standard contents">
-<span class="rail-title">Standard contents</span>
-<a href="#what"><b>01</b> Overview</a><a href="#how"><b>02</b> Method</a><a href="#classification"><b>03</b> Classification</a><a href="#sectors"><b>04</b> Sectors</a><a href="#gscs"><b>05</b> Coding</a><a href="#governance"><b>06</b> Governance</a><a href="#faq"><b>07</b> FAQ</a>
+<button class="sidebar-scrim" aria-label="Close standard contents" onclick="closeStandardNav()"></button>
+<aside class="standard-sidebar" aria-label="Standard navigation and contents">
+<div class="sidebar-brand"><a class="mark" href="#top" aria-label="SSEBA MASHTAQ"><span class="seal">S</span><span><span class="name">SSEBA</span><span class="sub">MASHTAQ</span></span></a><p>Shariah Standards for the Classification of Economic Sectors &amp; Business Activities</p></div>
+<nav class="standard-nav" aria-label="Standard sections">
+<section class="nav-group"><h2>Overview &amp; method</h2><a href="#what">Overview</a><a href="#how">How it works</a><a href="#positioning">Strategic positioning</a></section>
+<section class="nav-group"><h2>Standards &amp; sectors</h2><a href="#classification">Classification</a><a href="#sectors">Sectors</a><a href="#gscs">GSCS coding</a></section>
+<section class="nav-group"><h2>Adoption &amp; documents</h2><a href="#adoption">Adoption</a><a href="#library">Documents</a><a href="#governance">Governance</a></section>
+<section class="nav-group"><h2>Support tools</h2><a class="nav-featured" href="/explorer">Explorer</a><a href="#faq">Frequently asked questions</a></section>
+</nav>
+<div class="sidebar-actions"><div class="langtoggle" role="group" aria-label="Language"><a class="lang-btn" href="/">العربية</a><a class="lang-btn active" href="/en">EN</a></div><a class="sidebar-cta" href="/en/assessment">Start assessment <span>→</span></a><a class="sidebar-request" href="/en/request">Request expert assessment</a></div>
 </aside>
 <!-- HERO -->
 <section class="hero" id="top">
