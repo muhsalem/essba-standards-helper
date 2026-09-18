@@ -48,6 +48,13 @@ const labels = {
   },
 } as const;
 
+function scoreTone(score: number) {
+  if (score >= 85) return "bg-brand-emerald-soft text-brand-emerald";
+  if (score >= 75) return "bg-brand-parchment text-brand-navy";
+  if (score >= structuralFailureThreshold) return "bg-brand-gold/20 text-brand-gold";
+  return "bg-destructive/10 text-destructive";
+}
+
 export function AssessmentPage({ lang }: { lang: Lang }) {
   const t = labels[lang];
   const [mode, setMode] = useState<AssessmentMode>("expert");
