@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as EnRouteImport } from './routes/en'
 import { Route as ExplorerRouteImport } from './routes/explorer'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as EnAssessmentRouteImport } from './routes/en.assessment'
+import { Route as EnAssistantRouteImport } from './routes/en.assistant'
 import { Route as EnRequestRouteImport } from './routes/en.request'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +27,11 @@ const IndexRoute = IndexRouteImport.update({
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnRoute = EnRouteImport.update({
@@ -47,6 +54,11 @@ const EnAssessmentRoute = EnAssessmentRouteImport.update({
   path: '/assessment',
   getParentRoute: () => EnRoute,
 } as any)
+const EnAssistantRoute = EnAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => EnRoute,
+} as any)
 const EnRequestRoute = EnRequestRouteImport.update({
   id: '/request',
   path: '/request',
@@ -56,29 +68,35 @@ const EnRequestRoute = EnRequestRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/assistant': typeof AssistantRoute
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
   '/en/assessment': typeof EnAssessmentRoute
+  '/en/assistant': typeof EnAssistantRoute
   '/en/request': typeof EnRequestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/assistant': typeof AssistantRoute
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
   '/en/assessment': typeof EnAssessmentRoute
+  '/en/assistant': typeof EnAssistantRoute
   '/en/request': typeof EnRequestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/assistant': typeof AssistantRoute
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
   '/en/assessment': typeof EnAssessmentRoute
+  '/en/assistant': typeof EnAssistantRoute
   '/en/request': typeof EnRequestRoute
 }
 export interface FileRouteTypes {
@@ -86,34 +104,41 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/assessment'
+    | '/assistant'
     | '/en'
     | '/explorer'
     | '/request'
     | '/en/assessment'
+    | '/en/assistant'
     | '/en/request'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/assessment'
+    | '/assistant'
     | '/en'
     | '/explorer'
     | '/request'
     | '/en/assessment'
+    | '/en/assistant'
     | '/en/request'
   id:
     | '__root__'
     | '/'
     | '/assessment'
+    | '/assistant'
     | '/en'
     | '/explorer'
     | '/request'
     | '/en/assessment'
+    | '/en/assistant'
     | '/en/request'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
+  AssistantRoute: typeof AssistantRoute
   EnRoute: typeof EnRouteWithChildren
   ExplorerRoute: typeof ExplorerRoute
   RequestRoute: typeof RequestRoute
@@ -133,6 +158,13 @@ declare module '@tanstack/react-router' {
       path: '/assessment'
       fullPath: '/assessment'
       preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en': {
@@ -163,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnAssessmentRouteImport
       parentRoute: typeof EnRoute
     }
+    '/en/assistant': {
+      id: '/en/assistant'
+      path: '/assistant'
+      fullPath: '/en/assistant'
+      preLoaderRoute: typeof EnAssistantRouteImport
+      parentRoute: typeof EnRoute
+    }
     '/en/request': {
       id: '/en/request'
       path: '/request'
@@ -175,11 +214,13 @@ declare module '@tanstack/react-router' {
 
 interface EnRouteChildren {
   EnAssessmentRoute: typeof EnAssessmentRoute
+  EnAssistantRoute: typeof EnAssistantRoute
   EnRequestRoute: typeof EnRequestRoute
 }
 
 const EnRouteChildren: EnRouteChildren = {
   EnAssessmentRoute: EnAssessmentRoute,
+  EnAssistantRoute: EnAssistantRoute,
   EnRequestRoute: EnRequestRoute,
 }
 
@@ -188,6 +229,7 @@ const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
+  AssistantRoute: AssistantRoute,
   EnRoute: EnRouteWithChildren,
   ExplorerRoute: ExplorerRoute,
   RequestRoute: RequestRoute,
