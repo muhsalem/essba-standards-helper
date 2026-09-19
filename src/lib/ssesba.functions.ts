@@ -115,3 +115,43 @@ export const askStandardAssistant = createServerFn({ method: "POST" }).inputVali
     return { summary, points, related, runId: gateway.getRunId() };
   } catch (err) { throw new Error(gatewayMessage(err)); }
 });
+
+const sixScaleSchema = z.object({
+  companyName: z.string().trim().min(2).max(160),
+  sector: z.enum(["primary", "secondary", "services"]),
+  activity: z.string().trim().min(10).max(3000),
+  financing: z.string().trim().min(5).max(3000),
+  notes: z.string().trim().max(3000).optional(),
+  lang: z.enum(["ar", "en"]),
+});
+
+const SIX_SCALE_RULES = [
+  "You are a senior Shariah auditor and certified zakat accountant. Assess the company's Shariah compliance using the Six-Level Shariah Compliance Scale (100 down to below 45), applying the sector-specific standards below BEFORE issuing any score.",
+  "Sector standards — PRIMARY (extractive, agriculture, livestock, mining): (1) lawful exploitation and ownership: no trespass on public or private property, lawful extraction concessions; (2) validity of agricultural partnership contracts (muzara'a, musaqah, mugharasa) free of excessive gharar; (3) precise zakat base: zakat on crops and fruits at harvest, and on rikaz and minerals per prescribed nisab; (4) environmental maqasid (no harm): no unjust environmental destruction or resource depletion harming the community.",
+  "Sector standards — SECONDARY (manufacturing, processing, construction, real-estate development): (1) inputs and outputs free of intrinsically prohibited elements (pork derivatives, alcohol, materials harmful to public health); (2) istisna' and salam contract discipline: clear specifications and delivery terms removing jahala; (3) workers' rights (ijarat al-ashkhas): fair wages, safe workplace, no exploitation; (4) fixed-asset financing: whether factories and equipment are financed through riba-based loans or Islamic instruments (ijara muntahia bittamleek, murabaha).",
+  "Sector standards — SERVICES (financial, technology, commercial, educational, consulting): (1) ijarat al-manafi' free of gharar and jahala in description, duration, and fee; (2) financial flows free of riba al-fadl and riba al-nasi'a, purification of incidental non-compliant income, no trading of debt as a commodity (discounting commercial papers); (3) intellectual-property and data rights respected; no profiting from client data violating privacy; (4) marketing ethics: no deception, taghrir, or najsh; no promotion of immoral services.",
+  "Classification levels (with indicative ranges): 95–100 fully compliant; 85–94 substantially compliant; 75–84 compliant with conditions; 60–74 requires structural remediation; 45–59 non-compliant; below 45 prohibited (haram) — and any core prohibited activity is classified prohibited regardless of score.",
+  "This is an indicative audit reading, not a fatwa and not a final accreditation; it requires review by a qualified Shariah board.",
+].join("\n");
+
+export const evaluateCompanySixScale = createServerFn({ method: "POST" }).inputValidator((input: unknown) => sixScaleSchema.parse(input)).handler(async ({ data }) => {
+  const gateway = createLovableResponsesProvider(aiKey());
+  const arabic = data.lang === "ar";
+  const sectorLabel = { primary: arabic ? "أولي (استخراجي/زراعي/رعوي/تعدين)" : "Primary (extractive/agriculture/livestock/mining)", secondary: arabic ? "ثانوي (صناعي/تحويلي/بناء/تطوير عقاري)" : "Secondary (manufacturing/construction/real estate)", services: arabic ? "خدمي (مالي/تقني/تجاري/تعليمي/استشاري)" : "Services (financial/tech/commercial/education/consulting)" }[data.sector];
+  try {
+    const result = streamText({
+      model: gateway.model, maxRetries: 0,
+      system: SIX_SCALE_RULES + "\n" + (arabic ? "Reply in formal Arabic." : "Reply in formal English.") + "\nReturn exactly this plain-text shape, no markdown:\nSCORE: integer 0-100\nLEVEL: one of the six levels only\nJUSTIFICATION: up to six lines, each starting with '- ', each citing the sector standard applied.\nPLAN: remediation or purification steps if the score is between 45 and 84, each starting with '- ', or '-' if not applicable.",
+      prompt: `${arabic ? "اسم الشركة" : "Company"}: ${data.companyName}\n${arabic ? "القطاع" : "Sector"}: ${sectorLabel}\n${arabic ? "وصف النشاط" : "Activity"}: ${data.activity}\n${arabic ? "الهيكل التمويلي والإيرادات" : "Financing and revenue"}: ${data.financing}\n${data.notes ? `${arabic ? "ملاحظات استثنائية" : "Notes"}: ${data.notes}` : ""}`,
+      providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } },
+    });
+    const text = await result.text;
+    const score = Math.max(0, Math.min(100, Number.parseInt(text.match(/SCORE:\s*(\d{1,3})/i)?.[1] ?? "", 10)));
+    const level = text.match(/LEVEL:\s*(.+)$/im)?.[1]?.trim() ?? "";
+    const splitLines = (block: RegExpMatchArray | null) => (block?.[1] ?? "").split("\n").map((l) => l.replace(/^[-•\s]+/, "").trim()).filter((l) => l && l !== "-").slice(0, 8);
+    const justification = splitLines(text.match(/JUSTIFICATION:\s*([\s\S]*?)(?=\nPLAN:|$)/i));
+    const plan = splitLines(text.match(/PLAN:\s*([\s\S]*?)$/i));
+    if (Number.isNaN(score) || !level || justification.length === 0) throw new Error("The six-scale assessment response was incomplete.");
+    return { score, level, justification, plan, runId: gateway.getRunId() };
+  } catch (err) { throw new Error(gatewayMessage(err)); }
+});
