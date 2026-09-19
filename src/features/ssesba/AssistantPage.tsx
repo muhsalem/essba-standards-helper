@@ -114,7 +114,7 @@ export function AssistantPage({ lang }: { lang: Lang }) {
                   <h2 className="mb-3 font-display-ar text-lg text-brand-navy">{t.relatedTitle}</h2>
                   <div className="flex flex-wrap gap-2">
                     {answer.related.map((item) => (
-                      <span key={item} className="rounded-full border border-brand-gold/40 bg-brand-ivory px-3 py-1 text-xs text-brand-navy">{item}</span>
+                      <span key={item} className="rounded-full border border-brand-gold/40 bg-brand-parchment px-3 py-1 text-xs text-brand-navy">{item}</span>
                     ))}
                   </div>
                 </article>
@@ -123,7 +123,7 @@ export function AssistantPage({ lang }: { lang: Lang }) {
           ) : (
             <div className="rounded-xl border border-dashed border-brand-gold/40 bg-card/60 p-8 text-center text-sm text-muted-foreground">{t.empty}</div>
           )}
-          <p className="rounded-md border border-brand-gold/30 bg-brand-ivory p-4 text-xs leading-6 text-brand-navy/80">{copy[lang].advisory}</p>
+          <p className="rounded-md border border-brand-gold/30 bg-brand-parchment p-4 text-xs leading-6 text-brand-navy/80">{copy[lang].advisory}</p>
         </div>
       </section>
     </SiteShell>
