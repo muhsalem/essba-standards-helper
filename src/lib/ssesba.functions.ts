@@ -77,3 +77,41 @@ export const getAdminData = createServerFn({ method: "GET" }).handler(async () =
   ]);
   if (sectionError || brandError || revisionError) throw new Error(sectionError?.message || brandError?.message || revisionError?.message); return { sections, brand, revisions };
 });
+
+const assistantSchema = z.object({
+  question: z.string().trim().min(5).max(1200),
+  excerpt: z.string().trim().max(6000).optional(),
+  lang: z.enum(["ar", "en"]),
+});
+
+export const askStandardAssistant = createServerFn({ method: "POST" }).inputValidator((input: unknown) => assistantSchema.parse(input)).handler(async ({ data }) => {
+  const { data: sections, error } = await publicClient().from("standard_sections").select("section_key,title_ar,title_en,body_ar,body_en,sort_order").eq("is_published", true).order("sort_order");
+  if (error) throw new Error(error.message);
+  const context = (sections ?? []).map((s) => `### ${s.section_key}\nAR: ${s.title_ar}\n${s.body_ar}\nEN: ${s.title_en ?? ""}\n${s.body_en ?? ""}`).join("\n\n").slice(0, 24000);
+  const gateway = createLovableResponsesProvider(aiKey());
+  const arabic = data.lang === "ar";
+  try {
+    const result = streamText({
+      model: gateway.model, maxRetries: 0,
+      system: [
+        "You are the MASHTAQ (SSEBA) standards assistant: Shariah Standards for the Classification of Economic Sectors and Business Activities.",
+        "Answer ONLY from the supplied standard content plus the user's own excerpt. Never invent weights, thresholds, verdict rules, fatwas, or fiqh rulings that are not in the supplied material.",
+        "Never issue a fatwa or a final accreditation; every answer is indicative and requires a qualified Shariah reviewer.",
+        "If the supplied content does not cover the question, say so plainly and point to the closest related section.",
+        arabic ? "Reply in formal Arabic." : "Reply in formal English.",
+        "Return exactly this plain-text shape, no markdown symbols:",
+        "SUMMARY: one short paragraph in simple language.",
+        "POINTS: up to five lines, each starting with '- '.",
+        "SECTIONS: comma-separated titles of the related standard sections, or '-' if none.",
+      ].join("\n"),
+      prompt: `${arabic ? "سؤال المستخدم" : "User question"}: ${data.question}\n\n${data.excerpt ? `${arabic ? "نص المعيار المُدخل" : "Pasted standard text"}:\n${data.excerpt}\n\n` : ""}${arabic ? "محتوى المعيار المرجعي" : "Reference standard content"}:\n${context}`,
+      providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } },
+    });
+    const text = await result.text;
+    const summary = text.match(/SUMMARY:\s*([\s\S]*?)(?=\nPOINTS:|\nSECTIONS:|$)/i)?.[1]?.trim() ?? text.trim();
+    const points = (text.match(/POINTS:\s*([\s\S]*?)(?=\nSECTIONS:|$)/i)?.[1] ?? "").split("\n").map((line) => line.replace(/^[-•\s]+/, "").trim()).filter(Boolean).slice(0, 5);
+    const related = (text.match(/SECTIONS:\s*(.+)$/i)?.[1] ?? "").split(",").map((v) => v.trim()).filter((v) => v && v !== "-").slice(0, 6);
+    if (!summary) throw new Error("The assistant response was incomplete.");
+    return { summary, points, related, runId: gateway.getRunId() };
+  } catch (err) { throw new Error(gatewayMessage(err)); }
+});
