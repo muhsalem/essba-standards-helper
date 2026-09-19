@@ -14,6 +14,7 @@ export function SiteShell({ lang, title, eyebrow, children }: { lang: Lang; titl
     { to: en ? "/en/assessment" : "/assessment", label: t.assessment, icon: FileCheck2 },
     { to: en ? "/en/request" : "/request", label: t.request, icon: Send },
     { to: en ? "/en/assistant" : "/assistant", label: t.assistant, icon: MessagesSquare },
+    { to: en ? "/en/six" : "/six", label: t.six, icon: Scale },
     { to: "/explorer", label: t.explorer, icon: Search },
   ];
   const nav = <nav aria-label={en ? "Primary navigation" : "التنقل الرئيسي"} className="grid gap-1 md:flex md:items-center md:gap-1">{links.map(({ to, label, icon: Icon }) => {
