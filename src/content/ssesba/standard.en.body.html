@@ -1,11 +1,11 @@
 <header class="mobilebar">
 <a class="mobile-brand" href="#top"><span class="seal">S</span><span><b>SSEBA</b><small>MASHTAQ</small></span></a>
-<button class="navtoggle" aria-label="Open standard contents" aria-expanded="false" onclick="toggleStandardNav(this)">☰</button>
+<button class="navtoggle" aria-label="Open standard contents" aria-expanded="false" onclick="this.closest('.standard-page').classList.toggle('nav-open');this.setAttribute('aria-expanded',this.closest('.standard-page').classList.contains('nav-open'))">☰</button>
 </header>
-<button class="sidebar-scrim" aria-label="Close standard contents" onclick="closeStandardNav()"></button>
+<button class="sidebar-scrim" aria-label="Close standard contents" onclick="this.closest('.standard-page').classList.remove('nav-open');document.querySelector('.navtoggle').setAttribute('aria-expanded','false')"></button>
 <aside class="standard-sidebar" aria-label="Standard navigation and contents">
 <div class="sidebar-brand"><a class="mark" href="#top" aria-label="SSEBA MASHTAQ"><span class="seal">S</span><span><span class="name">SSEBA</span><span class="sub">MASHTAQ</span></span></a><p>Shariah Standards for the Classification of Economic Sectors &amp; Business Activities</p></div>
-<nav class="standard-nav" aria-label="Standard sections">
+<nav class="standard-nav" aria-label="Standard sections" onclick="if(event.target.closest('a')&&window.innerWidth<=980){this.closest('.standard-page').classList.remove('nav-open')}">
 <section class="nav-group"><h2>Overview &amp; method</h2><a href="#what">Overview</a><a href="#how">How it works</a><a href="#positioning">Strategic positioning</a></section>
 <section class="nav-group"><h2>Standards &amp; sectors</h2><a href="#classification">Classification</a><a href="#sectors">Sectors</a><a href="#gscs">GSCS coding</a></section>
 <section class="nav-group"><h2>Adoption &amp; documents</h2><a href="#adoption">Adoption</a><a href="#library">Documents</a><a href="#governance">Governance</a></section>
