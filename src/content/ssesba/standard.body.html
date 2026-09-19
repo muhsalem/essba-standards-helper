@@ -15,7 +15,7 @@
     <section class="nav-group"><h2>التعريف والأساسيات</h2><a href="#what">التعريف</a><a href="#how">آلية العمل</a><a href="#positioning">التموضع الاستراتيجي</a></section>
     <section class="nav-group"><h2>المعايير والقطاعات</h2><a href="#classification">التصنيف</a><a href="#sectors">القطاعات</a><a href="#gscs">الترميز GSCS</a></section>
     <section class="nav-group"><h2>الاعتماد والوثائق</h2><a href="#adoption">الاعتماد</a><a href="#library">الوثائق</a><a href="#governance">الحوكمة</a></section>
-    <section class="nav-group"><h2>أدوات المساعدة</h2><a class="nav-featured" href="/explorer">المستكشف</a><a href="#faq">الأسئلة الشائعة</a></section>
+    <section class="nav-group"><h2>أدوات المساعدة</h2><a class="nav-featured" href="/explorer">المستكشف</a><a href="/assistant">المساعد الشرعي</a><a href="#faq">الأسئلة الشائعة</a></section>
   </nav>
   <div class="sidebar-actions">
     <div class="langtoggle" role="group" aria-label="اللغة"><a class="lang-btn active" href="/">العربية</a><a class="lang-btn" href="/en">EN</a></div>
@@ -113,7 +113,7 @@
     </div>
     <div class="impact">
       <div class="istat"><b>5</b><span data-en="Functional sectors">قطاعات وظيفية</span></div>
-      <div class="istat"><b>22</b><span data-en="Detailed sectors">قطاعًا تفصيليًا</span></div>
+      <div class="istat"><b>20</b><span data-en="Detailed sectors">قطاعًا تفصيليًا</span></div>
       <div class="istat"><b>128</b><span data-en="Industries">صناعة</span></div>
       <div class="istat"><b>563+</b><span data-en="Activities (+ sub-activities)">نشاطًا (+ فرعية)</span></div>
       <div class="istat"><b>21</b><span data-en="ISIC sections A–U">قسم ISIC (A–U)</span></div>
@@ -223,9 +223,15 @@
     <div class="shead">
       <span class="kicker" data-en="Coverage">ماذا تغطّي المعايير؟</span>
       <h2 data-en="The complete five-sector economic model">النموذج الاقتصادي الخماسي الكامل</h2>
-      <p data-en="Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with every one of its 21 sections (A–U) explicitly accounted for.">تُرتَّب الأنشطة عبر المراتب الاقتصادية الخمس — الأولية، والثانوية، والثالثية، والرباعية (المعرفة)، والخماسية (صناعة القرار) — على ظهر ISIC Rev.4، مع احتساب كلٍّ من أقسامه الواحد والعشرين (A–U) صراحةً.</p>
+      <p data-en="Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with all twenty adopted sections (A–U, excluding section O) explicitly accounted for.">تُرتَّب الأنشطة عبر المراتب الاقتصادية الخمس — الأولية، والثانوية، والثالثية، والرباعية (المعرفة)، والخماسية (صناعة القرار) — على ظهر ISIC Rev.4، مع احتساب الأقسام العشرين المعتمدة (A–U، باستثناء القسم O) صراحةً.</p>
     </div>
 
+    <div class="secsearch" role="search">
+      <label class="secsearch-field"><span class="secsearch-ic">⌕</span><input id="secSearch" type="search" placeholder="ابحث بالقطاع أو الرمز (A–U) أو العنوان…" aria-label="البحث في القطاعات بالقطاع أو الرمز أو العنوان" autocomplete="off"></label>
+      <select id="secTier" aria-label="تصفية بحسب المرتبة الاقتصادية"><option value="">كل المراتب</option></select>
+      <button type="button" id="secClear" class="secsearch-clear">مسح</button>
+      <span id="secCount" class="secsearch-count" aria-live="polite"></span>
+    </div>
     <div class="tier">
       <div class="tier-head"><span class="tier-no">I</span><div><h3 data-en="Primary sectors">القطاعات الأولية</h3><p data-en="Extraction and production of raw materials.">استخلاصٌ وإنتاجٌ للمواد الخام من الطبيعة.</p></div></div>
       <div class="tier-grid">
@@ -290,7 +296,7 @@
     </div>
 
     <div class="cov-wrap">
-      <div class="cov-title"><span data-en="Complete ISIC Rev.4 coverage — all 21 sections">التغطية الكاملة لـ ISIC Rev.4 — الأقسام الواحد والعشرون</span></div>
+      <div class="cov-title"><span data-en="ISIC Rev.4 coverage — the twenty adopted sections">تغطية ISIC Rev.4 — الأقسام العشرون المعتمدة</span></div>
       <div class="cov-sub" data-en="Every section is mapped to a covered sector, the institutional layer, or an explicit limited / out-of-scope status — nothing is left unclassified.">كلُّ قسمٍ مرتبطٌ بقطاعٍ مُغطّى، أو بالطبقة المؤسسية، أو بحالةٍ صريحةٍ محدودة/خارج النطاق — فلا يبقى شيءٌ بلا تصنيف.</div>
       <div class="cov-grid">
         <div class="cov"><span class="cl">A</span><span class="cn" data-en="Agriculture, forestry &amp; fishing">الزراعة والحراجة وصيد الأسماك</span><span class="cs cs-sec" data-en="Sector">قطاع</span></div>
@@ -315,7 +321,7 @@
         <div class="cov"><span class="cl">U</span><span class="cn" data-en="Extraterritorial organisations">المنظمات خارج الحدود الإقليمية</span><span class="cs cs-lim" data-en="Out of scope">خارج النطاق</span></div>
       </div>
       <div class="cov-legend">
-        <span><i style="background:var(--green)"></i> <span data-en="Covered sector (19)">قطاع مُغطّى (19)</span></span>
+        <span><i style="background:var(--green)"></i> <span data-en="Covered sector (18)">قطاع مُغطّى (18)</span></span>
         <span><i style="background:var(--orange)"></i> <span data-en="Limited / out of scope (2)">محدود / خارج النطاق (2)</span></span>
         <span><i style="background:var(--indigo)"></i> <span data-en="Plus a cross-cutting institutional layer">إضافةً لطبقةٍ مؤسسيةٍ عابرة</span></span>
       </div>
@@ -388,7 +394,7 @@
     <div class="shead">
       <span class="kicker" data-en="Crosswalks &amp; verification">التقاطع والتحقّق</span>
       <h2 data-en="Three views, one backbone">ثلاث رؤًى، عمودٌ واحد</h2>
-      <p data-en="The standard&#39;s backbone is ISIC Rev.4. The business-sector view (17 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.">عمود المعيار هو ISIC Rev.4. ورؤيةُ الأعمال (17 قطاعًا) ورؤيةُ الأسواق الحديثة (GICS) ليستا عمودين منافسين، بل كلاهما ينطبق على ISIC — ما يؤكّد أنّ كل تصنيفٍ متوافرٌ ومُمثَّل.</p>
+      <p data-en="The standard&#39;s backbone is ISIC Rev.4. The business-sector view (16 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.">عمود المعيار هو ISIC Rev.4. ورؤيةُ الأعمال (16 قطاعًا) ورؤيةُ الأسواق الحديثة (GICS) ليستا عمودين منافسين، بل كلاهما ينطبق على ISIC — ما يؤكّد أنّ كل تصنيفٍ متوافرٌ ومُمثَّل.</p>
     </div>
     <div style="text-align:center;margin:-6px 0 26px">
       <a href="/explorer" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:var(--indigo-deep);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 26px;border-radius:30px;box-shadow:0 6px 20px rgba(22,35,74,.22)"><span data-en="Open the interactive classification explorer">افتح المستكشف التفاعلي للتصنيف</span><span style="color:var(--saffron-soft);font-size:18px">↗</span></a>
@@ -396,7 +402,7 @@
     </div>
 
     <div class="smap-wrap">
-      <div class="smap-head"><span data-en="Business-sector view (17) → ISIC backbone">رؤية الأعمال (17 قطاعًا) ← عمود ISIC</span><small data-en="Every business sector is mapped to its ISIC home; none is missing.">كل قطاع أعمالٍ مرتبطٌ بموطنه في ISIC؛ لا شيء مفقود.</small></div>
+      <div class="smap-head"><span data-en="Business-sector view (16) → ISIC backbone">رؤية الأعمال (16 قطاعًا) ← عمود ISIC</span><small data-en="Every business sector is mapped to its ISIC home; none is missing.">كل قطاع أعمالٍ مرتبطٌ بموطنه في ISIC؛ لا شيء مفقود.</small></div>
       <table class="smap"><thead><tr><th data-en="Business sector">قطاع الأعمال</th><th data-en="ISIC mapping">المقابل في ISIC</th><th data-en="Status">الحالة</th></tr></thead><tbody>
         <tr><td data-en="Agriculture &amp; food">الزراعة والغذاء</td><td>A + C</td><td class="sref" data-en="Available">متوافر</td></tr>
         <tr><td data-en="Natural resources &amp; energy">الموارد الطبيعية والطاقة</td><td>B + D·E</td><td class="sref" data-en="Available">متوافر</td></tr>
@@ -414,7 +420,6 @@
         <tr><td data-en="Non-profit &amp; awqaf">غير الربحي والأوقاف</td><td data-en="Institutional layer + ICNPO">الطبقة المؤسسية + ICNPO</td><td class="sref" data-en="Available">متوافر</td></tr>
         <tr><td data-en="Creative &amp; cultural">الإبداعية والثقافية</td><td data-en="R + J (cross-cutting)">R + J (عابر)</td><td class="sref" data-en="Added">مُضاف</td></tr>
         <tr><td data-en="Security &amp; safety">الأمن والسلامة</td><td data-en="N + O (cross-cutting)">N + O (عابر)</td><td class="sref" data-en="Available">متوافر</td></tr>
-        <tr><td data-en="Government &amp; public services">الحكومي والخدمات العامة</td><td data-en="O + institutional layer">O + الطبقة المؤسسية</td><td class="sref" data-en="Available">متوافر</td></tr>
       </tbody></table>
     </div>
 

@@ -463,3 +463,14 @@
     .standard-page table.matrix,.standard-page table.smap{display:block;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto;}.bar.lit .sweep{transform:scaleX(0);}}
+
+/* ---- Sector search ---- */
+.secsearch{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 26px;padding:14px 16px;border:1px solid rgba(21,38,63,.12);border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(21,38,63,.05)}
+.secsearch-field{display:flex;align-items:center;gap:8px;flex:1 1 260px;min-width:220px;padding:9px 12px;border:1px solid rgba(21,38,63,.16);border-radius:10px;background:#fbfaf6}
+.secsearch-ic{color:#B88734;font-size:18px;line-height:1}
+.secsearch-field input{flex:1;border:0;outline:0;background:transparent;font:inherit;font-size:14px;color:#15263F}
+.secsearch select{padding:9px 12px;border:1px solid rgba(21,38,63,.16);border-radius:10px;background:#fbfaf6;font:inherit;font-size:14px;color:#15263F}
+.secsearch-clear{padding:9px 14px;border:1px solid rgba(184,135,52,.5);border-radius:10px;background:transparent;font:inherit;font-size:13px;color:#8a6420;cursor:pointer}
+.secsearch-clear:hover{background:rgba(184,135,52,.12)}
+.secsearch-count{font-size:12.5px;color:#5b6a80}
+@media (max-width:640px){.secsearch{gap:8px}.secsearch-field{flex:1 1 100%}.secsearch select{flex:1 1 60%}}
