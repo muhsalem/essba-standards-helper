@@ -1,8 +1,8 @@
 <header class="mobilebar">
   <a class="mobile-brand" href="#top"><span class="seal">م</span><span><b>مَشْتَق</b><small>SSEBA</small></span></a>
-  <button class="navtoggle" aria-label="فتح فهرس المعيار" aria-expanded="false" onclick="toggleStandardNav(this)">☰</button>
+  <button class="navtoggle" aria-label="فتح فهرس المعيار" aria-expanded="false" onclick="this.closest('.standard-page').classList.toggle('nav-open');this.setAttribute('aria-expanded',this.closest('.standard-page').classList.contains('nav-open'))">☰</button>
 </header>
-<button class="sidebar-scrim" aria-label="إغلاق فهرس المعيار" onclick="closeStandardNav()"></button>
+<button class="sidebar-scrim" aria-label="إغلاق فهرس المعيار" onclick="this.closest('.standard-page').classList.remove('nav-open');document.querySelector('.navtoggle').setAttribute('aria-expanded','false')"></button>
 <aside class="standard-sidebar" aria-label="التنقل وفهرس المعيار">
   <div class="sidebar-brand">
     <a class="mark" href="#top" aria-label="مَشْتَق SSEBA">
@@ -11,7 +11,7 @@
     </a>
     <p>المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال</p>
   </div>
-  <nav class="standard-nav" aria-label="أقسام المعيار">
+  <nav class="standard-nav" aria-label="أقسام المعيار" onclick="if(event.target.closest('a')&&window.innerWidth<=980){this.closest('.standard-page').classList.remove('nav-open')}">
     <section class="nav-group"><h2>التعريف والأساسيات</h2><a href="#what">التعريف</a><a href="#how">آلية العمل</a><a href="#positioning">التموضع الاستراتيجي</a></section>
     <section class="nav-group"><h2>المعايير والقطاعات</h2><a href="#classification">التصنيف</a><a href="#sectors">القطاعات</a><a href="#gscs">الترميز GSCS</a></section>
     <section class="nav-group"><h2>الاعتماد والوثائق</h2><a href="#adoption">الاعتماد</a><a href="#library">الوثائق</a><a href="#governance">الحوكمة</a></section>
