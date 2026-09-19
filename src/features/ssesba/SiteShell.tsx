@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BookOpenText, FileCheck2, Languages, Menu, MessagesSquare, Search, Send, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpenText, FileCheck2, Languages, Menu, MessagesSquare, Scale, Search, Send, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";

@@ -4,7 +4,7 @@ import { ClipboardCheck, Loader2, Scale, ShieldAlert, Wrench } from "lucide-reac
 import { SiteShell } from "@/features/ssesba/SiteShell";
 import { Button } from "@/components/ui/button";
 import { copy, type Lang } from "@/lib/ssesba-data";
-import { evaluateCompanySixScale } from "@/lib/ssesba-functions";
+import { evaluateCompanySixScale } from "@/lib/ssesba.functions";
 
 const l10n = {
   ar: {

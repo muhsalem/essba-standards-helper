@@ -15,9 +15,11 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as EnRouteImport } from './routes/en'
 import { Route as ExplorerRouteImport } from './routes/explorer'
 import { Route as RequestRouteImport } from './routes/request'
+import { Route as SixRouteImport } from './routes/six'
 import { Route as EnAssessmentRouteImport } from './routes/en.assessment'
 import { Route as EnAssistantRouteImport } from './routes/en.assistant'
 import { Route as EnRequestRouteImport } from './routes/en.request'
+import { Route as EnSixRouteImport } from './routes/en.six'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,6 +51,11 @@ const RequestRoute = RequestRouteImport.update({
   path: '/request',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SixRoute = SixRouteImport.update({
+  id: '/six',
+  path: '/six',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnAssessmentRoute = EnAssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
@@ -64,6 +71,11 @@ const EnRequestRoute = EnRequestRouteImport.update({
   path: '/request',
   getParentRoute: () => EnRoute,
 } as any)
+const EnSixRoute = EnSixRouteImport.update({
+  id: '/six',
+  path: '/six',
+  getParentRoute: () => EnRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,9 +84,11 @@ export interface FileRoutesByFullPath {
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
+  '/six': typeof SixRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/assistant': typeof EnAssistantRoute
   '/en/request': typeof EnRequestRoute
+  '/en/six': typeof EnSixRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,9 +97,11 @@ export interface FileRoutesByTo {
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
+  '/six': typeof SixRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/assistant': typeof EnAssistantRoute
   '/en/request': typeof EnRequestRoute
+  '/en/six': typeof EnSixRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,9 +111,11 @@ export interface FileRoutesById {
   '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/request': typeof RequestRoute
+  '/six': typeof SixRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/assistant': typeof EnAssistantRoute
   '/en/request': typeof EnRequestRoute
+  '/en/six': typeof EnSixRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -108,9 +126,11 @@ export interface FileRouteTypes {
     | '/en'
     | '/explorer'
     | '/request'
+    | '/six'
     | '/en/assessment'
     | '/en/assistant'
     | '/en/request'
+    | '/en/six'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,9 +139,11 @@ export interface FileRouteTypes {
     | '/en'
     | '/explorer'
     | '/request'
+    | '/six'
     | '/en/assessment'
     | '/en/assistant'
     | '/en/request'
+    | '/en/six'
   id:
     | '__root__'
     | '/'
@@ -130,9 +152,11 @@ export interface FileRouteTypes {
     | '/en'
     | '/explorer'
     | '/request'
+    | '/six'
     | '/en/assessment'
     | '/en/assistant'
     | '/en/request'
+    | '/en/six'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -142,6 +166,7 @@ export interface RootRouteChildren {
   EnRoute: typeof EnRouteWithChildren
   ExplorerRoute: typeof ExplorerRoute
   RequestRoute: typeof RequestRoute
+  SixRoute: typeof SixRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -188,6 +213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/six': {
+      id: '/six'
+      path: '/six'
+      fullPath: '/six'
+      preLoaderRoute: typeof SixRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/assessment': {
       id: '/en/assessment'
       path: '/assessment'
@@ -209,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnRequestRouteImport
       parentRoute: typeof EnRoute
     }
+    '/en/six': {
+      id: '/en/six'
+      path: '/six'
+      fullPath: '/en/six'
+      preLoaderRoute: typeof EnSixRouteImport
+      parentRoute: typeof EnRoute
+    }
   }
 }
 
@@ -216,12 +255,14 @@ interface EnRouteChildren {
   EnAssessmentRoute: typeof EnAssessmentRoute
   EnAssistantRoute: typeof EnAssistantRoute
   EnRequestRoute: typeof EnRequestRoute
+  EnSixRoute: typeof EnSixRoute
 }
 
 const EnRouteChildren: EnRouteChildren = {
   EnAssessmentRoute: EnAssessmentRoute,
   EnAssistantRoute: EnAssistantRoute,
   EnRequestRoute: EnRequestRoute,
+  EnSixRoute: EnSixRoute,
 }
 
 const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
@@ -233,6 +274,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnRoute: EnRouteWithChildren,
   ExplorerRoute: ExplorerRoute,
   RequestRoute: RequestRoute,
+  SixRoute: SixRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
