@@ -1,0 +1,10 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { AssistantPage } from "@/features/ssesba/AssistantPage";
+
+const title = "Standards Reading Assistant | SSEBA";
+const description = "Ask a question or paste standard text to get a plain-language explanation grounded in the MASHTAQ (SSEBA) standard content.";
+
+export const Route = createFileRoute("/en/assistant")({
+  head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  component: () => <AssistantPage lang="en" />,
+});
