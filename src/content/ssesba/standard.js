@@ -5,19 +5,19 @@
     window.location.assign(target + window.location.hash);
   }
 
-  function toggleStandardNav(button){
+  window.toggleStandardNav = function(button){
     var page = document.querySelector('.standard-page');
     if(!page) return;
     var open = page.classList.toggle('nav-open');
     if(button) button.setAttribute('aria-expanded', String(open));
-  }
+  };
 
-  function closeStandardNav(){
+  window.closeStandardNav = function(){
     var page = document.querySelector('.standard-page');
     if(page) page.classList.remove('nav-open');
     var button = document.querySelector('.navtoggle');
     if(button) button.setAttribute('aria-expanded', 'false');
-  }
+  };
 
   // reveal spectrum
   window.addEventListener('load', function(){
