@@ -9,7 +9,7 @@
 <section class="nav-group"><h2>Overview &amp; method</h2><a href="#what">Overview</a><a href="#how">How it works</a><a href="#positioning">Strategic positioning</a></section>
 <section class="nav-group"><h2>Standards &amp; sectors</h2><a href="#classification">Classification</a><a href="#sectors">Sectors</a><a href="#gscs">GSCS coding</a></section>
 <section class="nav-group"><h2>Adoption &amp; documents</h2><a href="#adoption">Adoption</a><a href="#library">Documents</a><a href="#governance">Governance</a></section>
-<section class="nav-group"><h2>Support tools</h2><a class="nav-featured" href="/explorer">Explorer</a><a href="#faq">Frequently asked questions</a></section>
+<section class="nav-group"><h2>Support tools</h2><a class="nav-featured" href="/explorer">Explorer</a><a href="/en/assistant">Standards assistant</a><a href="#faq">Frequently asked questions</a></section>
 </nav>
 <div class="sidebar-actions"><div class="langtoggle" role="group" aria-label="Language"><a class="lang-btn" href="/">العربية</a><a class="lang-btn active" href="/en">EN</a></div><a class="sidebar-cta" href="/en/assessment">Start assessment <span>→</span></a><a class="sidebar-request" href="/en/request">Request expert assessment</a></div>
 </aside>
@@ -98,7 +98,7 @@
 </div>
 <div class="impact">
 <div class="istat"><b>5</b><span data-en="Functional sectors">Functional sectors</span></div>
-<div class="istat"><b>22</b><span data-en="Detailed sectors">Detailed sectors</span></div>
+<div class="istat"><b>20</b><span data-en="Detailed sectors">Detailed sectors</span></div>
 <div class="istat"><b>128</b><span data-en="Industries">Industries</span></div>
 <div class="istat"><b>563+</b><span data-en="Activities (+ sub-activities)">Activities (+ sub-activities)</span></div>
 <div class="istat"><b>21</b><span data-en="ISIC sections A–U">ISIC sections A–U</span></div>
@@ -201,7 +201,13 @@
 <div class="shead">
 <span class="kicker" data-en="Coverage">Coverage</span>
 <h2 data-en="The complete five-sector economic model">The complete five-sector economic model</h2>
-<p data-en="Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with every one of its 21 sections (A–U) explicitly accounted for.">Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with every one of its 21 sections (A–U) explicitly accounted for.</p>
+<p data-en="Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with all twenty adopted sections (A–U, excluding section O) explicitly accounted for.">Activities are organised across the five economic tiers — primary, secondary, tertiary, quaternary (knowledge) and quinary (decision-making) — on the ISIC Rev.4 backbone, with all twenty adopted sections (A–U, excluding section O) explicitly accounted for.</p>
+</div>
+<div class="secsearch" role="search">
+<label class="secsearch-field"><span class="secsearch-ic">⌕</span><input id="secSearch" type="search" placeholder="Search by sector, ISIC code (A–U) or title…" aria-label="Search sectors by sector, code or title" autocomplete="off"></label>
+<select id="secTier" aria-label="Filter by economic tier"><option value="">All tiers</option></select>
+<button type="button" id="secClear" class="secsearch-clear">Clear</button>
+<span id="secCount" class="secsearch-count" aria-live="polite"></span>
 </div>
 <div class="tier">
 <div class="tier-head"><span class="tier-no">I</span><div><h3 data-en="Primary sectors">Primary sectors</h3><p data-en="Extraction and production of raw materials.">Extraction and production of raw materials.</p></div></div>
@@ -306,14 +312,14 @@
 <div class="shead">
 <span class="kicker" data-en="Crosswalks &amp; verification">Crosswalks &amp; verification</span>
 <h2 data-en="Three views, one backbone">Three views, one backbone</h2>
-<p data-en="The standard's backbone is ISIC Rev.4. The business-sector view (17 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.">The standard's backbone is ISIC Rev.4. The business-sector view (17 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.</p>
+<p data-en="The standard's backbone is ISIC Rev.4. The business-sector view (16 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.">The standard's backbone is ISIC Rev.4. The business-sector view (16 sectors) and the modern market view (GICS) are not rival backbones — both map onto ISIC, confirming every classification is already represented.</p>
 </div>
 <div style="text-align:center;margin:-6px 0 26px">
 <a href="/explorer" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:var(--indigo-deep);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 26px;border-radius:30px;box-shadow:0 6px 20px rgba(22,35,74,.22)" target="_blank"><span data-en="Open the interactive classification explorer">Open the interactive classification explorer</span><span style="color:var(--saffron-soft);font-size:18px">↗</span></a>
 <p data-en="Drill down from functional sector to product, build the GSCS code, and search any activity." style="font-size:12.5px;color:var(--ink-soft);margin-top:9px">Drill down from functional sector to product, build the GSCS code, and search any activity.</p>
 </div>
 <div class="smap-wrap">
-<div class="smap-head"><span data-en="Business-sector view (17) → ISIC backbone">Business-sector view (17) → ISIC backbone</span><small data-en="Every business sector is mapped to its ISIC home; none is missing.">Every business sector is mapped to its ISIC home; none is missing.</small></div>
+<div class="smap-head"><span data-en="Business-sector view (16) → ISIC backbone">Business-sector view (16) → ISIC backbone</span><small data-en="Every business sector is mapped to its ISIC home; none is missing.">Every business sector is mapped to its ISIC home; none is missing.</small></div>
 <table class="smap"><thead><tr><th data-en="Business sector">Business sector</th><th data-en="ISIC mapping">ISIC mapping</th><th data-en="Status">Status</th></tr></thead><tbody>
 <tr><td data-en="Agriculture &amp; food">Agriculture &amp; food</td><td>A + C</td><td class="sref" data-en="Available">Available</td></tr>
 <tr><td data-en="Natural resources &amp; energy">Natural resources &amp; energy</td><td>B + D·E</td><td class="sref" data-en="Available">Available</td></tr>
@@ -331,7 +337,6 @@
 <tr><td data-en="Non-profit &amp; awqaf">Non-profit &amp; awqaf</td><td data-en="Institutional layer + ICNPO">Institutional layer + ICNPO</td><td class="sref" data-en="Available">Available</td></tr>
 <tr><td data-en="Creative &amp; cultural">Creative &amp; cultural</td><td data-en="R + J (cross-cutting)">R + J (cross-cutting)</td><td class="sref" data-en="Added">Added</td></tr>
 <tr><td data-en="Security &amp; safety">Security &amp; safety</td><td data-en="N + O (cross-cutting)">N + O (cross-cutting)</td><td class="sref" data-en="Available">Available</td></tr>
-<tr><td data-en="Government &amp; public services">Government &amp; public services</td><td data-en="O + institutional layer">O + institutional layer</td><td class="sref" data-en="Available">Available</td></tr>
 </tbody></table>
 </div>
 <div class="smap-wrap" style="margin-top:22px">
