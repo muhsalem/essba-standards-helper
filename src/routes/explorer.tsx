@@ -17,10 +17,10 @@ export const Route = createFileRoute("/explorer")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/explorer" },
+      { property: "og:url", content: "https://ssesba.lovable.app/explorer" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/explorer" }],
+    links: [{ rel: "canonical", href: "https://ssesba.lovable.app/explorer" }],
   }),
   component: ExplorerPage,
 });
