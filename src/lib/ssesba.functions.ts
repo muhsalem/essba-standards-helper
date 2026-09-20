@@ -59,13 +59,15 @@ export const getAssessmentExamples = createServerFn({ method: "GET" }).handler(a
 });
 
 export const submitAssessmentRequest = createServerFn({ method: "POST" }).inputValidator((input: unknown) => requestSchema.parse(input)).handler(async ({ data }) => {
+  await assertWithinLimit("request_ip", clientIdentifier(), 5, 3600);
+  await assertWithinLimit("request_email", data.email, 3, 3600);
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: row, error } = await supabaseAdmin.from("assessment_requests").insert({ client_name: data.clientName, organization_name: data.organizationName, email: data.email, phone: data.phone || null, country: data.country || null, sector: data.sector, activity: data.activity, assessment_type: data.assessmentType, notes: data.notes || null, preferred_language: data.preferredLanguage }).select("reference_code").single();
   if (error) throw new Error(error.message); return row;
 });
 
-export const translateStandardSection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => translationSchema.parse(input)).handler(async ({ data }) => {
-  assertPreviewAdmin(); const gateway = createLovableResponsesProvider(aiKey());
+export const translateStandardSection = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input: unknown) => translationSchema.parse(input)).handler(async ({ data, context }) => {
+  await assertAdmin(context as unknown as AuthedContext); const gateway = createLovableResponsesProvider(aiKey());
   try {
     const result = streamText({ model: gateway.model, maxRetries: 0, system: "You are a senior Arabic-English translator specializing in Islamic finance and Shariah standards. Preserve exact percentages, thresholds, proper names, and normative force. Return exactly two lines: TITLE: ... and BODY: ... with no markdown.", prompt: `Translate accurately into formal professional English.\nArabic title: ${data.titleAr}\nArabic body: ${data.bodyAr}`, providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } } });
     const text = await result.text; const title = text.match(/^TITLE:\s*(.+)$/m)?.[1]?.trim(); const body = text.match(/^BODY:\s*([\s\S]+)$/m)?.[1]?.trim();
@@ -84,8 +86,8 @@ export const suggestHospitalAssessment = createServerFn({ method: "POST" }).inpu
   } catch (error) { throw new Error(gatewayMessage(error)); }
 });
 
-export const updateStandardSection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => updateSchema.parse(input)).handler(async ({ data }) => {
-  assertPreviewAdmin(); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+export const updateStandardSection = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input: unknown) => updateSchema.parse(input)).handler(async ({ data, context }) => {
+  await assertAdmin(context as unknown as AuthedContext); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: current, error: readError } = await supabaseAdmin.from("standard_sections").select("*").eq("id", data.sectionId).single();
   if (readError) throw new Error(readError.message);
   const { error: revisionError } = await supabaseAdmin.from("content_revisions").insert({ section_id: current.id, snapshot: current, change_note: data.note || "Content updated" });
@@ -94,8 +96,8 @@ export const updateStandardSection = createServerFn({ method: "POST" }).inputVal
   if (error) throw new Error(error.message); return { ok: true };
 });
 
-export const getAdminData = createServerFn({ method: "GET" }).handler(async () => {
-  assertPreviewAdmin(); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+export const getAdminData = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+  await assertAdmin(context as unknown as AuthedContext); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const [{ data: sections, error: sectionError }, { data: brand, error: brandError }, { data: revisions, error: revisionError }] = await Promise.all([
     supabaseAdmin.from("standard_sections").select("*").order("sort_order"), supabaseAdmin.from("brand_settings").select("*").order("setting_key"), supabaseAdmin.from("content_revisions").select("id,section_id,change_note,created_at").order("created_at", { ascending: false }).limit(20),
   ]);
