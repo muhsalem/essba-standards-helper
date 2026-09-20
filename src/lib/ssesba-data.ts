@@ -3,8 +3,8 @@ export type AssessmentMode = "expert" | "self" | "ai_review";
 export type RiskTier = "S1" | "S2" | "S3" | "S4";
 
 export const brand = {
-  ar: { short: "مَشْتَق", full: "المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال" },
-  en: { short: "SSEBA", full: "Shariah Standards for the Classification of Economic Sectors & Business Activities" },
+  ar: { short: "معايير التصنيف الشرعي", acronym: "م.ش.ت.ق.أ", full: "المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال" },
+  en: { short: "SSESBA", acronym: "SSESBA", full: "Shariah Standards for Economic Sectors & Business Activities" },
 } as const;
 
 export const axes = [
@@ -70,11 +70,11 @@ export function calculateAssessment(scores: Record<string, number>, gate: GateSt
 
 export const copy = {
   ar: {
-    brand: "مَشْتَق", standard: "المعيار", request: "طلب تقييم", assessment: "التقييم", admin: "الإدارة", explorer: "مستكشف التصنيف", assistant: "المساعد الشرعي", six: "المقياس السداسي",
+    brand: "معايير التصنيف الشرعي", standard: "المعيار", request: "طلب تقييم", assessment: "التقييم", admin: "الإدارة", explorer: "مستكشف التصنيف", assistant: "المساعد الشرعي", six: "المقياس السداسي",
     back: "العودة إلى المعيار", language: "English", advisory: "نتيجة استرشادية تحتاج اعتماد مراجع شرعي مختص، وليست فتوى ولا اعتمادًا نهائيًا.",
   },
   en: {
-    brand: "SSEBA", standard: "Standard", request: "Request assessment", assessment: "Assessment", admin: "Admin", explorer: "Classification explorer", assistant: "Standards assistant", six: "Six-level scale",
+    brand: "SSESBA", standard: "Standard", request: "Request assessment", assessment: "Assessment", admin: "Admin", explorer: "Classification explorer", assistant: "Standards assistant", six: "Six-level scale",
     back: "Back to the standard", language: "العربية", advisory: "An indicative result requiring approval by a qualified Shariah reviewer; it is neither a fatwa nor a final accreditation.",
   },
 } as const;

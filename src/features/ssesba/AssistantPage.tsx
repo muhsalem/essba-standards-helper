@@ -14,7 +14,7 @@ const labels = {
   ar: {
     eyebrow: "أداة مساندة للقراءة",
     title: "المساعد الشرعي لقراءة المعيار",
-    desc: "الصق نص معيار أو اطرح سؤالًا عنه، فيُنتج المساعد شرحًا مبسطًا وإجابة مرتبطة بمحتوى معيار مَشْتَق (SSEBA) دون الخروج عنه.",
+    desc: "الصق نص معيار أو اطرح سؤالًا عنه، فيُنتج المساعد شرحًا مبسطًا وإجابة مرتبطة بمحتوى معيار معايير التصنيف الشرعي (م.ش.ت.ق.أ · SSESBA) دون الخروج عنه.",
     question: "سؤالك عن المعيار",
     questionPlaceholder: "مثال: ما الفرق بين بوابة الأهلية ودرجة الامتثال؟ ومتى يسقط النشاط كليًا؟",
     excerpt: "نص المعيار (اختياري)",
@@ -30,7 +30,7 @@ const labels = {
   en: {
     eyebrow: "Reading support tool",
     title: "Standards reading assistant",
-    desc: "Paste standard text or ask a question, and the assistant returns a plain-language explanation grounded strictly in the MASHTAQ (SSEBA) standard content.",
+    desc: "Paste standard text or ask a question, and the assistant returns a plain-language explanation grounded strictly in the SSESBA standard content.",
     question: "Your question about the standard",
     questionPlaceholder: "Example: how does the eligibility gate differ from the compliance score, and when is an activity rejected outright?",
     excerpt: "Standard text (optional)",

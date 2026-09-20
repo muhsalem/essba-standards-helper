@@ -79,7 +79,7 @@ export const translateStandardSection = createServerFn({ method: "POST" }).middl
 export const suggestHospitalAssessment = createServerFn({ method: "POST" }).inputValidator((input: unknown) => aiAssessmentSchema.parse(input)).handler(async ({ data }) => {
   const gateway = createLovableResponsesProvider(aiKey());
   try {
-    const result = streamText({ model: gateway.model, maxRetries: 0, system: "You assist a qualified Shariah reviewer using SSEBA. Never issue a final fatwa. Analyze only the supplied hospital business description. Propose six integer scores from 0 to 100 for contracts, revenues, financing, operations, governance, disclosure. Return one line only: SCORES: contracts,revenues,financing,operations,governance,disclosure | NOTE: concise Arabic rationale. Do not infer a risk tier.", prompt: data.description, providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } } });
+    const result = streamText({ model: gateway.model, maxRetries: 0, system: "You assist a qualified Shariah reviewer using SSESBA. Never issue a final fatwa. Analyze only the supplied hospital business description. Propose six integer scores from 0 to 100 for contracts, revenues, financing, operations, governance, disclosure. Return one line only: SCORES: contracts,revenues,financing,operations,governance,disclosure | NOTE: concise Arabic rationale. Do not infer a risk tier.", prompt: data.description, providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } } });
     const text = await result.text; const match = text.match(/SCORES:\s*([0-9,\s]+)/i); const values = match?.[1]?.split(',').map((v) => Math.max(0, Math.min(100, Number.parseInt(v.trim(), 10))));
     if (!values || values.length !== 6 || values.some(Number.isNaN)) throw new Error("The AI assessment response was incomplete.");
     return { scores: values, note: text.match(/NOTE:\s*(.+)$/is)?.[1]?.trim() ?? "", runId: gateway.getRunId() };
@@ -120,7 +120,7 @@ export const askStandardAssistant = createServerFn({ method: "POST" }).inputVali
     const result = streamText({
       model: gateway.model, maxRetries: 0,
       system: [
-        "You are the MASHTAQ (SSEBA) standards assistant: Shariah Standards for the Classification of Economic Sectors and Business Activities.",
+        "You are the SSESBA standards assistant: Shariah Standards for the Classification of Economic Sectors and Business Activities.",
         "Answer ONLY from the supplied standard content plus the user's own excerpt. Never invent weights, thresholds, verdict rules, fatwas, or fiqh rulings that are not in the supplied material.",
         "Never issue a fatwa or a final accreditation; every answer is indicative and requires a qualified Shariah reviewer.",
         "If the supplied content does not cover the question, say so plainly and point to the closest related section.",

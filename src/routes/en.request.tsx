@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RequestPage } from "@/features/ssesba/RequestPage";
 
-const title = "Request an Assessment | SSEBA";
+const title = "Request an Assessment | SSESBA";
 const description = "Request an assessment of an economic activity under the Shariah Standards for the Classification of Economic Sectors and Business Activities.";
 
 export const Route = createFileRoute("/en/request")({
