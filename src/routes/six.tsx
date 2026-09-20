@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SixScalePage } from "@/features/ssesba/SixScalePage";
 
-const title = "المقياس السداسي للامتثال الشرعي | مَشْتَق";
+const title = "المقياس السداسي للامتثال الشرعي | معايير التصنيف الشرعي";
 const description = "أداة تدقيق شرعي استرشادية تقيّم الشركات وفق المقياس السداسي (100 إلى أقل من 45) مع المعايير القطاعية للقطاعات الأولي والثانوي والخدمي.";
 
 export const Route = createFileRoute("/six")({

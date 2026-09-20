@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RequestPage } from "@/features/ssesba/RequestPage";
 
-const title = "طلب تقييم | مَشْتَق";
+const title = "طلب تقييم | معايير التصنيف الشرعي";
 const description = "قدّم طلبًا لتقييم نشاط اقتصادي وفق المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال.";
 
 export const Route = createFileRoute("/request")({
