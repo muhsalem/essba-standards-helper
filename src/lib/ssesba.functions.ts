@@ -22,7 +22,29 @@ function publicClient() {
   if (!url || !key) throw new Error("Cloud configuration is unavailable");
   return createClient<Database>(url, key, { auth: { persistSession: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_')) headers.delete('Authorization'); headers.set('apikey', key); return fetch(input, { ...init, headers }); } } });
 }
-function assertPreviewAdmin() { if (!import.meta.env.DEV) throw new Error("Admin editing is locked on the published site until secure sign-in is enabled."); }
+type AuthedContext = { supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }> }; userId: string };
+
+/** ضبط الصلاحيات: التحرير مقصور على مستخدم مسجّل يحمل دور مدير في قاعدة البيانات. */
+async function assertAdmin(context: AuthedContext) {
+  const { data, error } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+  if (error) throw new Error("Unable to verify administrator role.");
+  if (data !== true) throw new Error("Forbidden: administrator role required.");
+}
+
+function clientIdentifier() {
+  const request = getRequest();
+  const headers = request?.headers;
+  const forwarded = headers?.get("cf-connecting-ip") || headers?.get("x-forwarded-for")?.split(",")[0]?.trim() || headers?.get("x-real-ip");
+  return forwarded || "unknown";
+}
+
+/** حماية النموذج العام: سقف محاولات لكل مصدر ولكل بريد في نافذة زمنية. */
+async function assertWithinLimit(scope: string, identifier: string, limit: number, windowSeconds: number) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin.rpc("register_submission_attempt", { _scope: scope, _identifier: identifier.slice(0, 200).toLowerCase(), _limit: limit, _window_seconds: windowSeconds });
+  if (error) throw new Error(error.message);
+  if (data === false) throw new Error("تم تجاوز عدد الطلبات المسموح خلال الساعة. حاول لاحقًا. / Too many submissions in the last hour. Please try again later.");
+}
 function aiKey() { const key = process.env['LOVABLE_API_KEY']; if (!key) throw new Error("Lovable AI is not configured."); return key; }
 function gatewayMessage(error: unknown) { return error instanceof Error ? error.message : "Lovable AI request failed."; }
 
