@@ -8,6 +8,13 @@
       "when": 1789877973597,
       "tag": "0000_request_throttle_and_role_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789878105624,
+      "tag": "0001_validate_assessment_request_input",
+      "breakpoints": true
     }
   ]
 }
