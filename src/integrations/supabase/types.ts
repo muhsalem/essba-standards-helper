@@ -421,6 +421,33 @@ export type Database = {
         }
         Relationships: []
       }
+      submission_throttle: {
+        Row: {
+          created_at: string
+          hits: number
+          id: string
+          identifier: string
+          scope: string
+          window_start: string
+        }
+        Insert: {
+          created_at?: string
+          hits?: number
+          id?: string
+          identifier: string
+          scope: string
+          window_start?: string
+        }
+        Update: {
+          created_at?: string
+          hits?: number
+          id?: string
+          identifier?: string
+          scope?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -451,6 +478,15 @@ export type Database = {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
+        }
+        Returns: boolean
+      }
+      register_submission_attempt: {
+        Args: {
+          _identifier: string
+          _limit: number
+          _scope: string
+          _window_seconds: number
         }
         Returns: boolean
       }
