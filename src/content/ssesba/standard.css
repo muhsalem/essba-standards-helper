@@ -474,3 +474,18 @@
 .secsearch-clear:hover{background:rgba(184,135,52,.12)}
 .secsearch-count{font-size:12.5px;color:#5b6a80}
 @media (max-width:640px){.secsearch{gap:8px}.secsearch-field{flex:1 1 100%}.secsearch select{flex:1 1 60%}}
+
+/* حالة الاعتماد الشرعي */
+.hero .statusnote{
+  margin:18px 0 0;
+  max-width:70ch;
+  padding:12px 14px;
+  border:1px solid rgba(197,138,43,.45);
+  border-inline-start:3px solid var(--gold,#C58A2B);
+  border-radius:8px;
+  background:rgba(197,138,43,.08);
+  font-size:13.5px;
+  line-height:1.9;
+  color:var(--ink,#10243C);
+}
+.hero .statusnote b{color:var(--gold,#C58A2B)}

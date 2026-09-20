@@ -1,4 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { streamText } from "ai";
 import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
@@ -20,7 +22,29 @@ function publicClient() {
   if (!url || !key) throw new Error("Cloud configuration is unavailable");
   return createClient<Database>(url, key, { auth: { persistSession: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_')) headers.delete('Authorization'); headers.set('apikey', key); return fetch(input, { ...init, headers }); } } });
 }
-function assertPreviewAdmin() { if (!import.meta.env.DEV) throw new Error("Admin editing is locked on the published site until secure sign-in is enabled."); }
+type AuthedContext = { supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }> }; userId: string };
+
+/** ضبط الصلاحيات: التحرير مقصور على مستخدم مسجّل يحمل دور مدير في قاعدة البيانات. */
+async function assertAdmin(context: AuthedContext) {
+  const { data, error } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+  if (error) throw new Error("Unable to verify administrator role.");
+  if (data !== true) throw new Error("Forbidden: administrator role required.");
+}
+
+function clientIdentifier() {
+  const request = getRequest();
+  const headers = request?.headers;
+  const forwarded = headers?.get("cf-connecting-ip") || headers?.get("x-forwarded-for")?.split(",")[0]?.trim() || headers?.get("x-real-ip");
+  return forwarded || "unknown";
+}
+
+/** حماية النموذج العام: سقف محاولات لكل مصدر ولكل بريد في نافذة زمنية. */
+async function assertWithinLimit(scope: string, identifier: string, limit: number, windowSeconds: number) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin.rpc("register_submission_attempt", { _scope: scope, _identifier: identifier.slice(0, 200).toLowerCase(), _limit: limit, _window_seconds: windowSeconds });
+  if (error) throw new Error(error.message);
+  if (data === false) throw new Error("تم تجاوز عدد الطلبات المسموح خلال الساعة. حاول لاحقًا. / Too many submissions in the last hour. Please try again later.");
+}
 function aiKey() { const key = process.env['LOVABLE_API_KEY']; if (!key) throw new Error("Lovable AI is not configured."); return key; }
 function gatewayMessage(error: unknown) { return error instanceof Error ? error.message : "Lovable AI request failed."; }
 
@@ -35,13 +59,15 @@ export const getAssessmentExamples = createServerFn({ method: "GET" }).handler(a
 });
 
 export const submitAssessmentRequest = createServerFn({ method: "POST" }).inputValidator((input: unknown) => requestSchema.parse(input)).handler(async ({ data }) => {
+  await assertWithinLimit("request_ip", clientIdentifier(), 5, 3600);
+  await assertWithinLimit("request_email", data.email, 3, 3600);
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: row, error } = await supabaseAdmin.from("assessment_requests").insert({ client_name: data.clientName, organization_name: data.organizationName, email: data.email, phone: data.phone || null, country: data.country || null, sector: data.sector, activity: data.activity, assessment_type: data.assessmentType, notes: data.notes || null, preferred_language: data.preferredLanguage }).select("reference_code").single();
   if (error) throw new Error(error.message); return row;
 });
 
-export const translateStandardSection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => translationSchema.parse(input)).handler(async ({ data }) => {
-  assertPreviewAdmin(); const gateway = createLovableResponsesProvider(aiKey());
+export const translateStandardSection = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input: unknown) => translationSchema.parse(input)).handler(async ({ data, context }) => {
+  await assertAdmin(context as unknown as AuthedContext); const gateway = createLovableResponsesProvider(aiKey());
   try {
     const result = streamText({ model: gateway.model, maxRetries: 0, system: "You are a senior Arabic-English translator specializing in Islamic finance and Shariah standards. Preserve exact percentages, thresholds, proper names, and normative force. Return exactly two lines: TITLE: ... and BODY: ... with no markdown.", prompt: `Translate accurately into formal professional English.\nArabic title: ${data.titleAr}\nArabic body: ${data.bodyAr}`, providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "medium", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] } } });
     const text = await result.text; const title = text.match(/^TITLE:\s*(.+)$/m)?.[1]?.trim(); const body = text.match(/^BODY:\s*([\s\S]+)$/m)?.[1]?.trim();
@@ -60,8 +86,8 @@ export const suggestHospitalAssessment = createServerFn({ method: "POST" }).inpu
   } catch (error) { throw new Error(gatewayMessage(error)); }
 });
 
-export const updateStandardSection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => updateSchema.parse(input)).handler(async ({ data }) => {
-  assertPreviewAdmin(); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+export const updateStandardSection = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth]).inputValidator((input: unknown) => updateSchema.parse(input)).handler(async ({ data, context }) => {
+  await assertAdmin(context as unknown as AuthedContext); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: current, error: readError } = await supabaseAdmin.from("standard_sections").select("*").eq("id", data.sectionId).single();
   if (readError) throw new Error(readError.message);
   const { error: revisionError } = await supabaseAdmin.from("content_revisions").insert({ section_id: current.id, snapshot: current, change_note: data.note || "Content updated" });
@@ -70,8 +96,8 @@ export const updateStandardSection = createServerFn({ method: "POST" }).inputVal
   if (error) throw new Error(error.message); return { ok: true };
 });
 
-export const getAdminData = createServerFn({ method: "GET" }).handler(async () => {
-  assertPreviewAdmin(); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+export const getAdminData = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
+  await assertAdmin(context as unknown as AuthedContext); const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const [{ data: sections, error: sectionError }, { data: brand, error: brandError }, { data: revisions, error: revisionError }] = await Promise.all([
     supabaseAdmin.from("standard_sections").select("*").order("sort_order"), supabaseAdmin.from("brand_settings").select("*").order("setting_key"), supabaseAdmin.from("content_revisions").select("id,section_id,change_note,created_at").order("created_at", { ascending: false }).limit(20),
   ]);
