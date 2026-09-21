@@ -165,7 +165,7 @@
   .gate p b{color:var(--ink);}
 
   /* classification */
-  .clsgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .clsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
   .cls{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s;}
   .cls:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(19,31,56,.08);}
   .cls .stripe{height:8px;}
@@ -486,6 +486,6 @@
   background:rgba(197,138,43,.08);
   font-size:13.5px;
   line-height:1.9;
-  color:var(--ink,#10243C);
+  color:rgba(255,255,255,.86);
 }
-.hero .statusnote b{color:var(--gold,#C58A2B)}
+.hero .statusnote b{color:var(--saffron-soft)}
