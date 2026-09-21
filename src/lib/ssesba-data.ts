@@ -1,6 +1,7 @@
 export type Lang = "ar" | "en";
 export type AssessmentMode = "expert" | "self" | "ai_review";
 export type RiskTier = "S1" | "S2" | "S3" | "S4";
+export type ComplianceLevelId = "full" | "substantial" | "conditional" | "structural_remediation" | "non_compliant" | "prohibited";
 
 export const brand = {
   ar: { short: "معايير التصنيف الشرعي", acronym: "م.ش.ت.ق.أ", full: "المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال" },
@@ -33,6 +34,21 @@ export type GateState = Record<string, boolean>;
  */
 export const structuralFailureThreshold = 45;
 
+/** المقياس السداسي الموحّد: وصف الدرجة قبل تطبيق مرتبة المخاطر والحكم النهائي. */
+export const complianceLevels = [
+  { id: "full", min: 95, max: 100, ar: "متوافق كليًا", en: "Fully compliant" },
+  { id: "substantial", min: 85, max: 94, ar: "متوافق جوهريًا", en: "Substantially compliant" },
+  { id: "conditional", min: 75, max: 84, ar: "متوافق بشروط", en: "Compliant with conditions" },
+  { id: "structural_remediation", min: 60, max: 74, ar: "يحتاج معالجة هيكلية", en: "Requires structural remediation" },
+  { id: "non_compliant", min: 45, max: 59, ar: "غير متوافق", en: "Non-compliant" },
+  { id: "prohibited", min: 0, max: 44, ar: "محظور شرعًا", en: "Prohibited" },
+] as const satisfies ReadonlyArray<{ id: ComplianceLevelId; min: number; max: number; ar: string; en: string }>;
+
+export function complianceLevelForScore(score: number) {
+  const normalized = Math.max(0, Math.min(100, score));
+  return complianceLevels.find((level) => normalized >= level.min && normalized <= level.max) ?? complianceLevels[5];
+}
+
 export const verdictMatrix = {
   compliant: { S1: "approved", S2: "approved_conditional", S3: "conditional", S4: "rejected" },
   conditional: { S1: "conditional", S2: "conditional", S3: "remediation", S4: "rejected" },
@@ -54,12 +70,13 @@ export function flaggedAxes(scores: Record<string, number>) {
 
 export function calculateAssessment(scores: Record<string, number>, gate: GateState, risk: RiskTier) {
   if (!gatePassed(gate)) {
-    return { score: 0, band: "non_compliant", verdict: "rejected", ineligible: true, structuralFailure: true, flagged: flaggedAxes(scores) } as const;
+    return { score: 0, level: complianceLevelForScore(0), band: "non_compliant", verdict: "rejected", ineligible: true, structuralFailure: true, flagged: flaggedAxes(scores) } as const;
   }
   const score = Math.round(axes.reduce((total, axis) => total + (scores[axis.id] ?? 0) * axis.weight / 100, 0) * 10) / 10;
   const band = score >= 85 ? "compliant" : score >= 75 ? "conditional" : score >= 60 ? "remediation" : "non_compliant";
   return {
     score,
+    level: complianceLevelForScore(score),
     band,
     verdict: verdictMatrix[band][risk],
     ineligible: false,
