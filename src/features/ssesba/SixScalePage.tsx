@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ClipboardCheck, Loader2, Scale, ShieldAlert, Wrench } from "lucide-react";
 import { SiteShell } from "@/features/ssesba/SiteShell";
 import { Button } from "@/components/ui/button";
-import { copy, type Lang } from "@/lib/ssesba-data";
+import { complianceLevelForScore, complianceLevels, copy, type Lang } from "@/lib/ssesba-data";
 import { evaluateCompanySixScale } from "@/lib/ssesba.functions";
 
 const l10n = {
@@ -15,7 +15,7 @@ const l10n = {
     sectors: { primary: "أولي (استخراجي، زراعي، رعوي، تعدين)", secondary: "ثانوي (صناعي، تحويلي، بناء، تطوير عقاري)", services: "خدمي (مالي، تقني، تجاري، تعليمي، استشاري)" },
     submit: "قيّم الشركة", loading: "يجري التدقيق…",
     result: "نتيجة التقييم", level: "المستوى", score: "الدرجة", justification: "التبرير الشرعي والمالي", plan: "خطة المعالجة والتطهير",
-    advisory: "نتيجة استرشادية تتطلب مراجعة هيئة شرعية مؤهلة؛ ليست فتوى ولا اعتمادًا نهائيًا.",
+    scale: "الهيكل السداسي الموحد", current: "المستوى الحالي", advisory: "نتيجة استرشادية تتطلب مراجعة هيئة شرعية مؤهلة؛ ليست فتوى ولا اعتمادًا نهائيًا.",
     levels: ["متوافق كلياً", "متوافق جوهرياً", "متوافق بشروط", "يحتاج معالجة هيكلية", "غير متوافق", "محظور شرعاً"],
   },
   en: {
@@ -26,7 +26,7 @@ const l10n = {
     sectors: { primary: "Primary (extractive, agriculture, livestock, mining)", secondary: "Secondary (manufacturing, processing, construction, real estate)", services: "Services (financial, tech, commercial, education, consulting)" },
     submit: "Assess the company", loading: "Auditing…",
     result: "Assessment result", level: "Level", score: "Score", justification: "Shariah and financial justification", plan: "Remediation and purification plan",
-    advisory: "An indicative result requiring review by a qualified Shariah board; neither a fatwa nor a final accreditation.",
+    scale: "Unified six-level structure", current: "Current level", advisory: "An indicative result requiring review by a qualified Shariah board; neither a fatwa nor a final accreditation.",
     levels: ["Fully compliant", "Substantially compliant", "Compliant with conditions", "Requires structural remediation", "Non-compliant", "Prohibited"],
   },
 } as const;
@@ -34,9 +34,8 @@ const l10n = {
 type Sector = keyof (typeof l10n)["ar"]["sectors"];
 type SixResult = { score: number; level: string; justification: string[]; plan: string[] };
 
-function levelTone(level: string): string {
-  const ar = l10n.ar.levels;
-  const idx = ar.findIndex((l) => level.includes(l)) >= 0 ? ar.findIndex((l) => level.includes(l)) : l10n.en.levels.findIndex((l) => level.toLowerCase().includes(l.toLowerCase()));
+function levelTone(score: number): string {
+  const idx = complianceLevels.findIndex((level) => level.id === complianceLevelForScore(score).id);
   if (idx <= 1 && idx >= 0) return "border-brand-emerald/40 bg-brand-emerald/10 text-brand-emerald";
   if (idx <= 3 && idx >= 0) return "border-brand-gold/50 bg-brand-gold/10 text-brand-gold";
   return "border-destructive/40 bg-destructive/10 text-destructive";
@@ -70,6 +69,9 @@ export function SixScalePage({ lang }: { lang: Lang }) {
     <SiteShell lang={lang} eyebrow={t.eyebrow} title={t.title}>
       <section className="mx-auto max-w-7xl px-5 py-10">
         <p className="max-w-3xl text-sm leading-7 text-muted-foreground">{t.intro}</p>
+        <div className="mt-6 grid gap-2 sm:grid-cols-3 lg:grid-cols-6" aria-label={t.scale}>
+          {complianceLevels.map((level, index) => <div key={level.id} className="border-s-4 border-brand-gold bg-card px-3 py-3 shadow-sm"><span className="text-xs text-muted-foreground">{index + 1}</span><strong className="mt-1 block text-sm text-brand-navy">{level[lang]}</strong><span className="font-mono text-xs text-muted-foreground">{level.min === 0 ? "<45" : `${level.min}–${level.max}`}</span></div>)}
+        </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_1fr]">
           <form className="grid gap-4 rounded-lg border border-brand-gold/30 bg-card p-6 shadow-sm" onSubmit={(e) => { e.preventDefault(); if (!busy) void submit(); }}>
@@ -96,10 +98,11 @@ export function SixScalePage({ lang }: { lang: Lang }) {
             )}
             {result && (
               <div className="grid gap-4">
-                <div className={`rounded-lg border-2 p-6 ${levelTone(result.level)}`}>
+                <div className={`rounded-lg border-2 p-6 ${levelTone(result.score)}`}>
                   <div className="text-xs font-semibold uppercase tracking-wide opacity-80">{t.result}</div>
-                  <div className="mt-2 font-display-ar text-3xl font-bold">{result.level}</div>
+                  <div className="mt-2 font-display-ar text-3xl font-bold">{complianceLevelForScore(result.score)[lang]}</div>
                   <div className="mt-1 text-sm">{t.score}: <b>{result.score} / 100</b></div>
+                  <div className="mt-2 text-xs opacity-80">{t.current}: {complianceLevelForScore(result.score)[lang]}</div>
                 </div>
                 <div className="rounded-lg border border-border bg-card p-5">
                   <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-brand-navy"><ShieldAlert className="size-4 text-brand-gold" />{t.justification}</h2>

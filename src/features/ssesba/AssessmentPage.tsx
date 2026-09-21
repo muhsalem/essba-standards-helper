@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  axes, brand, calculateAssessment, copy, gateChecks, structuralFailureThreshold,
+  axes, brand, calculateAssessment, complianceLevels, copy, gateChecks, structuralFailureThreshold,
   type AssessmentMode, type GateState, type Lang, type RiskTier,
 } from "@/lib/ssesba-data";
 import { getAssessmentExamples, suggestHospitalAssessment } from "@/lib/ssesba.functions";
@@ -28,9 +28,9 @@ const labels = {
     expert: "خبير", self: "ذاتي", ai_review: "اقتراح AI", analyze: "اقتراح الدرجات", evidence: "وصف النشاط والأدلة",
     full: "امتثال كامل", compliant: "ممتثل", conditional: "ممتثل بشروط", remediation: "يحتاج معالجة",
     non_compliant: "غير ممتثل", ineligible: "غير مؤهل", approved: "معتمد", approved_conditional: "معتمد بشروط", rejected: "مرفوض",
-    band: "النطاق", weight: "الوزن", structural: "إخفاق بنيوي: الدرجة أقل من 45.",
+    level: "مستوى الامتثال السداسي", band: "النطاق التشغيلي", verdictLabel: "الحكم النهائي بعد المخاطر", weight: "الوزن", structural: "إخفاق بنيوي: الدرجة أقل من 45.",
     flagged: "محاور دون 45 تستوجب مراجعة الأدلة (تنبيه فقط؛ لا يوجد حدٌّ أدنى معتمد لكل محور في هذه النسخة):",
-    how: "كيف تُقرأ النتيجة: تُطبَّق بوابة الأهلية أولًا، ثم يُحسب متوسط مرجّح للمحاور الستة، وتُترجم الدرجة إلى نطاق، ثم يُدمج النطاق مع مستوى المخاطر S1–S4 في مصفوفة المعيار للوصول إلى الحكم.",
+    how: "كيف تُقرأ النتيجة: تُطبَّق بوابة الأهلية أولًا، ثم يُحسب متوسط المحاور الستة المرجّح، فتحدد الدرجة أحد مستويات الامتثال الستة. بعد ذلك يُدمج نطاق المستوى مع مخاطر S1–S4 لإصدار الحكم النهائي.",
   },
   en: {
     title: "Real sector model assessments", eyebrow: "Interactive real-world application",
@@ -42,9 +42,9 @@ const labels = {
     expert: "Expert", self: "Self", ai_review: "AI suggestion", analyze: "Suggest scores", evidence: "Activity and evidence description",
     full: "Full compliance", compliant: "Compliant", conditional: "Conditionally compliant", remediation: "Needs remediation",
     non_compliant: "Non-compliant", ineligible: "Ineligible", approved: "Approved", approved_conditional: "Approved with conditions", rejected: "Rejected",
-    band: "Band", weight: "Weight", structural: "Structural failure: score below 45.",
+    level: "Six-level compliance level", band: "Operational band", verdictLabel: "Final verdict after risk", weight: "Weight", structural: "Structural failure: score below 45.",
     flagged: "Axes below 45 require evidence review (advisory only; this version defines no approved per-axis floor):",
-    how: "Reading the result: the eligibility gate applies first, then the six axes are combined into a weighted score, the score resolves into a band, and the band is combined with the S1–S4 risk tier in the standard's matrix to reach the verdict.",
+    how: "Reading the result: the eligibility gate applies first, then the six weighted axes produce a score and one of six compliance levels. Its operational band is then combined with S1–S4 risk to reach the final verdict.",
   },
 } as const;
 
@@ -114,7 +114,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
     finally { setBusy(false); }
   }
 
-  const bandLabel = result.ineligible ? t.ineligible : result.band === "compliant" && result.score >= 95 ? t.full : (t[result.band as keyof typeof t] as string);
+  const bandLabel = result.ineligible ? t.ineligible : (t[result.band as keyof typeof t] as string);
   const verdict = t[result.verdict as keyof typeof t] as string;
 
   return (
@@ -207,10 +207,14 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
               </div>
               <div className="space-y-5 p-6">
                 <div>
-                  <p className="text-xs text-muted-foreground">{t.band}</p>
-                  <p className="mt-1 text-xl font-semibold">{bandLabel}</p>
+                  <p className="text-xs text-muted-foreground">{t.level}</p>
+                  <p className="mt-1 text-xl font-semibold">{result.ineligible ? t.ineligible : result.level[lang]}</p>
                   {result.structuralFailure && <p className="mt-1 text-sm text-destructive">{t.structural}</p>}
                 </div>
+                <div className="grid grid-cols-2 gap-2 border-y py-4 text-xs sm:grid-cols-3">
+                  {complianceLevels.map((level) => <div key={level.id} className={`rounded-md border p-2 ${result.level.id === level.id && !result.ineligible ? "border-brand-gold bg-brand-parchment font-semibold" : "border-border text-muted-foreground"}`}><span className="block">{level[lang]}</span><span className="font-mono">{level.min === 0 ? "<45" : `${level.min}–${level.max}`}</span></div>)}
+                </div>
+                <div><p className="text-xs text-muted-foreground">{t.band}</p><p className="mt-1 font-semibold">{bandLabel}</p></div>
                 <div>
                   <Label>{t.risk}</Label>
                   <Select value={risk} onValueChange={(v) => setRisk(v as RiskTier)}>
@@ -221,6 +225,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                 </div>
                 <div className={`rounded-md p-4 ${result.verdict === "rejected" ? "bg-destructive/10 text-destructive" : "bg-brand-parchment text-brand-navy"}`}>
                   {result.verdict === "rejected" ? <AlertTriangle /> : <CheckCircle2 />}
+                  <p className="mt-2 text-xs font-medium opacity-75">{t.verdictLabel}</p>
                   <p className="mt-2 text-lg font-bold">{verdict}</p>
                 </div>
                 {result.flagged.length > 0 && (
