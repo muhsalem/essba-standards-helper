@@ -10,7 +10,7 @@ const l10n = {
   ar: {
     eyebrow: "أداة تدقيق شرعي استرشادية",
     title: "المقياس السداسي للامتثال الشرعي",
-    intro: "قيّم امتثال شركة وفق المقياس السداسي (100 إلى أقل من 45) مع تطبيق المعايير القطاعية للقطاع الأولي أو الثانوي أو الخدمي. النتيجة قراءة تدقيقية استرشادية منفصلة عن نتيجة معايير التصنيف الشرعي المرجّحة، ولا تُغني عن اعتماد هيئة شرعية مؤهلة.",
+    intro: "قيّم امتثال شركة وفق المستويات الستة الموحدة (100 إلى أقل من 45) مع تطبيق المعايير القطاعية للقطاع الأولي أو الثانوي أو الخدمي. يُقرأ المستوى ضمن منهجية SSESBA التي تبدأ ببوابة الأهلية، ثم المحاور المرجّحة، ثم مخاطر S1–S4 لإصدار الحكم النهائي. هذه القراءة التمهيدية لا تُغني عن التقييم الكامل أو اعتماد هيئة شرعية مؤهلة.",
     company: "اسم الشركة", sector: "القطاع الاقتصادي", activity: "وصف النشاط الرئيسي", financing: "الهيكل التمويلي والإيرادات", notes: "ملاحظات استثنائية (سياسات، عقود، بيئة عمل) — اختياري",
     sectors: { primary: "أولي (استخراجي، زراعي، رعوي، تعدين)", secondary: "ثانوي (صناعي، تحويلي، بناء، تطوير عقاري)", services: "خدمي (مالي، تقني، تجاري، تعليمي، استشاري)" },
     submit: "قيّم الشركة", loading: "يجري التدقيق…",
@@ -21,7 +21,7 @@ const l10n = {
   en: {
     eyebrow: "Indicative Shariah audit tool",
     title: "The Six-Level Shariah Compliance Scale",
-    intro: "Assess a company's compliance on the six-level scale (100 down to below 45) with sector standards for the primary, secondary, or services sector. The result is an indicative audit reading, separate from the weighted SSESBA score, and does not replace approval by a qualified Shariah board.",
+    intro: "Assess a company against the unified six levels (100 down to below 45) and the relevant primary, secondary, or services standards. Within SSESBA, the level is read after the eligibility gate and weighted axes, then combined with S1–S4 risk for the final verdict. This preliminary reading does not replace the full assessment or approval by a qualified Shariah board.",
     company: "Company name", sector: "Economic sector", activity: "Main activity description", financing: "Financing structure and revenue", notes: "Exceptional notes (policies, contracts, work environment) — optional",
     sectors: { primary: "Primary (extractive, agriculture, livestock, mining)", secondary: "Secondary (manufacturing, processing, construction, real estate)", services: "Services (financial, tech, commercial, education, consulting)" },
     submit: "Assess the company", loading: "Auditing…",
