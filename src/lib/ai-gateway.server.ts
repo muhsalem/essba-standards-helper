@@ -31,6 +31,6 @@ export function safeAiError(error: unknown, lang: "ar" | "en" = "ar") {
   if (status === 402) return lang === "ar" ? "رصيد الذكاء الاصطناعي غير كافٍ حاليًا." : "AI credits are currently insufficient.";
   if (status === 403) return lang === "ar" ? "الخدمة غير متاحة وفق سياسة مساحة العمل." : "The service is unavailable under the workspace policy.";
   if (status === 429) return lang === "ar" ? "الخدمة مشغولة أو تجاوزت حد الاستخدام. حاول لاحقًا." : "The service is busy or rate-limited. Please try later.";
-  if (status !== undefined && status >= 500) return fallback;
-  return error.message || fallback;
+  // لا تُعرض رسائل الأخطاء الداخلية للمستخدم.
+  return fallback;
 }

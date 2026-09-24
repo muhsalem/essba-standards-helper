@@ -149,6 +149,48 @@ export type Database = {
         }
         Relationships: []
       }
+      assessment_result_snapshots: {
+        Row: {
+          created_at: string
+          id: string
+          ineligible: boolean
+          inputs: Json
+          level: string
+          methodology_version: string
+          reference_code: string
+          run_id: string | null
+          score: number
+          source: string
+          verdict: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ineligible?: boolean
+          inputs: Json
+          level: string
+          methodology_version: string
+          reference_code?: string
+          run_id?: string | null
+          score: number
+          source: string
+          verdict?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ineligible?: boolean
+          inputs?: Json
+          level?: string
+          methodology_version?: string
+          reference_code?: string
+          run_id?: string | null
+          score?: number
+          source?: string
+          verdict?: string | null
+        }
+        Relationships: []
+      }
       assessment_objections: {
         Row: {
           created_at: string

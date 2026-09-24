@@ -9,15 +9,15 @@ export const brand = {
 } as const;
 
 export const axes = [
-  { id: "contracts", ar: "العقود", en: "Contracts", weight: 25, hospital: 88 },
-  { id: "revenues", ar: "الإيرادات", en: "Revenue", weight: 25, hospital: 96 },
-  { id: "financing", ar: "التمويل", en: "Financing", weight: 20, hospital: 72 },
-  { id: "operations", ar: "العمليات", en: "Operations", weight: 15, hospital: 90 },
-  { id: "governance", ar: "الحوكمة", en: "Governance", weight: 10, hospital: 82 },
-  { id: "disclosure", ar: "الإفصاح", en: "Disclosure", weight: 5, hospital: 78 },
+  { id: "contracts", ar: "العقود", en: "Contracts", weight: 25, sampleScore: 88 },
+  { id: "revenues", ar: "الإيرادات", en: "Revenue", weight: 25, sampleScore: 96 },
+  { id: "financing", ar: "التمويل", en: "Financing", weight: 20, sampleScore: 72 },
+  { id: "operations", ar: "العمليات", en: "Operations", weight: 15, sampleScore: 90 },
+  { id: "governance", ar: "الحوكمة", en: "Governance", weight: 10, sampleScore: 82 },
+  { id: "disclosure", ar: "الإفصاح", en: "Disclosure", weight: 5, sampleScore: 78 },
 ] as const;
 
-export const methodologyVersion = "SSESBA-IND-1.0.0";
+export const methodologyVersion = "SSESBA-IND-1.1.0";
 
 export const riskTiers = [
   { id: "S1", ar: "مخاطر محدودة", en: "Limited risk", arHelp: "أدلة مكتملة، عقود نمطية، ولا توجد مسائل اجتهادية مؤثرة.", enHelp: "Complete evidence, standard contracts, and no material interpretive issues." },
@@ -78,33 +78,102 @@ export function flaggedAxes(scores: Record<string, number>) {
   return axes.filter((axis) => (scores[axis.id] ?? 0) < structuralFailureThreshold);
 }
 
-export function calculateAssessment(scores: Record<string, number>, gate: GateState, risk: RiskTier) {
-  if (!gatePassed(gate)) {
-    return { score: 0, level: complianceLevelForScore(0), band: "non_compliant", verdict: "rejected", ineligible: true, structuralFailure: true, flagged: flaggedAxes(scores) } as const;
+/**
+ * الحالتان الخاصتان المنصوص عليهما في المعيار: مستقلتان عن نطاقات الدرجات،
+ * فلا يُقحَم النشاط المستجد في مرتبةٍ قسرًا، ولا يُقيَّم ما هو خارج النطاق.
+ */
+export const specialStates = [
+  { id: "under_study", verdict: "referred", ar: "قيد الدراسة / إحالة", en: "Under study / referral", arHelp: "نشاط مستجد لا حكم مستقرًّا فيه؛ يُحال إلى الهيئة الشرعية ولا يُمنح مرتبة.", enHelp: "An emerging activity without a settled ruling; referred to the Shariah board without a rank." },
+  { id: "out_of_scope", verdict: "not_applicable", ar: "غير منطبق / خارج النطاق", en: "Not applicable / out of scope", arHelp: "نشاط خارج نطاق المعيار؛ لا تُصدر له نتيجة امتثال.", enHelp: "An activity outside the standard's scope; no compliance result is issued." },
+] as const;
+export type SpecialStateId = (typeof specialStates)[number]["id"];
+
+/** الأرقام المالية المستخدمة في الفرز الكمي وحساب التطهير. الحقول غير المُدخلة لا تُقيَّم. */
+export type FinancialFigures = {
+  totalAssets?: number | undefined;
+  interestBearingDebt?: number | undefined;
+  interestBearingDeposits?: number | undefined;
+  totalRevenue?: number | undefined;
+  nonCompliantRevenue?: number | undefined;
+};
+
+/**
+ * حدود الفرز المالي الكمي على نهج معيار أيوفي الشرعي رقم 21 (الأوراق المالية).
+ * تُعدّ جزءًا من بوابة الأهلية: تجاوز أي حد يُسقط الأهلية ولا تعوّضه درجات المحاور،
+ * فلا يُعوَّض ربا التمويل بارتفاع بقية المحاور. الحدود قابلة للضبط وفق الولاية القضائية.
+ */
+export const financialScreens = [
+  { id: "debt", numerator: "interestBearingDebt", denominator: "totalAssets", max: 30, ar: "الديون الربوية إلى إجمالي الأصول", en: "Interest-bearing debt to total assets" },
+  { id: "deposits", numerator: "interestBearingDeposits", denominator: "totalAssets", max: 30, ar: "الودائع والاستثمارات الربوية إلى إجمالي الأصول", en: "Interest-bearing deposits and investments to total assets" },
+  { id: "income", numerator: "nonCompliantRevenue", denominator: "totalRevenue", max: 5, ar: "الدخل غير المباح إلى إجمالي الإيرادات", en: "Non-permissible income to total revenue" },
+] as const satisfies ReadonlyArray<{ id: string; numerator: keyof FinancialFigures; denominator: keyof FinancialFigures; max: number; ar: string; en: string }>;
+
+function positive(value: number | undefined) {
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : 0;
+}
+
+export function evaluateFinancialScreens(figures: FinancialFigures = {}) {
+  return financialScreens.map((screen) => {
+    const denominator = positive(figures[screen.denominator]);
+    if (denominator === 0) return { screen, ratio: null, passed: null };
+    const ratio = Math.round((positive(figures[screen.numerator]) / denominator) * 10000) / 100;
+    return { screen, ratio, passed: ratio <= screen.max };
+  });
+}
+
+/** المتوسط المرجّح للمحاور الستة مقرّبًا إلى منزلة عشرية واحدة. */
+export function weightedScore(scores: Record<string, number>) {
+  return Math.round(axes.reduce((total, axis) => total + (scores[axis.id] ?? 0) * axis.weight / 100, 0) * 10) / 10;
+}
+
+export type AssessmentOptions = { figures?: FinancialFigures | undefined; specialState?: SpecialStateId | null | undefined };
+
+export function calculateAssessment(scores: Record<string, number>, gate: GateState, risk: RiskTier, options: AssessmentOptions = {}) {
+  const failedGates = failedGateChecks(gate);
+  const screens = evaluateFinancialScreens(options.figures);
+  const failedScreens = screens.filter((item) => item.passed === false);
+  const special = specialStates.find((state) => state.id === options.specialState) ?? null;
+  const flagged = flaggedAxes(scores);
+  // الإخفاق في البوابة أو الفرز حكمٌ قاطع يتقدّم على الحالات الخاصة.
+  if (failedGates.length > 0 || failedScreens.length > 0) {
+    return { score: 0, level: complianceLevelForScore(0), band: "non_compliant" as Band, verdict: "rejected" as Verdict, ineligible: true, structuralFailure: true, flagged, failedGates, screens, failedScreens, special };
   }
-  const score = Math.round(axes.reduce((total, axis) => total + (scores[axis.id] ?? 0) * axis.weight / 100, 0) * 10) / 10;
-  const band = score >= 85 ? "compliant" : score >= 75 ? "conditional" : score >= 60 ? "remediation" : "non_compliant";
+  const score = weightedScore(scores);
+  const band: Band = score >= 85 ? "compliant" : score >= 75 ? "conditional" : score >= 60 ? "remediation" : "non_compliant";
   return {
     score,
     level: complianceLevelForScore(score),
     band,
-    verdict: verdictMatrix[band][risk],
+    verdict: (special?.verdict ?? verdictMatrix[band][risk]) as Verdict,
     ineligible: false,
     structuralFailure: score < structuralFailureThreshold,
-    flagged: flaggedAxes(scores),
-  } as const;
+    flagged,
+    failedGates,
+    screens,
+    failedScreens,
+    special,
+  };
 }
 
-export function calculateFinancialExposure(totalRevenue: number, nonCompliantRevenue: number, investmentAmount: number) {
-  const revenue = Math.max(0, totalRevenue);
-  const nonCompliant = Math.max(0, Math.min(nonCompliantRevenue, revenue));
-  const investment = Math.max(0, investmentAmount);
+type Band = keyof typeof verdictMatrix;
+export type Verdict = (typeof verdictMatrix)[Band][RiskTier] | (typeof specialStates)[number]["verdict"];
+
+/**
+ * حساب التطهير على نهج معيار أيوفي الشرعي رقم 21: يُطهَّر من العائد الموزّع
+ * (الأرباح أو التوزيعات) بنسبة الدخل غير المباح إلى إجمالي الإيرادات، لا من أصل رأس المال.
+ */
+export function calculatePurification(totalRevenue: number, nonCompliantRevenue: number, distributedReturn: number) {
+  const revenue = positive(totalRevenue);
+  const nonCompliant = Math.min(positive(nonCompliantRevenue), revenue);
   const ratio = revenue > 0 ? nonCompliant / revenue : 0;
   return {
     ratio: Math.round(ratio * 10000) / 100,
-    attributableAmount: Math.round(investment * ratio * 100) / 100,
+    purificationAmount: Math.round(positive(distributedReturn) * ratio * 100) / 100,
   };
 }
+
+/** إصدار سياسة الخصوصية التي يوافق عليها مقدّم الطلب صراحةً. */
+export const privacyConsentVersion = "privacy-2026-09-23";
 
 export const copy = {
   ar: {
