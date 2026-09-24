@@ -4,6 +4,7 @@
 import assert from "node:assert/strict";
 import drafts from "../../scripts/sector-standard-drafts.json";
 import industryDrafts from "../../scripts/industry-standard-drafts.json";
+import activityDrafts from "../../scripts/activity-standard-drafts.json";
 import {
   findActivity,
   industriesForSector,
@@ -89,6 +90,22 @@ for (const draft of industryDrafts) {
   assert.ok(nodeExists({ level: "industry", key: draft.key }), `مفتاح الصناعة ${draft.key} موجود`);
   standardContentSchema.parse(draft);
   assert.ok(draft.requirements.length >= 5, `مسودة ${draft.key} فيها خمسة بنود على الأقل`);
+  assert.ok(
+    draft.requirements.every((item) => item.en && item.ref),
+    `بنود مسودة ${draft.key} مترجمة وموثّقة`,
+  );
+}
+
+// مسودات الأنشطة: مفاتيح موجودة وغير مكررة، وتجتاز مخطط المحتوى، وكل بند مترجم وموثّق.
+assert.equal(
+  new Set(activityDrafts.map((draft) => draft.key)).size,
+  activityDrafts.length,
+  "لا تكرار في مسودات الأنشطة",
+);
+for (const draft of activityDrafts) {
+  assert.ok(nodeExists({ level: "activity", key: draft.key }), `مفتاح النشاط ${draft.key} موجود`);
+  standardContentSchema.parse(draft);
+  assert.ok(draft.requirements.length >= 3, `مسودة ${draft.key} فيها ثلاثة بنود على الأقل`);
   assert.ok(
     draft.requirements.every((item) => item.en && item.ref),
     `بنود مسودة ${draft.key} مترجمة وموثّقة`,
