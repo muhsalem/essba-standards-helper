@@ -17,6 +17,15 @@ export const axes = [
   { id: "disclosure", ar: "الإفصاح", en: "Disclosure", weight: 5, hospital: 78 },
 ] as const;
 
+export const methodologyVersion = "SSESBA-IND-1.0.0";
+
+export const riskTiers = [
+  { id: "S1", ar: "مخاطر محدودة", en: "Limited risk", arHelp: "أدلة مكتملة، عقود نمطية، ولا توجد مسائل اجتهادية مؤثرة.", enHelp: "Complete evidence, standard contracts, and no material interpretive issues." },
+  { id: "S2", ar: "مخاطر متوسطة", en: "Moderate risk", arHelp: "نواقص قابلة للاستكمال أو شروط تصحيحية محدودة لا تمس أصل النشاط.", enHelp: "Evidence gaps or limited corrective conditions that do not affect the core activity." },
+  { id: "S3", ar: "مخاطر مرتفعة", en: "High risk", arHelp: "عقود مركبة أو مسألة اجتهادية مؤثرة تستوجب مراجعة هيئة شرعية.", enHelp: "Complex contracts or a material interpretive issue requiring Shariah-board review." },
+  { id: "S4", ar: "مخاطر حرجة", en: "Critical risk", arHelp: "غموض جوهري أو أدلة غير كافية تمنع إصدار حكم إيجابي.", enHelp: "Material uncertainty or insufficient evidence prevents a positive verdict." },
+] as const satisfies ReadonlyArray<{ id: RiskTier; ar: string; en: string; arHelp: string; enHelp: string }>;
+
 /** بوابة الأهلية: اختبارات مستقلة ملزمة، تخلّف أي منها يُسقط الأهلية. */
 export const gateChecks = [
   { id: "riba", ar: "خلوّ النشاط الأساسي من الربا", en: "Core activity free of riba" },
@@ -83,6 +92,17 @@ export function calculateAssessment(scores: Record<string, number>, gate: GateSt
     structuralFailure: score < structuralFailureThreshold,
     flagged: flaggedAxes(scores),
   } as const;
+}
+
+export function calculateFinancialExposure(totalRevenue: number, nonCompliantRevenue: number, investmentAmount: number) {
+  const revenue = Math.max(0, totalRevenue);
+  const nonCompliant = Math.max(0, Math.min(nonCompliantRevenue, revenue));
+  const investment = Math.max(0, investmentAmount);
+  const ratio = revenue > 0 ? nonCompliant / revenue : 0;
+  return {
+    ratio: Math.round(ratio * 10000) / 100,
+    attributableAmount: Math.round(investment * ratio * 100) / 100,
+  };
 }
 
 export const copy = {

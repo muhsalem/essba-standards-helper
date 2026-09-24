@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  axes, brand, calculateAssessment, complianceLevels, copy, gateChecks, structuralFailureThreshold,
+  axes, brand, calculateAssessment, complianceLevels, copy, gateChecks, riskTiers, structuralFailureThreshold,
   type AssessmentMode, type GateState, type Lang, type RiskTier,
 } from "@/lib/ssesba-data";
 import { getAssessmentExamples, suggestHospitalAssessment } from "@/lib/ssesba.functions";
@@ -160,7 +160,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                 ))}
               </div>
               {failed.length > 0 && (
-                <div className="mt-4 rounded-md bg-destructive/10 p-4 text-sm text-destructive">
+                <div role="alert" className="mt-4 rounded-md bg-destructive/10 p-4 text-sm text-destructive">
                   <p className="font-semibold">{t.gateFailed}</p>
                   <ul className="mt-2 list-disc space-y-1 ps-5">{failed.map((c) => <li key={c.id}>{c[lang]}</li>)}</ul>
                 </div>
@@ -172,8 +172,8 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                 <Label>{t.evidence}</Label>
                 <Textarea value={description} onChange={(e) => setDescription(e.target.value)} className="mt-3 min-h-28 bg-background" />
                 <Button onClick={runAI} disabled={busy} className="mt-3 bg-brand-navy text-primary-foreground"><Sparkles />{busy ? "…" : t.analyze}</Button>
-                {aiNote && <p className="mt-3 text-sm leading-6">{aiNote}</p>}
-                {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+                {aiNote && <p role="status" className="mt-3 text-sm leading-6">{aiNote}</p>}
+                {error && <p role="alert" className="mt-3 text-sm text-destructive">{error}</p>}
               </div>
             )}
 
@@ -185,12 +185,12 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                   <div key={axis.id} className={`rounded-md border bg-card p-5 ${low ? "border-destructive/50" : ""}`}>
                     <div className="mb-4 flex items-baseline justify-between">
                       <div>
-                        <h3 className="font-semibold">{axis[lang]}</h3>
+                        <h3 id={`axis-${axis.id}-label`} className="font-semibold">{axis[lang]}</h3>
                         <p className="text-xs text-muted-foreground">{t.weight} {axis.weight}%</p>
                       </div>
                       <output className={`rounded-md px-2.5 py-1 font-mono text-xl font-bold ${scoreTone(score)}`}>{score}</output>
                     </div>
-                    <Slider value={[score]} max={100} step={1} onValueChange={(v) => setScores({ ...scores, [axis.id]: v[0] ?? 0 })} />
+                    <Slider aria-labelledby={`axis-${axis.id}-label`} aria-valuetext={`${score} / 100`} value={[score]} max={100} step={1} onValueChange={(v) => setScores({ ...scores, [axis.id]: v[0] ?? 0 })} />
                   </div>
                 );
               })}
@@ -198,7 +198,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
           </section>
 
           <aside className="lg:sticky lg:top-5 lg:self-start">
-            <div className="overflow-hidden rounded-md border bg-card shadow-sm">
+            <div aria-live="polite" aria-atomic="true" className="overflow-hidden rounded-md border bg-card shadow-sm">
               <div className="bg-brand-navy p-6 text-primary-foreground">
                 <p className="text-sm text-brand-gold-soft">{t.result}</p>
                 <div className="mt-2 flex items-end justify-between">
@@ -217,11 +217,11 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                 <div><p className="text-xs text-muted-foreground">{t.band}</p><p className="mt-1 font-semibold">{bandLabel}</p></div>
                 <div>
                   <Label>{t.risk}</Label>
-                  <Select value={risk} onValueChange={(v) => setRisk(v as RiskTier)}>
-                    <SelectTrigger className="mt-2"><SelectValue /></SelectTrigger>
-                    <SelectContent>{["S1", "S2", "S3", "S4"].map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+                   <Select value={risk} onValueChange={(v) => setRisk(v as RiskTier)}>
+                     <SelectTrigger className="mt-2" aria-describedby="risk-guidance"><SelectValue /></SelectTrigger>
+                     <SelectContent>{riskTiers.map((tier) => <SelectItem key={tier.id} value={tier.id}>{tier.id} — {tier[lang]}</SelectItem>)}</SelectContent>
                   </Select>
-                  <p className="mt-2 text-xs text-muted-foreground">{t.riskNote}</p>
+                   <p id="risk-guidance" className="mt-2 text-xs text-muted-foreground">{t.riskNote} {riskTiers.find((tier) => tier.id === risk)?.[lang === "ar" ? "arHelp" : "enHelp"]}</p>
                 </div>
                 <div className={`rounded-md p-4 ${result.verdict === "rejected" ? "bg-destructive/10 text-destructive" : "bg-brand-parchment text-brand-navy"}`}>
                   {result.verdict === "rejected" ? <AlertTriangle /> : <CheckCircle2 />}
@@ -241,7 +241,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
           </aside>
         </div>
       </div>
-      <div className="sticky bottom-0 z-40 border-t border-brand-gold/40 bg-brand-navy px-5 py-3 text-primary-foreground lg:hidden">
+      <div aria-live="polite" aria-atomic="true" className="sticky bottom-0 z-40 border-t border-brand-gold/40 bg-brand-navy px-5 py-3 text-primary-foreground lg:hidden">
         <div className="flex items-center justify-between gap-4">
           <span className="text-xs text-brand-gold-soft">{t.result}</span>
           <span className="flex items-baseline gap-1"><strong className="font-mono text-2xl">{result.score}</strong><small className="text-xs">/100</small></span>

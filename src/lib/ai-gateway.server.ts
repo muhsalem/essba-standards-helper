@@ -21,3 +21,16 @@ export function createLovableResponsesProvider(apiKey: string) {
   });
   return { model: provider.responses("openai/gpt-6-astra"), getRunId: () => runId, waitForRunId: () => runId ? Promise.resolve(runId) : runIdReady };
 }
+
+export function safeAiError(error: unknown, lang: "ar" | "en" = "ar") {
+  const fallback = lang === "ar" ? "تعذّر إكمال الطلب. حاول لاحقًا." : "The request could not be completed. Please try again later.";
+  if (!(error instanceof Error)) return fallback;
+  const status = "statusCode" in error && typeof error.statusCode === "number" ? error.statusCode : undefined;
+  if (status === 400) return lang === "ar" ? "المدخلات غير صالحة أو طويلة جدًا." : "The input is invalid or too long.";
+  if (status === 401) return lang === "ar" ? "خدمة الذكاء الاصطناعي غير مهيأة." : "The AI service is not configured.";
+  if (status === 402) return lang === "ar" ? "رصيد الذكاء الاصطناعي غير كافٍ حاليًا." : "AI credits are currently insufficient.";
+  if (status === 403) return lang === "ar" ? "الخدمة غير متاحة وفق سياسة مساحة العمل." : "The service is unavailable under the workspace policy.";
+  if (status === 429) return lang === "ar" ? "الخدمة مشغولة أو تجاوزت حد الاستخدام. حاول لاحقًا." : "The service is busy or rate-limited. Please try later.";
+  if (status !== undefined && status >= 500) return fallback;
+  return error.message || fallback;
+}
