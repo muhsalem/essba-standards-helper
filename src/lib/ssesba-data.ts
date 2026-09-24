@@ -54,8 +54,9 @@ export const complianceLevels = [
 ] as const satisfies ReadonlyArray<{ id: ComplianceLevelId; min: number; max: number; ar: string; en: string }>;
 
 export function complianceLevelForScore(score: number) {
+  // المستويات مرتبة تنازليًا؛ المطابقة بالحد الأدنى فقط حتى لا تسقط الدرجات العشرية (مثل 84.3) في فجوة بين نطاقين.
   const normalized = Math.max(0, Math.min(100, score));
-  return complianceLevels.find((level) => normalized >= level.min && normalized <= level.max) ?? complianceLevels[5];
+  return complianceLevels.find((level) => normalized >= level.min) ?? complianceLevels[5];
 }
 
 export const verdictMatrix = {

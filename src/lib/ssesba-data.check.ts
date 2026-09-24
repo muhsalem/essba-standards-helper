@@ -19,6 +19,12 @@ for (const [score, band] of bands) assert.equal(calculateAssessment(flat(score),
 const levels: Array<[number, string]> = [[100, "full"], [95, "full"], [94, "substantial"], [85, "substantial"], [84, "conditional"], [75, "conditional"], [74, "structural_remediation"], [60, "structural_remediation"], [59, "non_compliant"], [45, "non_compliant"], [44, "prohibited"], [0, "prohibited"]];
 for (const [score, level] of levels) assert.equal(complianceLevelForScore(score).id, level, `المستوى السداسي عند ${score}`);
 
+const decimals: Array<[number, string]> = [[94.3, "substantial"], [84.5, "conditional"], [74.9, "structural_remediation"], [59.5, "non_compliant"], [44.9, "prohibited"]];
+for (const [score, level] of decimals) assert.equal(complianceLevelForScore(score).id, level, `المستوى السداسي للدرجة العشرية ${score}`);
+const mixed = calculateAssessment({ ...flat(84), contracts: 85 }, openGate, "S1");
+assert.equal(mixed.score, 84.3);
+assert.equal(mixed.level.id, "conditional", "الدرجة 84.3 يجب ألا تُصنَّف محظورة");
+
 for (const [band, row] of Object.entries(verdictMatrix)) {
   const score = band === "compliant" ? 90 : band === "conditional" ? 80 : band === "remediation" ? 65 : 40;
   for (const tier of ["S1", "S2", "S3", "S4"] as RiskTier[]) {

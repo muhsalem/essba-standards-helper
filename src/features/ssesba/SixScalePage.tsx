@@ -32,7 +32,7 @@ const l10n = {
 } as const;
 
 type Sector = keyof (typeof l10n)["ar"]["sectors"];
-type SixResult = { score: number; level: string; justification: string[]; plan: string[]; scores: Record<string, number>; financialExposure: { ratio: number; attributableAmount: number } };
+type SixResult = { score: number; level: string; justification: string[]; plan: string[]; financialExposure: { ratio: number; attributableAmount: number } };
 
 function levelTone(score: number): string {
   const idx = complianceLevels.findIndex((level) => level.id === complianceLevelForScore(score).id);
