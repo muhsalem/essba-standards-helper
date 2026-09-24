@@ -374,6 +374,108 @@ export type Database = {
         }
         Relationships: []
       }
+      classification_standard_revisions: {
+        Row: {
+          action: string
+          actor_user_id: string | null
+          created_at: string
+          id: string
+          note: string | null
+          snapshot: Json
+          standard_id: string
+        }
+        Insert: {
+          action: string
+          actor_user_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          snapshot: Json
+          standard_id: string
+        }
+        Update: {
+          action?: string
+          actor_user_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          snapshot?: Json
+          standard_id?: string
+        }
+        Relationships: []
+      }
+      classification_standards: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          level: string
+          node_key: string
+          published_at: string | null
+          published_snapshot: Json | null
+          published_version: number | null
+          requirements: Json
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sources: Json
+          status: string
+          summary_ar: string
+          summary_en: string | null
+          title_ar: string
+          title_en: string | null
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          level: string
+          node_key: string
+          published_at?: string | null
+          published_snapshot?: Json | null
+          published_version?: number | null
+          requirements?: Json
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sources?: Json
+          status?: string
+          summary_ar: string
+          summary_en?: string | null
+          title_ar: string
+          title_en?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          level?: string
+          node_key?: string
+          published_at?: string | null
+          published_snapshot?: Json | null
+          published_version?: number | null
+          requirements?: Json
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sources?: Json
+          status?: string
+          summary_ar?: string
+          summary_en?: string | null
+          title_ar?: string
+          title_en?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: []
+      }
       content_revisions: {
         Row: {
           change_note: string | null

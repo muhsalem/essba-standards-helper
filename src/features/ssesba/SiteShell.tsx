@@ -5,6 +5,7 @@ import {
   BookOpenText,
   FileCheck2,
   Languages,
+  Layers,
   Menu,
   MessagesSquare,
   Scale,
@@ -41,10 +42,11 @@ export function SiteShell({
     { to: en ? "/en/request" : "/request", label: t.request, icon: Send },
     { to: en ? "/en/assistant" : "/assistant", label: t.assistant, icon: MessagesSquare },
     { to: en ? "/en/six" : "/six", label: t.six, icon: Scale },
+    { to: en ? "/en/standards" : "/standards", label: t.sectorStandards, icon: Layers },
     { to: "/explorer", label: t.explorer, icon: Search },
   ];
   const renderNav = (label: string) => (
-    <nav aria-label={label} className="grid gap-1 md:flex md:items-center md:gap-1">
+    <nav aria-label={label} className="grid gap-1 lg:flex lg:items-center lg:gap-1">
       {links.map(({ to, label: linkLabel, icon: Icon }) => {
         const active = pathname === to;
         return (
@@ -92,7 +94,7 @@ export function SiteShell({
               </small>
             </span>
           </Link>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             {renderNav(en ? "Primary navigation" : "التنقل الرئيسي")}
           </div>
           <div className="flex items-center gap-2">
@@ -116,7 +118,7 @@ export function SiteShell({
                 <Button
                   variant="outline"
                   size="icon"
-                  className="min-h-11 min-w-11 border-brand-gold/60 bg-transparent text-primary-foreground hover:bg-brand-gold hover:text-brand-navy md:hidden"
+                  className="min-h-11 min-w-11 border-brand-gold/60 bg-transparent text-primary-foreground hover:bg-brand-gold hover:text-brand-navy lg:hidden"
                   aria-label={en ? "Open menu" : "فتح القائمة"}
                 >
                   <Menu />

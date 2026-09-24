@@ -324,6 +324,7 @@ export const copy = {
     explorer: "مستكشف التصنيف",
     assistant: "المساعد الشرعي",
     six: "المقياس السداسي",
+    sectorStandards: "معايير القطاعات",
     back: "العودة إلى المعيار",
     language: "English",
     advisory: "نتيجة استرشادية تحتاج اعتماد مراجع شرعي مختص، وليست فتوى ولا اعتمادًا نهائيًا.",
@@ -337,6 +338,7 @@ export const copy = {
     explorer: "Classification explorer",
     assistant: "Standards assistant",
     six: "Six-level scale",
+    sectorStandards: "Sector standards",
     back: "Back to the standard",
     language: "العربية",
     advisory:

@@ -8,6 +8,7 @@ const arToEn: Record<string, string> = {
   "/six": "/en/six",
   "/assistant": "/en/assistant",
   "/request": "/en/request",
+  "/standards": "/en/standards",
   "/objection": "/en/objection",
   "/privacy": "/en/privacy",
   "/terms": "/en/terms",

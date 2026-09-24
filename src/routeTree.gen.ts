@@ -17,7 +17,9 @@ import { Route as ObjectionRouteImport } from './routes/objection'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as SixRouteImport } from './routes/six'
+import { Route as StandardsRouteImport } from './routes/standards'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AdminStandardsRouteImport } from './routes/admin.standards'
 import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as EnAssessmentRouteImport } from './routes/en.assessment'
 import { Route as EnAssistantRouteImport } from './routes/en.assistant'
@@ -25,6 +27,7 @@ import { Route as EnObjectionRouteImport } from './routes/en.objection'
 import { Route as EnPrivacyRouteImport } from './routes/en.privacy'
 import { Route as EnRequestRouteImport } from './routes/en.request'
 import { Route as EnSixRouteImport } from './routes/en.six'
+import { Route as EnStandardsRouteImport } from './routes/en.standards'
 import { Route as EnTermsRouteImport } from './routes/en.terms'
 
 const IndexRoute = IndexRouteImport.update({
@@ -67,9 +70,19 @@ const SixRoute = SixRouteImport.update({
   path: '/six',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StandardsRoute = StandardsRouteImport.update({
+  id: '/standards',
+  path: '/standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminStandardsRoute = AdminStandardsRouteImport.update({
+  id: '/admin/standards',
+  path: '/admin/standards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnIndexRoute = EnIndexRouteImport.update({
@@ -107,6 +120,11 @@ const EnSixRoute = EnSixRouteImport.update({
   path: '/en/six',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnStandardsRoute = EnStandardsRouteImport.update({
+  id: '/en/standards',
+  path: '/en/standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnTermsRoute = EnTermsRouteImport.update({
   id: '/en/terms',
   path: '/en/terms',
@@ -122,13 +140,16 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/request': typeof RequestRoute
   '/six': typeof SixRoute
+  '/standards': typeof StandardsRoute
   '/terms': typeof TermsRoute
+  '/admin/standards': typeof AdminStandardsRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/assistant': typeof EnAssistantRoute
   '/en/objection': typeof EnObjectionRoute
   '/en/privacy': typeof EnPrivacyRoute
   '/en/request': typeof EnRequestRoute
   '/en/six': typeof EnSixRoute
+  '/en/standards': typeof EnStandardsRoute
   '/en/terms': typeof EnTermsRoute
   '/en/': typeof EnIndexRoute
 }
@@ -141,13 +162,16 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/request': typeof RequestRoute
   '/six': typeof SixRoute
+  '/standards': typeof StandardsRoute
   '/terms': typeof TermsRoute
+  '/admin/standards': typeof AdminStandardsRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/assistant': typeof EnAssistantRoute
   '/en/objection': typeof EnObjectionRoute
   '/en/privacy': typeof EnPrivacyRoute
   '/en/request': typeof EnRequestRoute
   '/en/six': typeof EnSixRoute
+  '/en/standards': typeof EnStandardsRoute
   '/en/terms': typeof EnTermsRoute
   '/en': typeof EnIndexRoute
 }
@@ -161,13 +185,16 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/request': typeof RequestRoute
   '/six': typeof SixRoute
+  '/standards': typeof StandardsRoute
   '/terms': typeof TermsRoute
+  '/admin/standards': typeof AdminStandardsRoute
   '/en/assessment': typeof EnAssessmentRoute
   '/en/assistant': typeof EnAssistantRoute
   '/en/objection': typeof EnObjectionRoute
   '/en/privacy': typeof EnPrivacyRoute
   '/en/request': typeof EnRequestRoute
   '/en/six': typeof EnSixRoute
+  '/en/standards': typeof EnStandardsRoute
   '/en/terms': typeof EnTermsRoute
   '/en/': typeof EnIndexRoute
 }
@@ -182,13 +209,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/request'
     | '/six'
+    | '/standards'
     | '/terms'
+    | '/admin/standards'
     | '/en/assessment'
     | '/en/assistant'
     | '/en/objection'
     | '/en/privacy'
     | '/en/request'
     | '/en/six'
+    | '/en/standards'
     | '/en/terms'
     | '/en/'
   fileRoutesByTo: FileRoutesByTo
@@ -201,13 +231,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/request'
     | '/six'
+    | '/standards'
     | '/terms'
+    | '/admin/standards'
     | '/en/assessment'
     | '/en/assistant'
     | '/en/objection'
     | '/en/privacy'
     | '/en/request'
     | '/en/six'
+    | '/en/standards'
     | '/en/terms'
     | '/en'
   id:
@@ -220,13 +253,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/request'
     | '/six'
+    | '/standards'
     | '/terms'
+    | '/admin/standards'
     | '/en/assessment'
     | '/en/assistant'
     | '/en/objection'
     | '/en/privacy'
     | '/en/request'
     | '/en/six'
+    | '/en/standards'
     | '/en/terms'
     | '/en/'
   fileRoutesById: FileRoutesById
@@ -240,13 +276,16 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   RequestRoute: typeof RequestRoute
   SixRoute: typeof SixRoute
+  StandardsRoute: typeof StandardsRoute
   TermsRoute: typeof TermsRoute
+  AdminStandardsRoute: typeof AdminStandardsRoute
   EnAssessmentRoute: typeof EnAssessmentRoute
   EnAssistantRoute: typeof EnAssistantRoute
   EnObjectionRoute: typeof EnObjectionRoute
   EnPrivacyRoute: typeof EnPrivacyRoute
   EnRequestRoute: typeof EnRequestRoute
   EnSixRoute: typeof EnSixRoute
+  EnStandardsRoute: typeof EnStandardsRoute
   EnTermsRoute: typeof EnTermsRoute
   EnIndexRoute: typeof EnIndexRoute
 }
@@ -309,11 +348,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SixRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/standards': {
+      id: '/standards'
+      path: '/standards'
+      fullPath: '/standards'
+      preLoaderRoute: typeof StandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/standards': {
+      id: '/admin/standards'
+      path: '/admin/standards'
+      fullPath: '/admin/standards'
+      preLoaderRoute: typeof AdminStandardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/en/': {
@@ -365,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnSixRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en/standards': {
+      id: '/en/standards'
+      path: '/en/standards'
+      fullPath: '/en/standards'
+      preLoaderRoute: typeof EnStandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/terms': {
       id: '/en/terms'
       path: '/en/terms'
@@ -384,13 +444,16 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   RequestRoute: RequestRoute,
   SixRoute: SixRoute,
+  StandardsRoute: StandardsRoute,
   TermsRoute: TermsRoute,
+  AdminStandardsRoute: AdminStandardsRoute,
   EnAssessmentRoute: EnAssessmentRoute,
   EnAssistantRoute: EnAssistantRoute,
   EnObjectionRoute: EnObjectionRoute,
   EnPrivacyRoute: EnPrivacyRoute,
   EnRequestRoute: EnRequestRoute,
   EnSixRoute: EnSixRoute,
+  EnStandardsRoute: EnStandardsRoute,
   EnTermsRoute: EnTermsRoute,
   EnIndexRoute: EnIndexRoute,
 }
