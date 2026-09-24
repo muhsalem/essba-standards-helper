@@ -10,7 +10,7 @@ const title = "SSESBA — Shariah Standards for Economic Sectors & Business Acti
 const description =
   "A unified reference framework for classifying economic sectors and measuring Shariah compliance across business activities.";
 
-export const Route = createFileRoute("/en")({
+export const Route = createFileRoute("/en/")({
   head: () => pageHead({ title, description, path: "/en" }),
   component: EnglishStandardPage,
 });

@@ -12,13 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AssistantRouteImport } from './routes/assistant'
-import { Route as EnRouteImport } from './routes/en'
 import { Route as ExplorerRouteImport } from './routes/explorer'
 import { Route as ObjectionRouteImport } from './routes/objection'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RequestRouteImport } from './routes/request'
 import { Route as SixRouteImport } from './routes/six'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as EnAssessmentRouteImport } from './routes/en.assessment'
 import { Route as EnAssistantRouteImport } from './routes/en.assistant'
 import { Route as EnObjectionRouteImport } from './routes/en.objection'
@@ -40,11 +40,6 @@ const AssessmentRoute = AssessmentRouteImport.update({
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnRoute = EnRouteImport.update({
-  id: '/en',
-  path: '/en',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExplorerRoute = ExplorerRouteImport.update({
@@ -77,47 +72,51 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnIndexRoute = EnIndexRouteImport.update({
+  id: '/en/',
+  path: '/en/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnAssessmentRoute = EnAssessmentRouteImport.update({
-  id: '/assessment',
-  path: '/assessment',
-  getParentRoute: () => EnRoute,
+  id: '/en/assessment',
+  path: '/en/assessment',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnAssistantRoute = EnAssistantRouteImport.update({
-  id: '/assistant',
-  path: '/assistant',
-  getParentRoute: () => EnRoute,
+  id: '/en/assistant',
+  path: '/en/assistant',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnObjectionRoute = EnObjectionRouteImport.update({
-  id: '/objection',
-  path: '/objection',
-  getParentRoute: () => EnRoute,
+  id: '/en/objection',
+  path: '/en/objection',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnPrivacyRoute = EnPrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => EnRoute,
+  id: '/en/privacy',
+  path: '/en/privacy',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnRequestRoute = EnRequestRouteImport.update({
-  id: '/request',
-  path: '/request',
-  getParentRoute: () => EnRoute,
+  id: '/en/request',
+  path: '/en/request',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnSixRoute = EnSixRouteImport.update({
-  id: '/six',
-  path: '/six',
-  getParentRoute: () => EnRoute,
+  id: '/en/six',
+  path: '/en/six',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnTermsRoute = EnTermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => EnRoute,
+  id: '/en/terms',
+  path: '/en/terms',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/assistant': typeof AssistantRoute
-  '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/objection': typeof ObjectionRoute
   '/privacy': typeof PrivacyRoute
@@ -131,12 +130,12 @@ export interface FileRoutesByFullPath {
   '/en/request': typeof EnRequestRoute
   '/en/six': typeof EnSixRoute
   '/en/terms': typeof EnTermsRoute
+  '/en/': typeof EnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/assistant': typeof AssistantRoute
-  '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/objection': typeof ObjectionRoute
   '/privacy': typeof PrivacyRoute
@@ -150,13 +149,13 @@ export interface FileRoutesByTo {
   '/en/request': typeof EnRequestRoute
   '/en/six': typeof EnSixRoute
   '/en/terms': typeof EnTermsRoute
+  '/en': typeof EnIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/assistant': typeof AssistantRoute
-  '/en': typeof EnRouteWithChildren
   '/explorer': typeof ExplorerRoute
   '/objection': typeof ObjectionRoute
   '/privacy': typeof PrivacyRoute
@@ -170,6 +169,7 @@ export interface FileRoutesById {
   '/en/request': typeof EnRequestRoute
   '/en/six': typeof EnSixRoute
   '/en/terms': typeof EnTermsRoute
+  '/en/': typeof EnIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,7 +177,6 @@ export interface FileRouteTypes {
     | '/'
     | '/assessment'
     | '/assistant'
-    | '/en'
     | '/explorer'
     | '/objection'
     | '/privacy'
@@ -191,12 +190,12 @@ export interface FileRouteTypes {
     | '/en/request'
     | '/en/six'
     | '/en/terms'
+    | '/en/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/assessment'
     | '/assistant'
-    | '/en'
     | '/explorer'
     | '/objection'
     | '/privacy'
@@ -210,12 +209,12 @@ export interface FileRouteTypes {
     | '/en/request'
     | '/en/six'
     | '/en/terms'
+    | '/en'
   id:
     | '__root__'
     | '/'
     | '/assessment'
     | '/assistant'
-    | '/en'
     | '/explorer'
     | '/objection'
     | '/privacy'
@@ -229,19 +228,27 @@ export interface FileRouteTypes {
     | '/en/request'
     | '/en/six'
     | '/en/terms'
+    | '/en/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
   AssistantRoute: typeof AssistantRoute
-  EnRoute: typeof EnRouteWithChildren
   ExplorerRoute: typeof ExplorerRoute
   ObjectionRoute: typeof ObjectionRoute
   PrivacyRoute: typeof PrivacyRoute
   RequestRoute: typeof RequestRoute
   SixRoute: typeof SixRoute
   TermsRoute: typeof TermsRoute
+  EnAssessmentRoute: typeof EnAssessmentRoute
+  EnAssistantRoute: typeof EnAssistantRoute
+  EnObjectionRoute: typeof EnObjectionRoute
+  EnPrivacyRoute: typeof EnPrivacyRoute
+  EnRequestRoute: typeof EnRequestRoute
+  EnSixRoute: typeof EnSixRoute
+  EnTermsRoute: typeof EnTermsRoute
+  EnIndexRoute: typeof EnIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -265,13 +272,6 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AssistantRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/en': {
-      id: '/en'
-      path: '/en'
-      fullPath: '/en'
-      preLoaderRoute: typeof EnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explorer': {
@@ -316,69 +316,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en/': {
+      id: '/en/'
+      path: '/en'
+      fullPath: '/en/'
+      preLoaderRoute: typeof EnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/assessment': {
       id: '/en/assessment'
-      path: '/assessment'
+      path: '/en/assessment'
       fullPath: '/en/assessment'
       preLoaderRoute: typeof EnAssessmentRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/assistant': {
       id: '/en/assistant'
-      path: '/assistant'
+      path: '/en/assistant'
       fullPath: '/en/assistant'
       preLoaderRoute: typeof EnAssistantRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/objection': {
       id: '/en/objection'
-      path: '/objection'
+      path: '/en/objection'
       fullPath: '/en/objection'
       preLoaderRoute: typeof EnObjectionRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/privacy': {
       id: '/en/privacy'
-      path: '/privacy'
+      path: '/en/privacy'
       fullPath: '/en/privacy'
       preLoaderRoute: typeof EnPrivacyRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/request': {
       id: '/en/request'
-      path: '/request'
+      path: '/en/request'
       fullPath: '/en/request'
       preLoaderRoute: typeof EnRequestRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/six': {
       id: '/en/six'
-      path: '/six'
+      path: '/en/six'
       fullPath: '/en/six'
       preLoaderRoute: typeof EnSixRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/terms': {
       id: '/en/terms'
-      path: '/terms'
+      path: '/en/terms'
       fullPath: '/en/terms'
       preLoaderRoute: typeof EnTermsRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface EnRouteChildren {
-  EnAssessmentRoute: typeof EnAssessmentRoute
-  EnAssistantRoute: typeof EnAssistantRoute
-  EnObjectionRoute: typeof EnObjectionRoute
-  EnPrivacyRoute: typeof EnPrivacyRoute
-  EnRequestRoute: typeof EnRequestRoute
-  EnSixRoute: typeof EnSixRoute
-  EnTermsRoute: typeof EnTermsRoute
-}
-
-const EnRouteChildren: EnRouteChildren = {
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AssessmentRoute: AssessmentRoute,
+  AssistantRoute: AssistantRoute,
+  ExplorerRoute: ExplorerRoute,
+  ObjectionRoute: ObjectionRoute,
+  PrivacyRoute: PrivacyRoute,
+  RequestRoute: RequestRoute,
+  SixRoute: SixRoute,
+  TermsRoute: TermsRoute,
   EnAssessmentRoute: EnAssessmentRoute,
   EnAssistantRoute: EnAssistantRoute,
   EnObjectionRoute: EnObjectionRoute,
@@ -386,21 +392,7 @@ const EnRouteChildren: EnRouteChildren = {
   EnRequestRoute: EnRequestRoute,
   EnSixRoute: EnSixRoute,
   EnTermsRoute: EnTermsRoute,
-}
-
-const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
-
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AssessmentRoute: AssessmentRoute,
-  AssistantRoute: AssistantRoute,
-  EnRoute: EnRouteWithChildren,
-  ExplorerRoute: ExplorerRoute,
-  ObjectionRoute: ObjectionRoute,
-  PrivacyRoute: PrivacyRoute,
-  RequestRoute: RequestRoute,
-  SixRoute: SixRoute,
-  TermsRoute: TermsRoute,
+  EnIndexRoute: EnIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
