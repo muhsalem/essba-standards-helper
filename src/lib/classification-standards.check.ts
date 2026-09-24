@@ -3,6 +3,7 @@
  */
 import assert from "node:assert/strict";
 import drafts from "../../scripts/sector-standard-drafts.json";
+import industryDrafts from "../../scripts/industry-standard-drafts.json";
 import {
   findActivity,
   industriesForSector,
@@ -72,6 +73,22 @@ for (const draft of drafts) {
     draft.requirements.some((item) => item.kind === "prohibition"),
     `مسودة ${draft.key} تتضمن محظورات`,
   );
+  assert.ok(
+    draft.requirements.every((item) => item.en && item.ref),
+    `بنود مسودة ${draft.key} مترجمة وموثّقة`,
+  );
+}
+
+// مسودات الصناعات الإحدى والعشرين: مسودة لكل صناعة، بمفاتيح صحيحة، وتجتاز مخطط المحتوى.
+assert.deepEqual(
+  industryDrafts.map((draft) => draft.key).sort(),
+  taxonomy.industries.map((industry) => industry.key).sort(),
+  "مسودة لكل صناعة",
+);
+for (const draft of industryDrafts) {
+  assert.ok(nodeExists({ level: "industry", key: draft.key }), `مفتاح الصناعة ${draft.key} موجود`);
+  standardContentSchema.parse(draft);
+  assert.ok(draft.requirements.length >= 5, `مسودة ${draft.key} فيها خمسة بنود على الأقل`);
   assert.ok(
     draft.requirements.every((item) => item.en && item.ref),
     `بنود مسودة ${draft.key} مترجمة وموثّقة`,
