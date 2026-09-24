@@ -80,19 +80,19 @@ export function AssistantPage({ lang }: { lang: Lang }) {
               <Label htmlFor="assistant-excerpt">{t.excerpt}</Label>
               <Textarea id="assistant-excerpt" rows={7} value={excerpt} onChange={(event) => setExcerpt(event.target.value)} placeholder={t.excerptPlaceholder} />
             </div>
-            <Button onClick={onSubmit} disabled={busy || question.trim().length < 5} className="justify-center">
+            <Button onClick={onSubmit} disabled={busy || question.trim().length < 5} aria-busy={busy} className="justify-center">
               {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
               {busy ? t.loading : t.submit}
             </Button>
             {error ? (
-              <p className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/5 p-3 text-sm text-destructive">
+              <p role="alert" className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/5 p-3 text-sm text-destructive">
                 <AlertTriangle className="mt-0.5 size-4 shrink-0" />{error}
               </p>
             ) : null}
           </div>
         </div>
 
-        <div className="grid content-start gap-4">
+        <div aria-live="polite" aria-atomic="true" className="grid content-start gap-4">
           {answer ? (
             <>
               <article className="rounded-xl border border-brand-gold/25 bg-card p-6 shadow-sm">
