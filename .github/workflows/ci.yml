@@ -16,6 +16,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       # bun.lock resolves some packages through Lovable's private cache, so CI installs from the public npm registry.
       - run: npm install --no-audit --no-fund --no-package-lock
+      - name: Lint
+        run: npm run lint
       - name: Typecheck
         run: npm run typecheck
       - name: Methodology checks

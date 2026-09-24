@@ -3,15 +3,33 @@ export const siteUrl = "https://ssesba.lovable.app";
 
 /** المسارات المتقابلة بين العربية والإنجليزية لروابط hreflang. */
 const arToEn: Record<string, string> = {
-  "/": "/en", "/assessment": "/en/assessment", "/six": "/en/six", "/assistant": "/en/assistant",
-  "/request": "/en/request", "/objection": "/en/objection", "/privacy": "/en/privacy", "/terms": "/en/terms",
+  "/": "/en",
+  "/assessment": "/en/assessment",
+  "/six": "/en/six",
+  "/assistant": "/en/assistant",
+  "/request": "/en/request",
+  "/objection": "/en/objection",
+  "/privacy": "/en/privacy",
+  "/terms": "/en/terms",
 };
 const enToAr = Object.fromEntries(Object.entries(arToEn).map(([ar, en]) => [en, ar]));
 
-type HeadOptions = { title: string; description: string; path: string; card?: "summary" | "summary_large_image"; keywords?: string };
+type HeadOptions = {
+  title: string;
+  description: string;
+  path: string;
+  card?: "summary" | "summary_large_image";
+  keywords?: string;
+};
 
 /** وسوم الرأس الموحدة: العنوان والوصف وOpen Graph والرابط الأساسي وروابط اللغة البديلة. */
-export function pageHead({ title, description, path, card = "summary_large_image", keywords }: HeadOptions) {
+export function pageHead({
+  title,
+  description,
+  path,
+  card = "summary_large_image",
+  keywords,
+}: HeadOptions) {
   const url = `${siteUrl}${path}`;
   const english = path === "/en" || path.startsWith("/en/");
   const ar = english ? enToAr[path] : path;

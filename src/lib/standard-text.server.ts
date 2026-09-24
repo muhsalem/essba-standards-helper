@@ -1,7 +1,14 @@
 import standardAr from "@/content/ssesba/standard.body.html?raw";
 import standardEn from "@/content/ssesba/standard.en.body.html?raw";
 
-const entities: Record<string, string> = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'", "&nbsp;": " " };
+const entities: Record<string, string> = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&nbsp;": " ",
+};
 
 function toPlainText(html: string) {
   return html
@@ -13,4 +20,7 @@ function toPlainText(html: string) {
 }
 
 /** نص المعيار المنشور كما يراه الزائر، ليستند إليه المساعد الشرعي مع الأقسام المعتمدة في قاعدة البيانات. */
-export const publishedStandardText = { ar: toPlainText(standardAr), en: toPlainText(standardEn) } as const;
+export const publishedStandardText = {
+  ar: toPlainText(standardAr),
+  en: toPlainText(standardEn),
+} as const;
