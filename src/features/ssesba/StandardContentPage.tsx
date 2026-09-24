@@ -59,7 +59,7 @@ export function StandardContentPage({ lang }: { lang: Lang }) {
         </nav>
 
         <div className="min-w-0 max-w-3xl">
-          {error && <p className="text-destructive">{error}</p>}
+          {error && <p role="alert" className="text-destructive">{error}</p>}
           <div className="relative border-s border-brand-gold/40">
             {sections.map((s, i) => (
               <article key={s.id} id={`section-${s.id}`} className="relative scroll-mt-28 pb-12 ps-9">

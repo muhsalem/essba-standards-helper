@@ -15,6 +15,13 @@
       "when": 1789878105624,
       "tag": "0001_validate_assessment_request_input",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790243465950,
+      "tag": "0002_governance_ai_controls_and_objections",
+      "breakpoints": true
     }
   ]
 }

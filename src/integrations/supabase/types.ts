@@ -44,6 +44,33 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_invocation_events: {
+        Row: {
+          created_at: string
+          id: string
+          identifier_hash: string
+          outcome: string
+          request_kind: string
+          run_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          identifier_hash: string
+          outcome: string
+          request_kind: string
+          run_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          identifier_hash?: string
+          outcome?: string
+          request_kind?: string
+          run_id?: string | null
+        }
+        Relationships: []
+      }
       ai_usage_events: {
         Row: {
           created_at: string
@@ -122,11 +149,49 @@ export type Database = {
         }
         Relationships: []
       }
+      assessment_objections: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          preferred_language: string
+          reason: string
+          reference_code: string
+          requester_name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          preferred_language?: string
+          reason: string
+          reference_code: string
+          requester_name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          preferred_language?: string
+          reason?: string
+          reference_code?: string
+          requester_name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       assessment_requests: {
         Row: {
           activity: string
           assessment_type: string
           client_name: string
+          consent_version: string
+          consented_at: string
           country: string | null
           created_at: string
           email: string
@@ -144,6 +209,8 @@ export type Database = {
           activity: string
           assessment_type: string
           client_name: string
+          consent_version?: string
+          consented_at?: string
           country?: string | null
           created_at?: string
           email: string
@@ -161,6 +228,8 @@ export type Database = {
           activity?: string
           assessment_type?: string
           client_name?: string
+          consent_version?: string
+          consented_at?: string
           country?: string | null
           created_at?: string
           email?: string
@@ -380,9 +449,13 @@ export type Database = {
         Row: {
           body_ar: string
           body_en: string
+          content_version: number
           created_at: string
           id: string
           is_published: boolean
+          review_status: string
+          reviewed_at: string | null
+          reviewed_by: string | null
           section_key: string
           sort_order: number
           title_ar: string
@@ -394,9 +467,13 @@ export type Database = {
         Insert: {
           body_ar: string
           body_en: string
+          content_version?: number
           created_at?: string
           id?: string
           is_published?: boolean
+          review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           section_key: string
           sort_order?: number
           title_ar: string
@@ -408,9 +485,13 @@ export type Database = {
         Update: {
           body_ar?: string
           body_en?: string
+          content_version?: number
           created_at?: string
           id?: string
           is_published?: boolean
+          review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           section_key?: string
           sort_order?: number
           title_ar?: string
