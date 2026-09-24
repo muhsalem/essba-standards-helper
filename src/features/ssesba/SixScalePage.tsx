@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ClipboardCheck, Loader2, Scale, ShieldAlert, Wrench } from "lucide-react";
 import { SiteShell } from "@/features/ssesba/SiteShell";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import { axes, complianceLevelForScore, complianceLevels, gateChecks, methodologyVersion, type FinancialFigures, type Lang } from "@/lib/ssesba-data";
 import { evaluateCompanySixScale } from "@/lib/ssesba.functions";
 
@@ -22,6 +23,9 @@ const l10n = {
     result: "نتيجة التقييم", score: "الدرجة المرجّحة", axes: "درجات المحاور المقترحة", justification: "التبرير الشرعي والمالي", plan: "خطة المعالجة والتطهير",
     scale: "الهيكل السداسي الموحد", ineligible: "غير مؤهل — لم تُحسب درجة المحاور", reference: "الرقم المرجعي للنتيجة", version: "نسخة المنهجية",
     advisory: "نتيجة استرشادية تتطلب مراجعة هيئة شرعية مؤهلة؛ ليست فتوى ولا اعتمادًا نهائيًا.",
+    method: "طريقة تقدير المحاور", methodAi: "اقتراح بالذكاء الاصطناعي", methodManual: "إدخال يدوي من المراجع",
+    manualNote: "يعمل هذا المسار دون الذكاء الاصطناعي: أدخل درجة كل محور وفق الأدلة، وتحسب المنصة الدرجة والمستوى والتطهير.",
+    aiFallback: "يمكنك المتابعة بالإدخال اليدوي لدرجات المحاور.",
   },
   en: {
     eyebrow: "Indicative Shariah audit tool",
@@ -38,6 +42,9 @@ const l10n = {
     result: "Assessment result", score: "Weighted score", axes: "Proposed axis scores", justification: "Shariah and financial justification", plan: "Remediation and purification plan",
     scale: "Unified six-level structure", ineligible: "Ineligible — axis scores were not computed", reference: "Result reference", version: "Methodology version",
     advisory: "An indicative result requiring review by a qualified Shariah board; neither a fatwa nor a final accreditation.",
+    method: "Axis scoring method", methodAi: "AI suggestion", methodManual: "Manual reviewer entry",
+    manualNote: "This path works without AI: enter each axis score from the evidence, and the platform computes the score, level, and purification.",
+    aiFallback: "You can continue with manual axis entry.",
   },
 } as const;
 
@@ -69,6 +76,8 @@ export function SixScalePage({ lang }: { lang: Lang }) {
   const [gate, setGate] = useState({ riba: true, maysir: true, prohibited: true, gharar: true });
   const [figures, setFigures] = useState<FinancialFigures>({});
   const [distributedReturn, setDistributedReturn] = useState<number | undefined>(undefined);
+  const [method, setMethod] = useState<"ai" | "manual">("ai");
+  const [axisScores, setAxisScores] = useState<Record<(typeof axes)[number]["id"], number>>(() => Object.fromEntries(axes.map((axis) => [axis.id, 75])) as Record<(typeof axes)[number]["id"], number>);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SixResult | null>(null);
@@ -76,9 +85,12 @@ export function SixScalePage({ lang }: { lang: Lang }) {
   const submit = async () => {
     setBusy(true); setError(null); setResult(null);
     try {
-      const out = await evaluate({ data: { companyName, sector, activity, financing, notes: notes || undefined, lang, gate, figures, distributedReturn: distributedReturn ?? 0 } });
+      const out = await evaluate({ data: { companyName, sector, activity, financing, notes: notes || undefined, lang, gate, figures, distributedReturn: distributedReturn ?? 0, method, axisScores: method === "manual" ? axisScores : undefined } });
       setResult(out);
-    } catch (err) { setError(err instanceof Error ? err.message : String(err)); }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(method === "ai" ? `${message} ${t.aiFallback}` : message);
+    }
     finally { setBusy(false); }
   };
 
@@ -114,6 +126,23 @@ export function SixScalePage({ lang }: { lang: Lang }) {
               <p className="text-xs leading-5 text-muted-foreground md:col-span-2">{t.evidenceNote}</p>
               {figureKeys.map((key) => <div key={key}><label className={label} htmlFor={`six-${key}`}>{t[key]}</label><input id={`six-${key}`} className={field} type="number" inputMode="decimal" min="0" step="any" value={figures[key] ?? ""} onChange={(e) => setFigures({ ...figures, [key]: parseAmount(e.target.value) })} /></div>)}
               <div><label className={label} htmlFor="six-distributed">{t.distributedReturn}</label><input id="six-distributed" className={field} type="number" inputMode="decimal" min="0" step="any" value={distributedReturn ?? ""} onChange={(e) => setDistributedReturn(parseAmount(e.target.value))} /></div>
+            </fieldset>
+            <fieldset className="rounded-md border p-4">
+              <legend className="px-2 text-sm font-semibold text-brand-navy">{t.method}</legend>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {(["ai", "manual"] as const).map((value) => <label key={value} className={`flex min-h-11 cursor-pointer items-center gap-3 rounded-md border px-3 text-sm ${method === value ? "border-brand-gold bg-brand-parchment font-semibold text-brand-navy" : ""}`}><input type="radio" name="six-method" value={value} checked={method === value} onChange={() => setMethod(value)} />{value === "ai" ? t.methodAi : t.methodManual}</label>)}
+              </div>
+              {method === "manual" && (
+                <div className="mt-4 grid gap-4">
+                  <p className="text-xs leading-5 text-muted-foreground">{t.manualNote}</p>
+                  {axes.map((axis) => (
+                    <div key={axis.id}>
+                      <div className="mb-2 flex items-baseline justify-between text-sm"><span id={`six-axis-${axis.id}`} className="font-semibold">{axis[lang]} · {axis.weight}%</span><output className="font-mono font-bold">{axisScores[axis.id]}</output></div>
+                      <Slider aria-labelledby={`six-axis-${axis.id}`} aria-valuetext={`${axisScores[axis.id]} / 100`} value={[axisScores[axis.id]]} max={100} step={1} onValueChange={(v) => setAxisScores({ ...axisScores, [axis.id]: v[0] ?? 0 })} />
+                    </div>
+                  ))}
+                </div>
+              )}
             </fieldset>
             <Button type="submit" disabled={busy} className="bg-brand-navy text-primary-foreground hover:bg-brand-navy/90">
               {busy ? <Loader2 className="size-4 animate-spin" /> : <Scale className="size-4" />}{busy ? t.loading : t.submit}

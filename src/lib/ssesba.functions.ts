@@ -44,7 +44,10 @@ const sixScaleSchema = z.object({
   gate: gateSchema,
   figures: figuresSchema,
   distributedReturn: amount,
-});
+  // manual: يُدخل المراجع درجات المحاور بنفسه ويعمل المقياس دون الذكاء الاصطناعي.
+  method: z.enum(["ai", "manual"]).default("ai"),
+  axisScores: axisScoresSchema.optional(),
+}).refine((value) => value.method === "ai" || value.axisScores !== undefined, { message: "Manual scoring requires axis scores.", path: ["axisScores"] });
 const saveResultSchema = z.object({
   scores: axisScoresSchema,
   gate: gateSchema,
@@ -77,11 +80,13 @@ function failure(context: string, error: unknown): never {
 
 function publicClient() {
   const url = process.env['SUPABASE_URL']; const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
-  if (!url || !key) throw new Error("Cloud configuration is unavailable");
+  if (!url || !key) failure("public client", new Error("Cloud configuration is unavailable"));
   return createClient<Database>(url, key, { auth: { persistSession: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_')) headers.delete('Authorization'); headers.set('apikey', key); return fetch(input, { ...init, headers }); } } });
 }
 async function adminClient() {
-  return (await import("@/integrations/supabase/client.server")).supabaseAdmin;
+  try {
+    return (await import("@/integrations/supabase/client.server")).supabaseAdmin;
+  } catch (error) { return failure("admin client", error); }
 }
 type AuthedContext = { supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }> }; userId: string };
 
@@ -269,7 +274,10 @@ export const suggestAxisScores = createServerFn({ method: "POST" }).inputValidat
 export const askStandardAssistant = createServerFn({ method: "POST" }).inputValidator((input: unknown) => assistantSchema.parse(input)).handler(async ({ data }) => {
   const { data: sections, error } = await publicClient().from("standard_sections").select("section_key,title_ar,title_en,body_ar,body_en,sort_order").eq("is_published", true).order("sort_order");
   if (error) failure("assistant sections", error);
-  const context = (sections ?? []).map((s) => `### ${s.section_key}\nAR: ${s.title_ar}\n${s.body_ar}\nEN: ${s.title_en ?? ""}\n${s.body_en ?? ""}`).join("\n\n").slice(0, 24000);
+  const approved = (sections ?? []).map((s) => `### ${s.section_key}\nAR: ${s.title_ar}\n${s.body_ar}\nEN: ${s.title_en ?? ""}\n${s.body_en ?? ""}`).join("\n\n").slice(0, 12000);
+  const { publishedStandardText } = await import("@/lib/standard-text.server");
+  // الأقسام المعتمدة في قاعدة البيانات تتقدّم عند التعارض لأنها المصدر المُصدَّر والمراجَع.
+  const context = `APPROVED SECTIONS (authoritative, versioned):\n${approved}\n\nPUBLISHED STANDARD TEXT:\n${publishedStandardText[data.lang].slice(0, 32000)}`;
   const arabic = data.lang === "ar";
   return guardedAi("standards_assistant", data.lang, clientIdentifier(), async (key) => {
     const gateway = createLovableResponsesProvider(key);
@@ -277,7 +285,7 @@ export const askStandardAssistant = createServerFn({ method: "POST" }).inputVali
       model: gateway.model, maxRetries: 0,
       system: [
         "You are the SSESBA standards assistant: Shariah Standards for Economic Sectors and Business Activities.",
-        "Answer ONLY from the reference standard content plus the user's own excerpt. Never invent weights, thresholds, verdict rules, fatwas, or fiqh rulings that are not in the supplied material.",
+        "Answer ONLY from the reference standard content plus the user's own excerpt. If the approved sections and the published text differ, follow the approved sections. Never invent weights, thresholds, verdict rules, fatwas, or fiqh rulings that are not in the supplied material.",
         "Never issue a fatwa or a final accreditation; every answer is indicative and requires a qualified Shariah reviewer.",
         "If the supplied content does not cover the question, say so plainly and point to the closest related section.",
         injectionGuard,
@@ -321,9 +329,53 @@ export const evaluateCompanySixScale = createServerFn({ method: "POST" }).inputV
     ];
     return { score: 0, level: complianceLevelForScore(0)[data.lang], ineligible: true, axisScores: null, justification, plan: [] as string[], screens: eligibility.screens, purification, referenceCode: null, runId: undefined };
   }
+  const evaluation = data.method === "manual" && data.axisScores
+    ? await manualSixScale(data.axisScores, data.lang, purification)
+    : await aiSixScale(data, eligibility.screens);
+  // الدرجة والمستوى يُحسبان حتميًا من درجات المحاور بالأوزان المعتمدة، أيًّا كان مصدرها.
+  const score = weightedScore(evaluation.axisScores);
+  const level = complianceLevelForScore(score);
+  let referenceCode: string | null = null;
+  try {
+    const supabaseAdmin = await adminClient();
+    const { data: row, error } = await supabaseAdmin.from("assessment_result_snapshots").insert({
+      source: "six_scale", methodology_version: methodologyVersion, run_id: evaluation.runId ?? null,
+      inputs: { method: data.method, sector: data.sector, gate: data.gate, figures: data.figures, axisScores: evaluation.axisScores } as Json,
+      score, level: level.id, verdict: null, ineligible: false,
+    }).select("reference_code").single();
+    if (error) console.error("[ssesba] save six-scale result", error);
+    referenceCode = row?.reference_code ?? null;
+  } catch (error) { console.error("[ssesba] save six-scale result", error); }
+  return { score, level: level[data.lang], ineligible: false, axisScores: evaluation.axisScores as Record<string, number> | null, justification: evaluation.justification, plan: evaluation.plan, screens: eligibility.screens, purification, referenceCode, runId: evaluation.runId };
+});
+
+type SixScaleInput = z.infer<typeof sixScaleSchema>;
+type SixScaleEvaluation = { axisScores: Record<string, number>; justification: string[]; plan: string[]; runId?: string | undefined };
+
+/** المسار اليدوي: تبرير وخطة حتميان مبنيّان على الدرجات المُدخلة، بلا استدعاء للذكاء الاصطناعي. */
+async function manualSixScale(axisScores: Record<string, number>, lang: Lang, purification: { ratio: number; purificationAmount: number }): Promise<SixScaleEvaluation> {
+  await assertWithinLimit("result_ip", clientIdentifier(), 20, 3600);
+  const arabic = lang === "ar";
+  const justification = [
+    arabic ? "أُدخلت درجات المحاور يدويًا من المراجع، وحُسبت الدرجة بالأوزان المعتمدة." : "Axis scores were entered manually by the reviewer and weighted with the approved weights.",
+    ...axes.map((axis) => `${axis[lang]} (${axis.weight}%): ${axisScores[axis.id] ?? 0}`),
+  ];
+  const plan = [
+    ...axes.filter((axis) => (axisScores[axis.id] ?? 0) < 75).map((axis) => arabic
+      ? `معالجة محور ${axis.ar} (الدرجة ${axisScores[axis.id] ?? 0}) وتوثيق أدلته قبل إعادة التقييم.`
+      : `Remediate the ${axis.en} axis (score ${axisScores[axis.id] ?? 0}) and document its evidence before reassessment.`),
+    ...(purification.ratio > 0 ? [arabic
+      ? `تطهير ${purification.ratio}% من العائد الموزّع (${purification.purificationAmount.toLocaleString("ar")}) بصرفه في وجوه الخير.`
+      : `Purify ${purification.ratio}% of the distributed return (${purification.purificationAmount.toLocaleString("en")}) by giving it to charity.`] : []),
+  ];
+  return { axisScores, justification, plan };
+}
+
+async function aiSixScale(data: SixScaleInput, screens: ReturnType<typeof calculateAssessment>["screens"]): Promise<SixScaleEvaluation> {
+  const arabic = data.lang === "ar";
   const sectorLabel = { primary: "Primary (extractive/agriculture/livestock/mining)", secondary: "Secondary (manufacturing/construction/real estate)", services: "Services (financial/tech/commercial/education/consulting)" }[data.sector];
-  const screenFacts = eligibility.screens.filter((item) => item.ratio !== null).map((item) => `${item.screen.en}: ${item.ratio}% (limit ${item.screen.max}%)`).join("; ");
-  const ai = await guardedAi("six_scale", data.lang, clientIdentifier(), async (key) => {
+  const screenFacts = screens.filter((item) => item.ratio !== null).map((item) => `${item.screen.en}: ${item.ratio}% (limit ${item.screen.max}%)`).join("; ");
+  return guardedAi("six_scale", data.lang, clientIdentifier(), async (key) => {
     const gateway = createLovableResponsesProvider(key);
     const result = streamText({
       model: gateway.model, maxRetries: 0,
@@ -339,22 +391,7 @@ export const evaluateCompanySixScale = createServerFn({ method: "POST" }).inputV
     if (!axisScores || justification.length === 0) throw incomplete(data.lang);
     return { axisScores, justification, plan, runId: gateway.getRunId() };
   });
-  // الدرجة والمستوى يُحسبان حتميًا من درجات المحاور المقترحة بالأوزان المعتمدة.
-  const score = weightedScore(ai.axisScores);
-  const level = complianceLevelForScore(score);
-  let referenceCode: string | null = null;
-  try {
-    const supabaseAdmin = await adminClient();
-    const { data: row, error } = await supabaseAdmin.from("assessment_result_snapshots").insert({
-      source: "six_scale", methodology_version: methodologyVersion, run_id: ai.runId ?? null,
-      inputs: { sector: data.sector, gate: data.gate, figures: data.figures, axisScores: ai.axisScores } as Json,
-      score, level: level.id, verdict: null, ineligible: false,
-    }).select("reference_code").single();
-    if (error) console.error("[ssesba] save six-scale result", error);
-    referenceCode = row?.reference_code ?? null;
-  } catch (error) { console.error("[ssesba] save six-scale result", error); }
-  return { score, level: level[data.lang], ineligible: false, axisScores: ai.axisScores as Record<string, number> | null, justification: ai.justification, plan: ai.plan, screens: eligibility.screens, purification, referenceCode, runId: ai.runId };
-});
+}
 
 /* ───────────────────────── الإدارة ───────────────────────── */
 

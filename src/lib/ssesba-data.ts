@@ -4,7 +4,7 @@ export type RiskTier = "S1" | "S2" | "S3" | "S4";
 export type ComplianceLevelId = "full" | "substantial" | "conditional" | "structural_remediation" | "non_compliant" | "prohibited";
 
 export const brand = {
-  ar: { short: "معايير التصنيف الشرعي", acronym: "م.ش.ت.ق.أ", full: "المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال" },
+  ar: { short: "مَشْتَق", acronym: "SSESBA", full: "المعايير الشرعية لتصنيف القطاعات الاقتصادية وأنشطة الأعمال" },
   en: { short: "SSESBA", acronym: "SSESBA", full: "Shariah Standards for Economic Sectors & Business Activities" },
 } as const;
 
@@ -177,7 +177,7 @@ export const privacyConsentVersion = "privacy-2026-09-23";
 
 export const copy = {
   ar: {
-    brand: "معايير التصنيف الشرعي", standard: "المعيار", request: "طلب تقييم", assessment: "التقييم", admin: "الإدارة", explorer: "مستكشف التصنيف", assistant: "المساعد الشرعي", six: "المقياس السداسي",
+    brand: "مَشْتَق", standard: "المعيار", request: "طلب تقييم", assessment: "التقييم", admin: "الإدارة", explorer: "مستكشف التصنيف", assistant: "المساعد الشرعي", six: "المقياس السداسي",
     back: "العودة إلى المعيار", language: "English", advisory: "نتيجة استرشادية تحتاج اعتماد مراجع شرعي مختص، وليست فتوى ولا اعتمادًا نهائيًا.",
   },
   en: {
