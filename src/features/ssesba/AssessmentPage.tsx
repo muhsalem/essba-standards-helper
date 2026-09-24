@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   axes,
   brand,
@@ -54,6 +54,7 @@ type Example = Awaited<ReturnType<typeof getAssessmentExamples>>[number];
 const labels = {
   ar: {
     title: "تقييم نماذج قطاعية واقعية",
+    modeLabel: "مسار التقييم",
     eyebrow: "تطبيق واقعي تفاعلي",
     desc: "اختر نموذج قطاع واقعيًا، فتُطبَّق بوادر الأهلية ودرجات المحاور تلقائيًا وتظهر النتيجة فورًا. راجع اختبارات الأهلية المستقلة أولًا، ثم عدّل درجات المحاور وفق الأدلة المتاحة.",
     model: "نموذج القطاع",
@@ -107,6 +108,7 @@ const labels = {
   },
   en: {
     title: "Real sector model assessments",
+    modeLabel: "Assessment path",
     eyebrow: "Interactive real-world application",
     desc: "Pick a real sector model; its eligibility gate and axis scores load automatically and the result appears instantly. Review the independent eligibility tests first, then adjust each axis using available evidence.",
     model: "Sector model",
@@ -164,7 +166,7 @@ const labels = {
 function scoreTone(score: number) {
   if (score >= 85) return "bg-brand-emerald-soft text-brand-emerald";
   if (score >= 75) return "bg-brand-parchment text-brand-navy";
-  if (score >= structuralFailureThreshold) return "bg-brand-gold/20 text-brand-gold";
+  if (score >= structuralFailureThreshold) return "bg-brand-gold/20 text-brand-navy";
   return "bg-destructive/10 text-destructive";
 }
 
@@ -309,7 +311,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
               </span>
             </div>
             <div className="mb-4 max-w-sm">
-              <Label>{t.model}</Label>
+              <Label htmlFor="assessment-model">{t.model}</Label>
               <Select
                 value={exampleId}
                 onValueChange={(v) => {
@@ -317,7 +319,7 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                   if (e) applyExample(e);
                 }}
               >
-                <SelectTrigger className="mt-2">
+                <SelectTrigger id="assessment-model" className="mt-2">
                   <SelectValue placeholder={t.loadingModels} />
                 </SelectTrigger>
                 <SelectContent>
@@ -336,13 +338,24 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
               {brand[lang].short} — {brand[lang].full}
             </p>
           </div>
-          <Tabs value={mode} onValueChange={(v) => setMode(v as AssessmentMode)}>
-            <TabsList className="h-11">
-              <TabsTrigger value="expert">{t.expert}</TabsTrigger>
-              <TabsTrigger value="self">{t.self}</TabsTrigger>
-              <TabsTrigger value="ai_review">{t.ai_review}</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <ToggleGroup
+            type="single"
+            variant="outline"
+            aria-label={t.modeLabel}
+            value={mode}
+            onValueChange={(v) => v && setMode(v as AssessmentMode)}
+            className="h-11"
+          >
+            <ToggleGroupItem value="expert" className="h-11 px-4">
+              {t.expert}
+            </ToggleGroupItem>
+            <ToggleGroupItem value="self" className="h-11 px-4">
+              {t.self}
+            </ToggleGroupItem>
+            <ToggleGroupItem value="ai_review" className="h-11 px-4">
+              {t.ai_review}
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1.25fr_.75fr]">
@@ -547,9 +560,13 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                   <p className="mt-1 font-semibold">{bandLabel}</p>
                 </div>
                 <div>
-                  <Label>{t.risk}</Label>
+                  <Label htmlFor="assessment-risk">{t.risk}</Label>
                   <Select value={risk} onValueChange={(v) => setRisk(v as RiskTier)}>
-                    <SelectTrigger className="mt-2" aria-describedby="risk-guidance">
+                    <SelectTrigger
+                      id="assessment-risk"
+                      className="mt-2"
+                      aria-describedby="risk-guidance"
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -570,14 +587,18 @@ export function AssessmentPage({ lang }: { lang: Lang }) {
                   </p>
                 </div>
                 <div>
-                  <Label>{t.special}</Label>
+                  <Label htmlFor="assessment-special">{t.special}</Label>
                   <Select
                     value={specialState ?? "none"}
                     onValueChange={(v) =>
                       setSpecialState(v === "none" ? null : (v as SpecialStateId))
                     }
                   >
-                    <SelectTrigger className="mt-2" aria-describedby="special-guidance">
+                    <SelectTrigger
+                      id="assessment-special"
+                      className="mt-2"
+                      aria-describedby={result.special ? "special-guidance" : undefined}
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

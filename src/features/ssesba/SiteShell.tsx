@@ -88,7 +88,7 @@ export function SiteShell({
                 {brand[lang].short}
               </b>
               <small className="mt-1 block text-[10px] text-brand-gold-soft">
-                {brand[lang].acronym} · GSCS
+                {lang === "en" ? "Shariah classification standards" : brand.ar.acronym}
               </small>
             </span>
           </Link>

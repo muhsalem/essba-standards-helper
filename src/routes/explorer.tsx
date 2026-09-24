@@ -16,5 +16,13 @@ export const Route = createFileRoute("/explorer")({
 });
 
 function ExplorerPage() {
-  return <LegacyHtmlPage html={explorerHtml} script={explorerScript} lang="ar" dir="rtl" />;
+  return (
+    <LegacyHtmlPage
+      html={explorerHtml}
+      script={explorerScript}
+      className="explorer-page"
+      lang="ar"
+      dir="rtl"
+    />
+  );
 }

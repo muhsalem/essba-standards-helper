@@ -126,9 +126,9 @@ export function RequestPage({ lang }: { lang: Lang }) {
                 <Field label={en ? "Phone" : "رقم الهاتف"} name="phone" required={false} />
                 <Field label={en ? "Country" : "الدولة"} name="country" required={false} />
                 <div>
-                  <Label>{en ? "Sector" : "القطاع"}</Label>
+                  <Label htmlFor="sector">{en ? "Sector" : "القطاع"}</Label>
                   <Select name="sector" required>
-                    <SelectTrigger className="mt-2 h-11">
+                    <SelectTrigger id="sector" className="mt-2 h-11">
                       <SelectValue placeholder={en ? "Select sector" : "اختر القطاع"} />
                     </SelectTrigger>
                     <SelectContent>
