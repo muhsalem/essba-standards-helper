@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { createLovableResponsesProvider } from "@/lib/ai-gateway.server";
+import { calculateFinancialExposure } from "@/lib/ssesba-data";
 
 const requestSchema = z.object({
   clientName: z.string().trim().min(2).max(120), organizationName: z.string().trim().min(2).max(160),
@@ -149,6 +150,10 @@ const sixScaleSchema = z.object({
   financing: z.string().trim().min(5).max(3000),
   notes: z.string().trim().max(3000).optional(),
   lang: z.enum(["ar", "en"]),
+  gate: z.object({ riba: z.boolean(), maysir: z.boolean(), prohibited: z.boolean(), gharar: z.boolean() }).optional(),
+  totalRevenue: z.number().min(0).max(1e15).optional(),
+  nonCompliantRevenue: z.number().min(0).max(1e15).optional(),
+  investmentAmount: z.number().min(0).max(1e15).optional(),
 });
 
 const SIX_SCALE_RULES = [
@@ -178,6 +183,18 @@ export const evaluateCompanySixScale = createServerFn({ method: "POST" }).inputV
     const justification = splitLines(text.match(/JUSTIFICATION:\s*([\s\S]*?)(?=\nPLAN:|$)/i));
     const plan = splitLines(text.match(/PLAN:\s*([\s\S]*?)$/i));
     if (Number.isNaN(score) || !level || justification.length === 0) throw new Error("The six-scale assessment response was incomplete.");
-    return { score, level, justification, plan, runId: gateway.getRunId() };
+    const financialExposure = calculateFinancialExposure(data.totalRevenue ?? 0, data.nonCompliantRevenue ?? 0, data.investmentAmount ?? 0);
+    const gatePassed = !data.gate || Object.values(data.gate).every(Boolean);
+    return { score: gatePassed ? score : 0, level, justification, plan, scores: {} as Record<string, number>, financialExposure, runId: gateway.getRunId() };
   } catch (err) { throw new Error(gatewayMessage(err)); }
+});
+
+const objectionSchema = z.object({ referenceCode: z.string().trim().min(4).max(40), requesterName: z.string().trim().min(2).max(120), email: z.string().trim().email().max(255), reason: z.string().trim().min(20).max(3000), preferredLanguage: z.enum(["ar", "en"]) });
+
+export const submitAssessmentObjection = createServerFn({ method: "POST" }).inputValidator((input: unknown) => objectionSchema.parse(input)).handler(async ({ data }) => {
+  await assertWithinLimit("objection_ip", clientIdentifier(), 5, 3600);
+  await assertWithinLimit("objection_email", data.email, 3, 3600);
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { error } = await supabaseAdmin.from("assessment_objections").insert({ reference_code: data.referenceCode, requester_name: data.requesterName, email: data.email, reason: data.reason, preferred_language: data.preferredLanguage });
+  if (error) throw new Error(error.message); return { ok: true };
 });
