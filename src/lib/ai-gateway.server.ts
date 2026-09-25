@@ -25,7 +25,9 @@ export function createLovableResponsesProvider(apiKey: string) {
 export function safeAiError(error: unknown, lang: "ar" | "en" = "ar") {
   const fallback = lang === "ar" ? "تعذّر إكمال الطلب. حاول لاحقًا." : "The request could not be completed. Please try again later.";
   if (!(error instanceof Error)) return fallback;
-  const status = "statusCode" in error && typeof error.statusCode === "number" ? error.statusCode : undefined;
+  const e = error as { statusCode?: unknown; status?: unknown; cause?: { statusCode?: unknown; status?: unknown } };
+  const raw = e.statusCode ?? e.status ?? e.cause?.statusCode ?? e.cause?.status;
+  const status = typeof raw === "number" ? raw : undefined;
   if (status === 400) return lang === "ar" ? "المدخلات غير صالحة أو طويلة جدًا." : "The input is invalid or too long.";
   if (status === 401) return lang === "ar" ? "خدمة الذكاء الاصطناعي غير مهيأة." : "The AI service is not configured.";
   if (status === 402) return lang === "ar" ? "رصيد الذكاء الاصطناعي غير كافٍ حاليًا." : "AI credits are currently insufficient.";
