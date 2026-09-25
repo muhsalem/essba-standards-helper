@@ -90,12 +90,17 @@ export function RequestPage({ lang }: { lang: Lang }) {
               ? "Submit organization-level information only. Do not include patient records or medical personal data."
               : "أرسل معلومات الجهة فقط. لا تُدخل سجلات مرضى أو أي بيانات طبية شخصية."}
           </p>
-          <div className="mt-7 grid grid-cols-3 gap-2 lg:grid-cols-1 lg:gap-3">
+          <div
+            role="group"
+            aria-label={en ? "Assessment type" : "نوع التقييم"}
+            className="mt-7 grid grid-cols-3 gap-2 lg:grid-cols-1 lg:gap-3"
+          >
             {modes.map((m) => (
               <Button
                 type="button"
                 variant="outline"
                 key={m.id}
+                aria-pressed={type === m.id}
                 onClick={() => setType(m.id)}
                 className={`h-auto w-full flex-col items-center gap-2 whitespace-normal p-3 text-center text-xs transition lg:flex-row lg:items-center lg:justify-start lg:gap-3 lg:p-4 lg:text-start lg:text-sm ${type === m.id ? "border-brand-gold bg-brand-parchment text-brand-navy" : "bg-card hover:border-brand-gold/60"}`}
               >

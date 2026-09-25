@@ -37,8 +37,13 @@ export function safeAiError(error: unknown, lang: "ar" | "en" = "ar") {
       ? "تعذّر إكمال الطلب. حاول لاحقًا."
       : "The request could not be completed. Please try again later.";
   if (!(error instanceof Error)) return fallback;
-  const status =
-    "statusCode" in error && typeof error.statusCode === "number" ? error.statusCode : undefined;
+  const e = error as {
+    statusCode?: unknown;
+    status?: unknown;
+    cause?: { statusCode?: unknown; status?: unknown };
+  };
+  const raw = e.statusCode ?? e.status ?? e.cause?.statusCode ?? e.cause?.status;
+  const status = typeof raw === "number" ? raw : undefined;
   if (status === 400)
     return lang === "ar"
       ? "المدخلات غير صالحة أو طويلة جدًا."
