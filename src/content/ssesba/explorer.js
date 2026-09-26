@@ -672,3 +672,21 @@ el('q').addEventListener('input',e=>{
 document.addEventListener('click',e=>{if(!e.target.closest('.search'))el('results').className='';});
 
 draw(); renderProfile();
+
+// إتاحة لوحة المفاتيح: كل عنصر قابل للنقر يصبح قابلًا للتركيز ويُفعَّل بـ Enter/Space.
+function a11yEnhance(){
+ document.querySelectorAll('[onclick]:not(button):not(a), .res, .item').forEach(n=>{
+  if(n.classList.contains('dis')) return;
+  if(!n.hasAttribute('tabindex')) n.setAttribute('tabindex','0');
+  if(!n.hasAttribute('role')) n.setAttribute('role','button');
+  if(n.classList.contains('chip')) n.setAttribute('aria-pressed', n.classList.contains('on')?'true':'false');
+ });
+ document.querySelectorAll('button[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.title));
+}
+document.addEventListener('keydown',e=>{
+ const t=e.target; if(!(t instanceof HTMLElement)||t.tagName==='BUTTON'||t.tagName==='INPUT'||t.tagName==='A') return;
+ if((e.key==='Enter'||e.key===' ')&&t.getAttribute('role')==='button'){e.preventDefault();t.click();}
+ if(e.key==='Escape'){const r=el('results'); if(r) r.className='';}
+});
+new MutationObserver(()=>a11yEnhance()).observe(document.body,{childList:true,subtree:true});
+a11yEnhance();
